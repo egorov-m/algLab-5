@@ -5,8 +5,81 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:algLab_5"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Lab 5: Algorithms on graphs" Height="720" Width="1280">
+    <DockPanel>
 
-    </Grid>
+        <!--Верхнее меню-->
+        <Menu 
+            DockPanel.Dock="Top" 
+            Height="20" 
+            Background="#1f1f1f"
+            BorderBrush="#464646">
+            <MenuItem Header="File" Foreground="#fff" VerticalAlignment="Center">
+
+            </MenuItem>
+            <MenuItem Header="Info" Foreground="#fff" VerticalAlignment="Center">
+
+            </MenuItem>
+        </Menu>
+
+        <!--Нижний статус бар-->
+        <StatusBar x:Name="StatusBar" DockPanel.Dock="Bottom" Height="20" Background="#424242" Foreground="#fff">
+            <StatusBarItem>
+                <TextBlock VerticalAlignment="Center">Status</TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+
+        <!--Главный контейнер-->
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+            
+            <!--Контейнер холста и консоли-->
+            <Grid Grid.Column="0" HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" VerticalAlignment="Stretch" Background="#1f1f1f" Padding="5 0 5 5">
+                    <Border BorderBrush="#464646" BorderThickness="2">
+                         <Canvas x:Name="Canvas"></Canvas>
+                    </Border>
+                </Border>
+
+                <GridSplitter Grid.Row="1" ShowsPreview="True" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="#464646"/>
+
+                <Border Grid.Row="2" VerticalAlignment="Stretch" Background="#1f1f1f" BorderBrush="#464646" BorderThickness="2">
+                    <StackPanel HorizontalAlignment="Stretch">
+                        <Grid VerticalAlignment="Center" Margin="3 0 3 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Foreground="#d6d6d6" Padding="0 0 3 0">Console</TextBlock>
+                            <Separator Grid.Column="1" Background="#7160e8"/>
+                        </Grid>
+                        <Separator Background="#464646"/>
+                    </StackPanel>
+                </Border>
+
+            </Grid>
+
+            <GridSplitter Grid.Column="1" ShowsPreview="True" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#464646"/>
+
+            <!--Контейнер панели управления-->
+            <Border Grid.Column="2" BorderBrush="#464646" BorderThickness="2" Background="#1f1f1f" HorizontalAlignment="Stretch">
+                <StackPanel>
+                    <TextBlock Foreground="#d6d6d6" Padding="3 0 0 0">Control Panel</TextBlock>
+                    <Separator Background="#464646"/>
+                </StackPanel>
+            </Border>
+
+        </Grid>
+
+    </DockPanel>
 </Window>
