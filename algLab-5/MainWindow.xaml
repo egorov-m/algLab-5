@@ -24,8 +24,17 @@
 
         <!--Нижний статус бар-->
         <StatusBar x:Name="StatusBar" DockPanel.Dock="Bottom" Height="20" Background="#424242" Foreground="#fff">
+            <StatusBarItem Background="#7160e8">
+                <TextBlock x:Name="tbIsSavedProject" Text="Saved" VerticalAlignment="Center"></TextBlock>
+            </StatusBarItem>
             <StatusBarItem>
-                <TextBlock VerticalAlignment="Center">Status</TextBlock>
+                <TextBlock x:Name="tbCurrentState" Text="None" VerticalAlignment="Center"></TextBlock>
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock x:Name="tbCoordinates" Text="Coordinates" VerticalAlignment="Center"></TextBlock>
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock x:Name="tbIsHover" Text="Hover" VerticalAlignment="Center"></TextBlock>
             </StatusBarItem>
         </StatusBar>
 
@@ -45,7 +54,7 @@
                     <RowDefinition Height="200"/>
                 </Grid.RowDefinitions>
 
-                <Border Grid.Row="0" VerticalAlignment="Stretch" Background="#1f1f1f" Padding="5 0 5 5">
+                <Border x:Name="CanvasBorder" Grid.Row="0" VerticalAlignment="Stretch" Background="#1f1f1f" Padding="5 0 5 5">
                     <Border BorderBrush="#464646" BorderThickness="2">
                          <Canvas x:Name="Canvas"></Canvas>
                     </Border>

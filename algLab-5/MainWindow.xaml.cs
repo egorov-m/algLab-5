@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using algLab_5.Models;
+using algLab_5.Tools;
+using algLab_5.Tools.Base;
 
 namespace algLab_5
 {
@@ -20,9 +10,30 @@ namespace algLab_5
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly StatusBarUpdater _statusBarUpdater;
+        private ToolArgs _toolArgs;
+        private Tool? _currentTool;
+
+        private StatusSaved _savingStatus = StatusSaved.Saved;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            _statusBarUpdater = new StatusBarUpdater(tbIsSavedProject, tbCurrentState, tbCoordinates, tbIsHover);
+
+            _toolArgs = new ToolArgs(this, Canvas, CanvasBorder, _statusBarUpdater, OnChangeStatusSaved);
+
+            _currentTool = new ArrowTool(_toolArgs);
+        }
+
+        /// <summary>
+        /// Изменения статуса сохранён ли проект
+        /// </summary>
+        private void OnChangeStatusSaved(StatusSaved status)
+        {
+            _savingStatus = status;
+            _statusBarUpdater.UpdateSaveProjectInfo(_savingStatus);
         }
     }
 }
