@@ -6,6 +6,52 @@
         xmlns:local="clr-namespace:algLab_5"
         mc:Ignorable="d"
         Title="Lab 5: Algorithms on graphs" Height="720" Width="1280">
+    <Window.Resources>
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Border>
+                            <Grid Margin="0 0 1 0">
+                                <Grid Width="70" Height="20">
+                                    <Border x:Name="border"
+                                            CornerRadius="0,0,0,0"
+                                            Background="#464646"
+                                            BorderBrush="#d4d4d4"
+                                            BorderThickness="1"/>
+                                </Grid>
+                                <ContentPresenter ContentSource="Header"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="#656565"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected"
+                                     Value="True">
+                                <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="#7160e8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type RadioButton}">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Background" Value="#7160e8"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <DockPanel>
         <!--Верхнее меню-->
         <Menu 
@@ -42,7 +88,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="292"/>
             </Grid.ColumnDefinitions>
             
             <!--Контейнер холста, панели инструментов, консоли-->
@@ -104,6 +150,41 @@
                 <StackPanel>
                     <TextBlock Foreground="#d6d6d6" Padding="3 0 0 0">Control Panel</TextBlock>
                     <Separator Background="#464646"/>
+                    <StackPanel Orientation="Vertical">
+                        <TabControl Background="#464646" BorderBrush="#464646">
+                            <TabItem Header="Задание 1" Foreground="#d6d6d6">
+                                <StackPanel>
+                                    <TextBlock Text="Демонстрация работы обхода взвешенного графа в ширину и глубину." TextWrapping="Wrap"></TextBlock>
+                                    <Separator BorderThickness="1"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <RadioButton GroupName="task1" Content="Обход в ширину." Foreground="#d6d6d6" IsChecked="True"/>
+                                        <Separator Width="11" Background="Transparent"/>
+                                        <RadioButton GroupName="task1" Content="Обход в глубину." Foreground="#d6d6d6" IsChecked="False"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </TabItem>
+
+                            <TabItem Header="Задание 2" Foreground="#d6d6d6">
+                                <StackPanel>
+                                    <TextBlock Text="Демонстрация работы транспортной сети, реализация алгоритма поиска максимального потока через транспортную сеть." TextWrapping="Wrap"></TextBlock>
+                                    <Separator BorderThickness="1"/>
+                                </StackPanel>
+                            </TabItem>
+
+                            <TabItem Header="Задание 3" Foreground="#d6d6d6">
+                                <StackPanel>
+                                    <TextBlock Text="Демонстрация работы алгоритма построения минимального остовного дерева." TextWrapping="Wrap"></TextBlock>
+                                    <Separator BorderThickness="1"/>
+                                </StackPanel>
+                            </TabItem>
+                            <TabItem Header="Задание 4" Background="#464646" Foreground="#d6d6d6">
+                                <StackPanel>
+                                    <TextBlock Text="Реализация алгоритма поиска кратчайшего пути между двумя вершинами графа." TextWrapping="Wrap"></TextBlock>
+                                    <Separator BorderThickness="1"/>
+                                </StackPanel>
+                            </TabItem>
+                        </TabControl>
+                    </StackPanel>
                 </StackPanel>
             </Border>
 
