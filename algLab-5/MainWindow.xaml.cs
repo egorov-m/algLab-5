@@ -49,7 +49,8 @@ namespace algLab_5
 
         private void BtnAddEdgeOnClick(object sender, RoutedEventArgs e)
         {
-            throw new System.NotImplementedException();
+            if (_currentTool != null) _currentTool.Unload(); 
+            _currentTool= new AddConnectionTool(_toolArgs, ConnectionType.Default);
         }
 
         /// <summary> Сбрасываем инструмент </summary>

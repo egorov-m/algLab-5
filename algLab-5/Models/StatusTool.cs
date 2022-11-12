@@ -4,6 +4,7 @@
     {
         None,
         NewVertex,
+        NewEdge,
         SelectingVertex
     }
 }

@@ -1,4 +1,5 @@
 ﻿using algLab_5.Models;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -87,6 +88,21 @@ namespace algLab_5.Services
             //}
             pointGrid = grid.GetCenterEllipseOnGrid();
             return new PointCollection() { point, new (point.X, point.Y), new (pointGrid.X, pointGrid.Y), pointGrid };
+        }
+
+        /// <summary>
+        /// Получить линию связи в соответствии с типом
+        /// </summary>
+        /// <param name="connectionType"> Тип связи </param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static Polyline GetPolyline(ConnectionType connectionType)
+        {
+            return connectionType switch
+            {
+                ConnectionType.Default => new Polyline() {Stroke = new SolidColorBrush(Color.FromRgb(214, 214, 214))},
+                _ => throw new ArgumentException("ОШИБКА! Недопустимы тип родственной связи.")
+            };
         }
     }
 }
