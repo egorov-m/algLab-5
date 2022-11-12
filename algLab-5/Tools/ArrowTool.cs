@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Linq;
+using System.Windows.Controls;
 using System.Windows.Input;
 using algLab_5.Models;
 using algLab_5.Services;
@@ -55,11 +56,11 @@ namespace algLab_5.Tools
                 _args.SavedChange(StatusSaved.Unsaved);
                 _selectedGrid.SetCenterEllipseOnGrid(pointCursor);
 
-                //var (connectionsFromInitial, connectionsFromDestination) = _args.ShapesRepository.GetConnectionsElement(_selectedGrid);
-                //foreach (var connection in connectionsFromInitial.Where(connection => connection.Item1 != null && connection.Item3 != null)) 
-                //    connection.Item1.Points = ConfiguratorViewElement.GetPointCollectionForConnection(_selectedGrid, connection.Item3, false, connection.Item2);
-                //foreach (var connection in connectionsFromDestination.Where(connection => connection.Item1 != null && connection.Item3 != null)) 
-                //    connection.Item1.Points = ConfiguratorViewElement.GetPointCollectionForConnection(_selectedGrid, connection.Item3, true, connection.Item2);
+                var (connectionsFromInitial, connectionsFromDestination) = _args.ShapesRepository.GetConnectionsElement(_selectedGrid);
+                foreach (var connection in connectionsFromInitial.Where(connection => connection.Item1 != null && connection.Item3 != null))
+                    connection.Item1.Points = ConfiguratorViewElement.GetPointCollectionForConnection(_selectedGrid, connection.Item3, connection.Item2);
+                foreach (var connection in connectionsFromDestination.Where(connection => connection.Item1 != null && connection.Item3 != null))
+                    connection.Item1.Points = ConfiguratorViewElement.GetPointCollectionForConnection(_selectedGrid, connection.Item3, connection.Item2);
             }
         }
 

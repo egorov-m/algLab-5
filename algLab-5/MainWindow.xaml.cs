@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
+using algLab_5.Data;
 using algLab_5.Models;
 using algLab_5.Tools;
 using algLab_5.Tools.Base;
@@ -11,6 +13,7 @@ namespace algLab_5
     public partial class MainWindow : Window
     {
         private readonly StatusBarUpdater _statusBarUpdater;
+        private readonly ShapesRepository _shapesRepository;
         private ToolArgs _toolArgs;
         private Tool? _currentTool;
 
@@ -20,9 +23,11 @@ namespace algLab_5
         {
             InitializeComponent();
 
+            _shapesRepository = new ShapesRepository(Canvas);
             _statusBarUpdater = new StatusBarUpdater(tbIsSavedProject, tbCurrentState, tbCoordinates, tbIsHover);
 
-            _toolArgs = new ToolArgs(this, Canvas, CanvasBorder, _statusBarUpdater, OnChangeStatusSaved);
+
+            _toolArgs = new ToolArgs(this, Canvas, CanvasBorder, _statusBarUpdater, _shapesRepository, OnChangeStatusSaved);
 
             _currentTool = new ArrowTool(_toolArgs);
         }

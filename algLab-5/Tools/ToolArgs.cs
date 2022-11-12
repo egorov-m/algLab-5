@@ -1,6 +1,7 @@
 ﻿using algLab_5.Models;
 using System;
 using System.Windows.Controls;
+using algLab_5.Data;
 
 namespace algLab_5.Tools
 {
@@ -10,18 +11,21 @@ namespace algLab_5.Tools
         public Canvas Canvas { get; private set; }
         public Border CanvasBorder { get; private set; }
         public StatusBarUpdater StatusBarUpdater { get; private set; }
+        public ShapesRepository ShapesRepository { get; private set; }
         public Action<StatusSaved> SavedChange { get; private set; }
 
         public ToolArgs(MainWindow minWindow, 
                         Canvas canvas,
                         Border canvasBorder,
-                        StatusBarUpdater statusBarUpdater, 
+                        StatusBarUpdater statusBarUpdater,
+                        ShapesRepository shapesRepository,
                         Action<StatusSaved> savedChange)
         {
             MainWindow = minWindow;
             Canvas = canvas;
             CanvasBorder = canvasBorder;
             StatusBarUpdater = statusBarUpdater;
+            ShapesRepository = shapesRepository;
             SavedChange = savedChange;
         }
     }
