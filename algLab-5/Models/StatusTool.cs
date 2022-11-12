@@ -3,6 +3,7 @@
     public enum StatusTool
     {
         None,
+        NewVertex,
         SelectingVertex
     }
 }

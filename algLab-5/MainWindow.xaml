@@ -7,7 +7,6 @@
         mc:Ignorable="d"
         Title="Lab 5: Algorithms on graphs" Height="720" Width="1280">
     <DockPanel>
-
         <!--Верхнее меню-->
         <Menu 
             DockPanel.Dock="Top" 
@@ -46,7 +45,7 @@
                 <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
             
-            <!--Контейнер холста и консоли-->
+            <!--Контейнер холста, панели инструментов, консоли-->
             <Grid Grid.Column="0" HorizontalAlignment="Stretch">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -54,11 +53,31 @@
                     <RowDefinition Height="200"/>
                 </Grid.RowDefinitions>
 
-                <Border x:Name="CanvasBorder" Grid.Row="0" VerticalAlignment="Stretch" Background="#1f1f1f" Padding="5 0 5 5">
-                    <Border BorderBrush="#464646" BorderThickness="2">
-                         <Canvas x:Name="Canvas"></Canvas>
+                <Grid Grid.Row="0" VerticalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--Панель инструментов-->
+                    <StackPanel Grid.Column="0" Orientation="Vertical" Background="#1f1f1f">
+                        <StackPanel Margin="3 0 3 0">
+                            <Button x:Name="btnAddVertex" Click="BtnAddVertexOnClick"  Content="Add Vertex" Height="20" Background="#424242" Foreground="#fff"></Button>
+                            <Separator Background="#464646"/>
+                            <Button x:Name="btnAddEdge" Click="BtnAddEdgeOnClick" Content="Add Edge" Height="20" Background="#424242" Foreground="#fff"></Button>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <GridSplitter Grid.Column="1" ShowsPreview="True" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#464646"/>
+
+                    <!--Холст-->
+                    <Border Grid.Column="2" x:Name="CanvasBorder" Background="#1f1f1f" Padding="5 0 5 5">
+                        <Border BorderBrush="#464646" BorderThickness="2">
+                            <Canvas x:Name="Canvas"></Canvas>
+                        </Border>
                     </Border>
-                </Border>
+                </Grid>
 
                 <GridSplitter Grid.Row="1" ShowsPreview="True" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="#464646"/>
 

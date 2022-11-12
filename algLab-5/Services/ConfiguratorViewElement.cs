@@ -2,12 +2,33 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace algLab_5.Services
 {
     /// <summary> Класс для получения настроенных визуальных элементов </summary>
     public static class ConfiguratorViewElement
     {
+        /// <summary> Высота вершины графа </summary>
+        private const double HeightVertexGraph = 30;
+        /// <summary> Ширина Веришыны графа </summary>
+        private const double WidthVertexGraph = 30;
+
+        /// <summary> Получить Grid с добавленным в него эллипса </summary>
+        public static Grid GetGrid()
+        {
+            var element = new Grid();
+            var rectangle = new Ellipse()
+            {
+                Width = WidthVertexGraph,
+                Height = HeightVertexGraph,
+                Stroke = new SolidColorBrush(Color.FromRgb(214, 214, 214)), //Brushes.Black,
+                Fill = new SolidColorBrush(Color.FromRgb(111, 111, 111))
+            };
+            element.Children.Add(rectangle);
+            return element;
+        }
+
         /// <summary> Получить коллекцию точек для соединения </summary>
         /// <param name="gridOne"> Первый Grid </param>
         /// <param name="gridTwo"> Второй Grid </param>

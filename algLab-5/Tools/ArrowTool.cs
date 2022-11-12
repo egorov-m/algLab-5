@@ -54,6 +54,7 @@ namespace algLab_5.Tools
             if (_selectedGrid != null && e.LeftButton == MouseButtonState.Pressed)
             {
                 _args.SavedChange(StatusSaved.Unsaved);
+                _args.StatusBarUpdater.UpdateStatus(StatusTool.SelectingVertex);
                 _selectedGrid.SetCenterEllipseOnGrid(pointCursor);
 
                 var (connectionsFromInitial, connectionsFromDestination) = _args.ShapesRepository.GetConnectionsElement(_selectedGrid);
@@ -67,9 +68,9 @@ namespace algLab_5.Tools
         /// <summary> Разгрузка обработчиков события </summary>
         public override void Unload()
         {
-            _args.Canvas.MouseMove -= OnMouseMove;
-            _args.Canvas.MouseDown -= OnMouseDown;
-            _args.Canvas.MouseUp -= OnMouseUp;
+            _args.CanvasBorder.MouseMove -= OnMouseMove;
+            _args.CanvasBorder.MouseDown -= OnMouseDown;
+            _args.CanvasBorder.MouseUp -= OnMouseUp;
             Dispose();
         }
     }

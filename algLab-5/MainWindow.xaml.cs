@@ -40,5 +40,26 @@ namespace algLab_5
             _savingStatus = status;
             _statusBarUpdater.UpdateSaveProjectInfo(_savingStatus);
         }
+
+        private void BtnAddVertexOnClick(object sender, RoutedEventArgs e)
+        {
+            _currentTool?.Unload();
+            _currentTool = new AddElementTool(_toolArgs);
+        }
+
+        private void BtnAddEdgeOnClick(object sender, RoutedEventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <summary> Сбрасываем инструмент </summary>
+        public void DisableTool()
+        {
+            if (_currentTool != null) 
+            {
+                _currentTool.Unload();
+                _currentTool = new ArrowTool(_toolArgs);
+            }
+        }
     }
 }

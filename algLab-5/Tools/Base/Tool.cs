@@ -26,7 +26,7 @@ namespace algLab_5.Tools.Base
         {
             _args = args;
             _countElementsOnCanvas = _args.Canvas.Children.Count;
-            _args.Canvas.MouseMove += DefaultMouseMove;
+            _args.CanvasBorder.MouseMove += DefaultMouseMove;
         }
 
         /// <summary> Обработчик события движения мыши по умолчанию </summary>
@@ -112,7 +112,7 @@ namespace algLab_5.Tools.Base
         /// <summary> Разгрузка обработчика в базовом классе </summary>
         public void Dispose()
         {
-            _args.Canvas.MouseMove -= DefaultMouseMove;
+            _args.CanvasBorder.MouseMove -= DefaultMouseMove;
         }
     }
 }
