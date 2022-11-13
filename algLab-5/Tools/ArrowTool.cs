@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using algLab_5.Models;
+using algLab_5.Models.Graph;
 using algLab_5.Services;
 using algLab_5.Tools.Base;
 
@@ -10,7 +11,7 @@ namespace algLab_5.Tools
     public class ArrowTool : Tool
     {
         /// <summary> Выбранный элемент </summary>
-        private Grid? _selectedGrid;
+        private VertexElement? _selectedElement;
 
         public ArrowTool(ToolArgs args) : base(args)
         {
@@ -24,13 +25,13 @@ namespace algLab_5.Tools
         /// <param name="e"> Само событие </param>
         private void OnMouseDown(object sender, MouseEventArgs e)
         {
-            if (_hoverElements.Count > 0)
+            if (HoverElements.Count > 0)
             {
-                _selectedGrid = _hoverElements[0];
+                _selectedElement = HoverElements[0];
             }
             else
             {
-                _selectedGrid = null;
+                _selectedElement = null;
             }
         }
 
@@ -39,7 +40,7 @@ namespace algLab_5.Tools
         /// <param name="e"> Само событие </param>
         private void OnMouseUp(object sender, MouseEventArgs e)
         {
-            _selectedGrid = null;
+            _selectedElement = null;
         }
 
         /// <summary> Обработчик события движения мыши </summary>
@@ -51,17 +52,22 @@ namespace algLab_5.Tools
             var info = GetInfoHoverElements();
             _args.StatusBarUpdater.Update(StatusTool.None, pointCursor, info);
 
-            if (_selectedGrid != null && e.LeftButton == MouseButtonState.Pressed)
+            if (_selectedElement != null && e.LeftButton == MouseButtonState.Pressed)
             {
                 _args.SavedChange(StatusSaved.Unsaved);
                 _args.StatusBarUpdater.UpdateStatus(StatusTool.SelectingVertex);
-                _selectedGrid.SetCenterEllipseOnGrid(pointCursor);
+                _selectedElement.Draw(pointCursor);
 
-                var (connectionsFromInitial, connectionsFromDestination) = _args.ShapesRepository.GetConnectionsElement(_selectedGrid);
+                var (connectionsFromInitial, connectionsFromDestination) = _args.ShapesRepository.GetConnectionsElement(_selectedElement.Grid);
                 foreach (var connection in connectionsFromInitial.Where(connection => connection.Item1 != null && connection.Item3 != null))
-                    connection.Item1.Points = ConfiguratorViewElement.GetPointCollectionForConnection(_selectedGrid, connection.Item3, connection.Item2);
+                {
+                    connection.Item1.Points = ConfiguratorViewElement.GetPointCollectionForConnection(_selectedElement.Grid, connection.Item3, connection.Item2);
+                }
+
                 foreach (var connection in connectionsFromDestination.Where(connection => connection.Item1 != null && connection.Item3 != null))
-                    connection.Item1.Points = ConfiguratorViewElement.GetPointCollectionForConnection(_selectedGrid, connection.Item3, connection.Item2);
+                {
+                    connection.Item1.Points = ConfiguratorViewElement.GetPointCollectionForConnection(_selectedElement.Grid, connection.Item3, connection.Item2);
+                }
             }
         }
 

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Effects;
 using System.Windows.Media;
+using algLab_5.Models.Graph;
 
 namespace algLab_5.Tools.Base
 {
@@ -18,7 +17,7 @@ namespace algLab_5.Tools.Base
         /// <summary> Количество элементов на холсте </summary>
         protected int _countElementsOnCanvas;
         /// <summary> Элементы под эффектом наведения </summary>
-        protected List<Grid?> _hoverElements = new ();
+        protected List<VertexElement> HoverElements = new ();
         /// <summary> Число элементов под эффектом наведения </summary>
         protected int _countHoverElement;
 
@@ -34,8 +33,8 @@ namespace algLab_5.Tools.Base
         /// <param name="e"> Событие </param>
         protected void DefaultMouseMove(object sender, MouseEventArgs e)
         {
-            _hoverElements = GetHoverElements();
-            _countHoverElement = _hoverElements.Count;
+            HoverElements = GetHoverElements();
+            _countHoverElement = HoverElements.Count;
             DisplayHoverEffect();
         }
 
@@ -43,7 +42,7 @@ namespace algLab_5.Tools.Base
         /// Получить выбранные сетки
         /// </summary>
         /// <returns> список выбранных гридов </returns>
-        protected List<Grid?> GetHoverElements()
+        protected List<VertexElement> GetHoverElements()
         {
             List<Grid?> selectedShapes = new ();
             for (var i = 0; i < _countElementsOnCanvas; i++)
@@ -57,7 +56,8 @@ namespace algLab_5.Tools.Base
                     }
                 }
             }
-            return selectedShapes;
+
+            return _args.DataProvider.GetVertexElementstData().Where(x => selectedShapes.Contains(x.Grid)).ToList();
         }
 
         /// <summary> Получить информацию о наведённых элементах </summary>
@@ -65,13 +65,13 @@ namespace algLab_5.Tools.Base
         {
             if (_countHoverElement > 1)
             {
-                return $"{_countHoverElement} {_hoverElements[0]?.GetType().Name + 's'}";
+                return $"{_countHoverElement} {HoverElements[0]?.GetType().Name + 's'}";
             }
             else
             {
                 if (_countHoverElement > 0)
                 {
-                    return $"{_countHoverElement} {_hoverElements[0]?.GetType().Name}";
+                    return $"{_countHoverElement} {HoverElements[0]?.GetType().Name}";
                 }
                 else
                 {
@@ -86,13 +86,13 @@ namespace algLab_5.Tools.Base
             ClearEffects();
             for (var i = 0; i < _countHoverElement; i++)
             {
-                _hoverElements[i]!.Effect =  new DropShadowEffect()
+                HoverElements[i]!.Grid.Effect =  new DropShadowEffect()
                 {
                     Color = Color.FromRgb(113, 96, 232), // #7160e8
                     ShadowDepth = 0,
                     BlurRadius = 10
                 };
-                _hoverElements[i]!.UseLayoutRounding = true;
+                HoverElements[i]!.Grid.UseLayoutRounding = true;
             }
         }
 

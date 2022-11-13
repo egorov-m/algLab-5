@@ -14,6 +14,7 @@ namespace algLab_5
     {
         private readonly StatusBarUpdater _statusBarUpdater;
         private readonly ShapesRepository _shapesRepository;
+        private readonly DataProvider _dataProvider;
         private ToolArgs _toolArgs;
         private Tool? _currentTool;
 
@@ -25,9 +26,9 @@ namespace algLab_5
 
             _shapesRepository = new ShapesRepository(Canvas);
             _statusBarUpdater = new StatusBarUpdater(tbIsSavedProject, tbCurrentState, tbCoordinates, tbIsHover);
+            _dataProvider = new DataProvider();
 
-
-            _toolArgs = new ToolArgs(this, Canvas, CanvasBorder, _statusBarUpdater, _shapesRepository, OnChangeStatusSaved);
+            _toolArgs = new ToolArgs(this, Canvas, CanvasBorder, _statusBarUpdater, _shapesRepository, _dataProvider, OnChangeStatusSaved);
 
             _currentTool = new ArrowTool(_toolArgs);
         }

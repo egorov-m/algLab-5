@@ -4,31 +4,64 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using algLab_5.Models.Utils;
 
 namespace algLab_5.Services
 {
     /// <summary> Класс для получения настроенных визуальных элементов </summary>
     public static class ConfiguratorViewElement
     {
-        /// <summary> Высота вершины графа </summary>
-        private const double HeightVertexGraph = 30;
-        /// <summary> Ширина Веришыны графа </summary>
-        private const double WidthVertexGraph = 30;
+        public static int IndexEllipseOnGridVertexElement = 0;
 
-        /// <summary> Получить Grid с добавленным в него эллипса </summary>
-        public static Grid GetGrid()
+        /// <summary> Получить Grid с добавленным в него эллипса для элемента вершины графа </summary>
+        public static Grid GetGridVertexElement()
         {
             var element = new Grid();
-            var rectangle = new Ellipse()
+            var ellipse = new Ellipse()
             {
-                Width = WidthVertexGraph,
-                Height = HeightVertexGraph,
-                Stroke = new SolidColorBrush(Color.FromRgb(214, 214, 214)), //Brushes.Black,
-                Fill = new SolidColorBrush(Color.FromRgb(111, 111, 111))
+                Width = Params.SizeVertexElement,
+                Height = Params.SizeVertexElement,
+                StrokeThickness = Params.BorderWidthVertexElement,
+                Stroke = new SolidColorBrush(Models.Utils.Colors.VertexElementBorderColor),
+                Fill = new SolidColorBrush(Models.Utils.Colors.VertexElementInnerColor)
             };
-            element.Children.Add(rectangle);
+            element.Children.Add(ellipse);
+
             return element;
         }
+
+        /// <summary> Получить StackPanel для элемента вершины графа </summary>
+        public static StackPanel GetStackPanelVertexElement()
+        {
+            var stackPanel = new StackPanel()
+            {
+                Height = Params.SizeVertexElement,
+                Width = Params.SizeVertexElement,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+            };
+
+            return stackPanel;
+        }
+
+        /// <summary> Получить TextBlock для элемента вершины графа </summary>
+        public static TextBlock GetTextBlockVertexElement()
+        {
+            var textBlock = new TextBlock()
+            {
+                FontSize = Params.FontSizeVertexElement,
+                FontWeight = FontWeight.FromOpenTypeWeight(Params.FontWeightVertexElement),
+                Foreground = new SolidColorBrush(Models.Utils.Colors.VertexElementTextColor),
+                TextWrapping = TextWrapping.Wrap,
+                TextAlignment = TextAlignment.Center
+            };
+
+            return textBlock;
+        }
+
+        /// <summary> Получить эллипс элемента вершины графа из сетки вершины </summary>
+        /// <param name="grid"> Сетка </param>
+        public static Ellipse GetEllipse(this Grid grid) => grid.Children[IndexEllipseOnGridVertexElement] as Ellipse ?? throw new ArgumentNullException("ОШИБКА! Сетка не соответствует схеме.");
 
         /// <summary> Получить коллекцию точек для соединения </summary>
         /// <param name="gridOne"> Первый Grid </param>
@@ -56,6 +89,7 @@ namespace algLab_5.Services
         public static PointCollection GetPointCollectionForConnection(Point point, Grid? grid, ConnectionType connectionType)
         {
             Point pointGrid;
+
             //switch (connectionType)
             //{
             //    case ConnectionType.ParentChild:
@@ -86,6 +120,7 @@ namespace algLab_5.Services
             //    default:
             //        throw new ArgumentException("ОШИБКА! Недопустимы тип родственной связи.");
             //}
+
             pointGrid = grid.GetCenterEllipseOnGrid();
             return new PointCollection() { point, new (point.X, point.Y), new (pointGrid.X, pointGrid.Y), pointGrid };
         }
@@ -96,13 +131,24 @@ namespace algLab_5.Services
         /// <param name="connectionType"> Тип связи </param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public static Polyline GetPolyline(ConnectionType connectionType)
+        public static Polyline GetPolylineEdgeElement(ConnectionType connectionType = ConnectionType.Default)
         {
             return connectionType switch
             {
-                ConnectionType.Default => new Polyline() {Stroke = new SolidColorBrush(Color.FromRgb(214, 214, 214))},
-                _ => throw new ArgumentException("ОШИБКА! Недопустимы тип родственной связи.")
+                ConnectionType.Default => new Polyline() {Stroke = new SolidColorBrush(Models.Utils.Colors.EdgeElementInnerColor)},
+                _ => throw new ArgumentException("ОШИБКА! Недопустимый тип связи.")
             };
+        }
+
+        public static TextBlock GetTextBlockEdgeElement()
+        {
+            var textBlock = new TextBlock()
+            {
+                FontSize = Models.Utils.Params.FontSizeVertexElement,
+                Foreground = new SolidColorBrush(Models.Utils.Colors.EdgeElementTextColor)
+            };
+
+            return textBlock;
         }
     }
 }

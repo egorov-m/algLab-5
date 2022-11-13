@@ -1,28 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using algLab_5.Models;
-using System.Windows.Controls;
-using System.Windows.Shapes;
 using algLab_5.Tools.Base;
-using algLab_5.Services;
 using System.Windows.Input;
-using System.Windows.Media;
+using algLab_5.Models.Graph;
 
 namespace algLab_5.Tools
 {
     public class AddConnectionTool : Tool
     {
-        /// <summary> Начальный Grid </summary>
-        private Grid? _initialGrid;
-        /// <summary> Конечный Grid </summary>
-        private Grid? _destinationGrid;
-        /// <summary> Линия связи </summary>
-        private Polyline? _connection;
+        private EdgeElement? _edgeElement;
+
         /// <summary> В процессе ли добавление связи </summary>
-        private bool _isProcess = false;
+        private bool _isProcess;
         /// <summary> Тип связи </summary>
         private readonly ConnectionType _connectionType;
 
@@ -43,16 +32,7 @@ namespace algLab_5.Tools
             _args.StatusBarUpdater.Update(StatusTool.NewEdge, pointCursor, info);
             if (_isProcess)
             {
-                if (_initialGrid != null && _connection == null)
-                {
-                    _connection = ConfiguratorViewElement.GetPolyline(_connectionType);
-                    _args.Canvas.Children.Add(_connection);
-                    Panel.SetZIndex(_connection, 1);
-                }
-                _connection?.Points.Clear();
-                if (_connection != null)
-                    _connection.Points =
-                        ConfiguratorViewElement.GetPointCollectionForConnection(pointCursor, _initialGrid, _connectionType);
+                _edgeElement?.Draw(pointCursor);
             }
         }
 
@@ -63,65 +43,43 @@ namespace algLab_5.Tools
         {
             if (_isProcess)
             {
-                if (_initialGrid != null && _hoverElements.Count == 1)
+                if (HoverElements.Count == 1)
                 {
-                    _destinationGrid = _hoverElements[0];
-
-                    if (_initialGrid == _destinationGrid)
+                    if (_edgeElement != null)
                     {
-                        _args.MainWindow.DisableTool();
-                        _isProcess = false;
-                        _initialGrid = null;
-                        _destinationGrid = null;
-                        if (_connection != null) _connection.Stroke = Brushes.Transparent;
-                        _connection = null;
-                        throw new Exception("ОШИБКА! Ребро можно создать только между разными вершинами.");
-                    }
+                        if (_edgeElement.InitialVertexElement == HoverElements[0])
+                        {
+                            _isProcess = false;
+                            _edgeElement.RemoveDraw(_args.Canvas);
+                            _edgeElement = null;
+                            _args.MainWindow.DisableTool();
+                            throw new Exception("ОШИБКА! Ребро можно создать только между разными вершинами.");
+                        }
 
-                    if (_connection != null)
-                    {
-                        //var personModelElementInitial = _args.DataProvider.GetPersonElement(_initialGrid);
-                        //var personModelElementDestination = _args.DataProvider.GetPersonElement(_destinationGrid);
-                        //if (personModelElementInitial != null && personModelElementDestination != null)
-                        //{
-                        //    switch (_connectionType)
-                        //    {
-                        //        case ConnectionType.ParentChild:
-                        //            personModelElementDestination.Data?.AddParent(personModelElementInitial.Data);
-                        //            break;
-                        //        case ConnectionType.CurrentSpouses:
-                        //            personModelElementInitial.Data?.AddCurrentSpouse(personModelElementDestination.Data);
-                        //            personModelElementDestination.Data?.AddCurrentSpouse(personModelElementInitial.Data);
-                        //            break;
-                        //        case ConnectionType.FormerSpouses:
-                        //            personModelElementInitial.Data?.AddFormerSpouse(personModelElementDestination.Data);
-                        //            personModelElementDestination.Data?.AddFormerSpouse(personModelElementInitial.Data);
-                        //            break;
-                        //        default:
-                        //            throw new ArgumentException("ОШИБКА! Недопустимы тип родственной связи.");
-                        //    }
-                        //}
-                        
-                        var point = _connection.Points[3]; // начальная точка линии связи
-                        _connection.Points.Clear();
-                        _connection.Points = ConfiguratorViewElement.GetPointCollectionForConnection(point, _destinationGrid, _connectionType);
+                        _edgeElement.DestinationVertexElement = HoverElements[0];
+                        _edgeElement.Draw();
 
-                        if (!_args.ShapesRepository.AddConnection(_initialGrid, _destinationGrid, _connection,
-                                _connectionType)) throw new ArgumentException("ОШИБКА! Нельзя добавить уже существующее ребро.");
-                        _args.SavedChange(StatusSaved.Unsaved);
-                        _args.MainWindow.DisableTool();
-                        _isProcess = false;
-                        _initialGrid = null;
-                        _destinationGrid = null;
-                        _connection = null;
+                        if (_edgeElement.DestinationVertexElement != null)
+                        {
+                            if (!_args.ShapesRepository.AddConnection(_edgeElement.InitialVertexElement.Grid, _edgeElement.DestinationVertexElement.Grid, _edgeElement.Polyline, _connectionType))
+                            {
+                                throw new ArgumentException("ОШИБКА! Нельзя добавить уже существующее ребро.");
+                            }
+                            _args.SavedChange(StatusSaved.Unsaved);
+                            _args.MainWindow.DisableTool();
+                            _isProcess = false;
+                            _args.DataProvider.AddEdgeElement(_edgeElement);
+                        }
                     }
                 }
             }
             else
             {
-                if (_hoverElements.Count == 1)
+                if (HoverElements.Count == 1)
                 {
-                    _initialGrid = _hoverElements[0];
+                    _edgeElement = new EdgeElement(HoverElements[0], HoverElements[0].Id, 0);
+                    var pointCursor = e.GetPosition(_args.Canvas);
+                    _edgeElement?.Draw(_args.Canvas, pointCursor);
                     _isProcess = true;
                 }
             }

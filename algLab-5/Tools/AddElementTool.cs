@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using algLab_5.Models;
-using algLab_5.Services;
+﻿using algLab_5.Models;
 using System.Windows.Input;
+using algLab_5.Models.Graph;
+using algLab_5.Models.Utils;
 using algLab_5.Tools.Base;
 
 namespace algLab_5.Tools
@@ -15,7 +10,7 @@ namespace algLab_5.Tools
     public class AddElementTool : Tool
     {
         /// <summary> Выбранный Grid </summary>
-        private Grid? _element;
+        private VertexElement? _element;
 
         public AddElementTool(ToolArgs args) : base(args)
         {
@@ -38,12 +33,14 @@ namespace algLab_5.Tools
 
             if (_element == null)
             {
-                _element = ConfiguratorViewElement.GetGrid();
-                _args.Canvas.Children.Add(_element);
-                Panel.SetZIndex(_element, 5);
+                var id = IdentifierSetter.GetId();
+                _element = new VertexElement(id, id);
+                _element.Draw(_args.Canvas, pointCursor);
             }
-
-            _element.SetCenterEllipseOnGrid(pointCursor);
+            else
+            {
+                _element.Draw(pointCursor);
+            }
         }
 
         /// <summary> Обработчик события нажатия кнопки мыши </summary>
@@ -51,21 +48,11 @@ namespace algLab_5.Tools
         /// <param name="e"> Само событие </param>
         private void OnMouseDown(object sender, MouseEventArgs e)
         {
-            _args.ShapesRepository.AddElement(_element);
-            //PersonModelElement personModelElement = new () { View = new VisualElement() };
-            //personModelElement.View.Element = _element;
-
-            //#region Добавление данных человека на визуальный элемент
-
-            //var mainStackPanel = ConfiguratorViewElement.GetStackPanelWithDataPerson();
-
-            //personModelElement.View.Element.Children.Add(mainStackPanel);
-            //Grid.SetRow(mainStackPanel, 0);
-            //Grid.SetColumn(mainStackPanel, 0);
-
-            //#endregion
-
-            //_args.DataProvider.AddPersonElement(personModelElement);
+            if (_element != null)
+            {
+                _args.ShapesRepository.AddElement(_element.Grid);
+                _args.DataProvider.AddVertexElement(_element);
+            }
 
             // Включаем редактор элементов (для того, чтобы не оставлять сырые визуальные данные)
             //var editElementInfoTool = new EditElementInfoTool(_args);

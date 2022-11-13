@@ -23,8 +23,8 @@ namespace algLab_5.Services
         /// <param name="point"> Точка центра эллипса </param>
         public static void SetCenterEllipseOnGrid(this Grid? element, Point point)
         {
-            var rectangle = (Ellipse)element.Children[IndexMainEllipseOnGrid];
-            element.Margin = new Thickness(point.X - rectangle.Width / 2, point.Y - rectangle.Height / 2, 0, 0);
+            var ellipse = (Ellipse)element.Children[IndexMainEllipseOnGrid];
+            element.Margin = new Thickness(point.X - ellipse.Width / 2, point.Y - ellipse.Height / 2, 0, 0);
         }
     }
 }
