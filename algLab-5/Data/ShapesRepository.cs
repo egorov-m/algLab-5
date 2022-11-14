@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Shapes;
@@ -7,6 +8,7 @@ using algLab_5.Models;
 namespace algLab_5.Data
 {
     /// <summary> Класс хранилище фигур </summary>
+    [Obsolete("Данный класс не рекомендуется к использованию, структура хранения данных графа переработана.", true)]
     public class ShapesRepository
     {
         /// <summary> Холст </summary>
@@ -33,7 +35,9 @@ namespace algLab_5.Data
         /// <param name="type"> Тип соединения </param>
         public bool AddConnection(Grid initialElement, Grid? destinationElement, Polyline connection, ConnectionType type)
         {
-            var isAdd = !_connectingElements.Any(item => item.Initial == initialElement && item.Destination == destinationElement || item.Destination == initialElement && item.Initial == destinationElement);
+            var isAdd = !_connectingElements.Any(item => item.Initial == initialElement && 
+                item.Destination == destinationElement || item.Destination == initialElement && 
+                item.Initial == destinationElement);
             if (!isAdd) return isAdd;
             var unnecessaryInformationConnection = _connectingElements.FirstOrDefault(item =>
                 item.Initial == destinationElement && item.ConnectionLine == null);

@@ -125,9 +125,7 @@ namespace algLab_5.Services
             return new PointCollection() { point, new (point.X, point.Y), new (pointGrid.X, pointGrid.Y), pointGrid };
         }
 
-        /// <summary>
-        /// Получить линию связи в соответствии с типом
-        /// </summary>
+        /// <summary> Получить линию связи в соответствии с типом </summary>
         /// <param name="connectionType"> Тип связи </param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
@@ -140,11 +138,13 @@ namespace algLab_5.Services
             };
         }
 
+        /// <summary> Получить текстовый блок Вершины элемента </summary>
         public static TextBlock GetTextBlockEdgeElement()
         {
             var textBlock = new TextBlock()
             {
-                FontSize = Models.Utils.Params.FontSizeVertexElement,
+                FontSize = Params.FontSizeEdgeElement,
+                FontWeight = FontWeight.FromOpenTypeWeight(Params.FontWeightEdgeElement),
                 Foreground = new SolidColorBrush(Models.Utils.Colors.EdgeElementTextColor)
             };
 

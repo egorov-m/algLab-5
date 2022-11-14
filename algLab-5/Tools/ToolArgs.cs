@@ -11,7 +11,6 @@ namespace algLab_5.Tools
         public Canvas Canvas { get; private set; }
         public Border CanvasBorder { get; private set; }
         public StatusBarUpdater StatusBarUpdater { get; private set; }
-        public ShapesRepository ShapesRepository { get; private set; }
         public DataProvider DataProvider { get; private set; }
         public Action<StatusSaved> SavedChange { get; private set; }
 
@@ -19,7 +18,6 @@ namespace algLab_5.Tools
                         Canvas canvas,
                         Border canvasBorder,
                         StatusBarUpdater statusBarUpdater,
-                        ShapesRepository shapesRepository,
                         DataProvider dataProvider,
                         Action<StatusSaved> savedChange)
         {
@@ -27,7 +25,6 @@ namespace algLab_5.Tools
             Canvas = canvas;
             CanvasBorder = canvasBorder;
             StatusBarUpdater = statusBarUpdater;
-            ShapesRepository = shapesRepository;
             DataProvider = dataProvider;
             SavedChange = savedChange;
         }

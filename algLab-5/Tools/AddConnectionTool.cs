@@ -61,10 +61,11 @@ namespace algLab_5.Tools
 
                         if (_edgeElement.DestinationVertexElement != null)
                         {
-                            if (!_args.ShapesRepository.AddConnection(_edgeElement.InitialVertexElement.Grid, _edgeElement.DestinationVertexElement.Grid, _edgeElement.Polyline, _connectionType))
+                            if (!_args.DataProvider.AddEdgeElement(_edgeElement))
                             {
                                 throw new ArgumentException("ОШИБКА! Нельзя добавить уже существующее ребро.");
                             }
+
                             _args.SavedChange(StatusSaved.Unsaved);
                             _args.MainWindow.DisableTool();
                             _isProcess = false;

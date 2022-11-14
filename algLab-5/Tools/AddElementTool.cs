@@ -50,14 +50,8 @@ namespace algLab_5.Tools
         {
             if (_element != null)
             {
-                _args.ShapesRepository.AddElement(_element.Grid);
                 _args.DataProvider.AddVertexElement(_element);
             }
-
-            // Включаем редактор элементов (для того, чтобы не оставлять сырые визуальные данные)
-            //var editElementInfoTool = new EditElementInfoTool(_args);
-            //editElementInfoTool.LaunchEditorCurrentHoverElement(sender, e);
-            //editElementInfoTool.Unload();
 
             _element = null;
             _args.MainWindow.DisableTool();

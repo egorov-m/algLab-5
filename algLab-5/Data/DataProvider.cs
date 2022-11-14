@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Controls;
 using algLab_5.Models.Graph;
 
@@ -30,7 +31,7 @@ namespace algLab_5.Data
         /// <param name="formatDataGraph"> Тип файла </param>
         /// <param name="shapesRepository"> Репозиторий форм </param>
         /// <param name="canvas"> Холст </param>
-        public DataProvider(string path, string? workingDirectory, FormatDataGraph formatDataGraph, ShapesRepository shapesRepository, Panel canvas)
+        public DataProvider(string path, string? workingDirectory, FormatDataGraph formatDataGraph, Panel canvas)
         {
             // выполнять запрос данных от пользователя
         }
@@ -44,9 +45,24 @@ namespace algLab_5.Data
 
         /// <summary> Добавить элемент ребра графа </summary>
         /// <param name="edgeElement"> Ребро графа </param>
-        public void AddEdgeElement(EdgeElement edgeElement)
+        public bool AddEdgeElement(EdgeElement edgeElement)
         {
+            //_dataEdgeElements.Add(edgeElement);
+            var isAdd = !_dataEdgeElements.Any(item =>
+                (item.InitialVertexElement == edgeElement.InitialVertexElement &&
+                 item.DestinationVertexElement == edgeElement.DestinationVertexElement) ||
+
+                (item.DestinationVertexElement == edgeElement.InitialVertexElement
+                 && item.InitialVertexElement == edgeElement.DestinationVertexElement));
+            if (!isAdd) return isAdd;
+
+            var unnecessaryEdgeElement = _dataEdgeElements.FirstOrDefault(item =>
+                item.InitialVertexElement == edgeElement.DestinationVertexElement &&
+                item.DestinationVertexElement == null);
+            if (unnecessaryEdgeElement != null) _dataEdgeElements.Remove(unnecessaryEdgeElement);
             _dataEdgeElements.Add(edgeElement);
+
+            return isAdd;
         }
     }
 }

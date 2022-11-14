@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace algLab_5.Services
@@ -26,5 +27,48 @@ namespace algLab_5.Services
             var ellipse = (Ellipse)element.Children[IndexMainEllipseOnGrid];
             element.Margin = new Thickness(point.X - ellipse.Width / 2, point.Y - ellipse.Height / 2, 0, 0);
         }
+
+        /// <summary> Установить координаты текстового блока на холсте </summary>
+        /// <param name="textBlock"> Текстовый блок </param>
+        /// <param name="point"> Точка установки координат </param>
+        public static void SetCoordinatesForTextBlock(this TextBlock textBlock, Point point)
+        {
+            Canvas.SetLeft(textBlock, point.X);
+            Canvas.SetTop(textBlock, point.Y);
+        }
+
+        /// <summary> Получить центр прямой линии </summary>
+        /// <param name="points"> Точки линии </param>
+        public static Point GetDirectPolyLineCenter(this PointCollection points)
+        {
+            var point1 = points[0];
+            var point2 = points[^1];
+
+            var centerPoint = new Point();
+
+            if (point1.X >= point2.X)
+            {
+                centerPoint.X = point2.X + (point1.X - point2.X) / 2;
+            }
+            else
+            {
+                centerPoint.X = point1.X + (point2.X - point1.X) / 2;
+            }
+
+            if (point1.Y >= point2.Y)
+            {
+                centerPoint.Y = point2.Y + (point1.Y - point2.Y) / 2;
+            }
+            else
+            {
+                centerPoint.Y = point1.Y + (point2.Y - point1.Y) / 2;
+            }
+
+            return centerPoint;
+        }
+
+        /// <summary> Получить центр прямой линии </summary>
+        /// <param name="polyline"> Линия </param>
+        public static Point GetDirectPolyLineCenter(this Polyline polyline) => polyline.Points.GetDirectPolyLineCenter();
     }
 }

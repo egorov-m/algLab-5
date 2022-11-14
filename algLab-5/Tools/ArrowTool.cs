@@ -58,15 +58,10 @@ namespace algLab_5.Tools
                 _args.StatusBarUpdater.UpdateStatus(StatusTool.SelectingVertex);
                 _selectedElement.Draw(pointCursor);
 
-                var (connectionsFromInitial, connectionsFromDestination) = _args.ShapesRepository.GetConnectionsElement(_selectedElement.Grid);
-                foreach (var connection in connectionsFromInitial.Where(connection => connection.Item1 != null && connection.Item3 != null))
+                var edgeElements = _args.DataProvider.GetEdgeElementsData();
+                foreach (var edgeElement in edgeElements)
                 {
-                    connection.Item1.Points = ConfiguratorViewElement.GetPointCollectionForConnection(_selectedElement.Grid, connection.Item3, connection.Item2);
-                }
-
-                foreach (var connection in connectionsFromDestination.Where(connection => connection.Item1 != null && connection.Item3 != null))
-                {
-                    connection.Item1.Points = ConfiguratorViewElement.GetPointCollectionForConnection(_selectedElement.Grid, connection.Item3, connection.Item2);
+                    edgeElement.Draw();
                 }
             }
         }
