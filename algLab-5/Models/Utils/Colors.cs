@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 
 namespace algLab_5.Models.Utils
 {
@@ -24,5 +19,21 @@ namespace algLab_5.Models.Utils
         /// <summary> Цвет текста ребра графа </summary>
         public static Color EdgeElementTextColor = Color.FromRgb(113, 96, 232);
 
+        /// <summary> Цвет фона элемента контекстного меню </summary>
+        public static Color ContextMenuItemBackgroundColor = Color.FromRgb(31, 31, 31);
+
+        /// <summary> Цвет текста элемента контекстного меню </summary>
+        public static Color ContextMenuItemForegroundColor = Color.FromRgb(214, 214, 214);
+
+        /// <summary> Цвет границы элемента контекстного меню </summary>
+        public static Color ContextMenuItemBorderBrushColor = Color.FromRgb(214, 214, 214);
+
+        /// <summary> Цвет эффекта наведения вершин по умолчанию </summary>
+        public static Color DefaultHoverEffectVertexColor = Color.FromRgb(113, 96, 232);
+
+        /// <summary> Цвет эффекта наведения рёбер по умолчанию </summary>
+        public static Color DefaultHoverEffectEdgeColor = Color.FromRgb(214, 214, 214);
+
+        public static Color RemoveElementHoverEffectColor = Color.FromRgb(238, 50, 45);
     }
 }

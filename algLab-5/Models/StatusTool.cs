@@ -5,6 +5,7 @@
         None,
         NewVertex,
         NewEdge,
-        SelectingVertex
+        SelectingVertex,
+        RemoveElement
     }
 }

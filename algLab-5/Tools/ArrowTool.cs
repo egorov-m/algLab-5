@@ -1,9 +1,6 @@
-﻿using System.Linq;
-using System.Windows.Controls;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using algLab_5.Models;
 using algLab_5.Models.Graph;
-using algLab_5.Services;
 using algLab_5.Tools.Base;
 
 namespace algLab_5.Tools
@@ -25,9 +22,9 @@ namespace algLab_5.Tools
         /// <param name="e"> Само событие </param>
         private void OnMouseDown(object sender, MouseEventArgs e)
         {
-            if (HoverElements.Count > 0)
+            if (HoverVertexElements.Count > 0)
             {
-                _selectedElement = HoverElements[0];
+                _selectedElement = HoverVertexElements[0];
             }
             else
             {

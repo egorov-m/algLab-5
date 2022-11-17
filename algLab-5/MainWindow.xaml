@@ -101,7 +101,7 @@
 
                 <Grid Grid.Row="0" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
@@ -112,6 +112,8 @@
                             <Button x:Name="btnAddVertex" Click="BtnAddVertexOnClick"  Content="Add Vertex" Height="20" Background="#424242" Foreground="#fff"></Button>
                             <Separator Background="#464646"/>
                             <Button x:Name="btnAddEdge" Click="BtnAddEdgeOnClick" Content="Add Edge" Height="20" Background="#424242" Foreground="#fff"></Button>
+                            <Separator Background="#464646"/>
+                            <Button x:Name="btnRemoveElement" Click="BtnRemoveElementOnClick" Content="Delete Element" Height="20" Background="#424242" Foreground="#fff"></Button>
                         </StackPanel>
                     </StackPanel>
 

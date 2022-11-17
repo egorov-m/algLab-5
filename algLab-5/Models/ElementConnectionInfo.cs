@@ -1,9 +1,11 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 using System.Windows.Shapes;
 
 namespace algLab_5.Models
 {
     /// <summary> Элемент информации о соединении </summary>
+    [Obsolete("Данный класс не рекомендуется к использованию, структура хранения данных графа переработана.", true)]
     public class ElementConnectionInfo
     {
         /// <summary> Начальный элемент </summary>

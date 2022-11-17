@@ -43,11 +43,11 @@ namespace algLab_5.Tools
         {
             if (_isProcess)
             {
-                if (HoverElements.Count == 1)
+                if (HoverVertexElements.Count == 1)
                 {
                     if (_edgeElement != null)
                     {
-                        if (_edgeElement.InitialVertexElement == HoverElements[0])
+                        if (_edgeElement.InitialVertexElement == HoverVertexElements[0])
                         {
                             _isProcess = false;
                             _edgeElement.RemoveDraw(_args.Canvas);
@@ -56,7 +56,7 @@ namespace algLab_5.Tools
                             throw new Exception("ОШИБКА! Ребро можно создать только между разными вершинами.");
                         }
 
-                        _edgeElement.DestinationVertexElement = HoverElements[0];
+                        _edgeElement.DestinationVertexElement = HoverVertexElements[0];
                         _edgeElement.Draw();
 
                         if (_edgeElement.DestinationVertexElement != null)
@@ -76,9 +76,9 @@ namespace algLab_5.Tools
             }
             else
             {
-                if (HoverElements.Count == 1)
+                if (HoverVertexElements.Count == 1)
                 {
-                    _edgeElement = new EdgeElement(HoverElements[0], HoverElements[0].Id, 0);
+                    _edgeElement = new EdgeElement(HoverVertexElements[0], HoverVertexElements[0].Id, 0);
                     var pointCursor = e.GetPosition(_args.Canvas);
                     _edgeElement?.Draw(_args.Canvas, pointCursor);
                     _isProcess = true;

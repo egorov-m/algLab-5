@@ -6,6 +6,8 @@ using System.Windows.Input;
 using System.Windows.Media.Effects;
 using System.Windows.Media;
 using algLab_5.Models.Graph;
+using Colors = algLab_5.Models.Utils.Colors;
+using System.Windows.Shapes;
 
 namespace algLab_5.Tools.Base
 {
@@ -16,10 +18,18 @@ namespace algLab_5.Tools.Base
         protected ToolArgs _args;
         /// <summary> Количество элементов на холсте </summary>
         protected int _countElementsOnCanvas;
-        /// <summary> Элементы под эффектом наведения </summary>
-        protected List<VertexElement> HoverElements = new ();
-        /// <summary> Число элементов под эффектом наведения </summary>
-        protected int _countHoverElement;
+        /// <summary> Элементы вершины под эффектом наведения </summary>
+        protected List<VertexElement> HoverVertexElements = new ();
+        /// <summary> Элемент ребра под эффектом наведения </summary>
+        protected List<EdgeElement> HoverEdgeElements = new ();
+        /// <summary> Число элементов вершин под эффектом наведения </summary>
+        protected int _countHoverVertexElement;
+        /// <summary> Число элементов рёбер под эффектом наведения</summary>
+        protected int _countHoverEdgeElement;
+        /// <summary> Цвет эффекта наведения вершин </summary>
+        protected Color _hoverEffectVertexColor = Colors.DefaultHoverEffectVertexColor;
+        /// <summary> Цвет эффекта наведения рёбер </summary>
+        protected Color _hoverEffectEdgeColor = Colors.DefaultHoverEffectEdgeColor;
 
         protected Tool(ToolArgs args)
         {
@@ -33,18 +43,17 @@ namespace algLab_5.Tools.Base
         /// <param name="e"> Событие </param>
         protected void DefaultMouseMove(object sender, MouseEventArgs e)
         {
-            HoverElements = GetHoverElements();
-            _countHoverElement = HoverElements.Count;
-            DisplayHoverEffect();
+            (HoverVertexElements, HoverEdgeElements) = GetHoverElements();
+            _countHoverVertexElement = HoverVertexElements.Count;
+            _countHoverEdgeElement = HoverEdgeElements.Count;
+            DisplayHoverEffect(_hoverEffectVertexColor, _hoverEffectEdgeColor);
         }
 
-        /// <summary>
-        /// Получить выбранные сетки
-        /// </summary>
-        /// <returns> список выбранных гридов </returns>
-        protected List<VertexElement> GetHoverElements()
+        /// <summary> Получить выбранные сетки </summary>
+        protected (List<VertexElement>, List<EdgeElement>) GetHoverElements()
         {
-            List<Grid?> selectedShapes = new ();
+            List<Grid?> selectedShapesVertex = new ();
+            List<Polyline?> selectedShapesEdge = new ();
             for (var i = 0; i < _countElementsOnCanvas; i++)
             {
                 var shape = _args.Canvas.Children[i];
@@ -52,47 +61,71 @@ namespace algLab_5.Tools.Base
                 {
                     if (grid.IsMouseOver)
                     {
-                        selectedShapes.Add(grid);
+                        selectedShapesVertex.Add(grid);
+                    }
+                }
+                if (shape is Polyline polyline)
+                {
+                    if (polyline.IsMouseOver)
+                    {
+                        selectedShapesEdge.Add(polyline);
                     }
                 }
             }
 
-            return _args.DataProvider.GetVertexElementstData().Where(x => selectedShapes.Contains(x.Grid)).ToList();
+            return (_args.DataProvider.GetVertexElementsData().Where(x => selectedShapesVertex.Contains(x.Grid)).ToList(), 
+                _args.DataProvider.GetEdgeElementsData().Where(x => selectedShapesEdge.Contains(x.Polyline)).ToList());
         }
 
         /// <summary> Получить информацию о наведённых элементах </summary>
         protected string GetInfoHoverElements()
         {
-            if (_countHoverElement > 1)
+            if (_countHoverVertexElement > 1)
             {
-                return $"{_countHoverElement} {HoverElements[0]?.GetType().Name + 's'}";
+                return $"{_countHoverVertexElement} {HoverVertexElements[0].GetType().Name}s";
             }
-            else
+
+            if (_countHoverEdgeElement > 1)
             {
-                if (_countHoverElement > 0)
-                {
-                    return $"{_countHoverElement} {HoverElements[0]?.GetType().Name}";
-                }
-                else
-                {
-                    return string.Empty;
-                }
+                return $"{_countHoverEdgeElement} {HoverEdgeElements[0].GetType().Name}s";
             }
+
+            if (_countHoverVertexElement == 1)
+            {
+                return $"{_countHoverVertexElement} {HoverVertexElements[0].GetType().Name}";
+            }
+
+            if (_countHoverEdgeElement == 1)
+            {
+                return $"{_countHoverEdgeElement} {HoverEdgeElements[0].GetType().Name}";
+            }
+
+            return string.Empty;
         }
 
         /// <summary> Отображение эффекта наведения </summary>
-        protected void DisplayHoverEffect()
+        protected virtual void DisplayHoverEffect(Color colorVertex, Color colorEdge)
         {
             ClearEffects();
-            for (var i = 0; i < _countHoverElement; i++)
+            for (var i = 0; i < HoverVertexElements.Count; i++)
             {
-                HoverElements[i]!.Grid.Effect =  new DropShadowEffect()
+                HoverVertexElements[i].Grid.Effect = new DropShadowEffect()
                 {
-                    Color = Color.FromRgb(113, 96, 232), // #7160e8
+                    Color = colorVertex,
                     ShadowDepth = 0,
                     BlurRadius = 10
                 };
-                HoverElements[i]!.Grid.UseLayoutRounding = true;
+                HoverVertexElements[i].Grid.UseLayoutRounding = true;
+            }
+            for (var i = 0; i < HoverEdgeElements.Count; i++)
+            {
+                HoverEdgeElements[i].Polyline.Effect = new DropShadowEffect()
+                {
+                    Color = colorEdge,
+                    ShadowDepth = 0,
+                    BlurRadius = 10
+                };
+                HoverEdgeElements[i].Polyline.UseLayoutRounding = true;
             }
         }
 
@@ -102,7 +135,7 @@ namespace algLab_5.Tools.Base
             for (var i = 0; i < _countElementsOnCanvas; i++)
             {
                 var shape = _args.Canvas.Children[i];
-                if (shape is Grid) shape.Effect = null;
+                if (shape is Grid or Polyline) shape.Effect = null;
             }
         }
 

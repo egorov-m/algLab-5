@@ -98,5 +98,10 @@ namespace algLab_5.Models.Graph
             Position = new Point(Math.Max(radius, Math.Min(canvasWidth - radius, Position.X)),
                 Math.Max(radius, Math.Min(canvasHeight - radius, Position.Y)));
         }
+
+        public void RemoveDraw(Canvas canvas)
+        {
+            canvas.Children.Remove(Grid);
+        }
     }
 }

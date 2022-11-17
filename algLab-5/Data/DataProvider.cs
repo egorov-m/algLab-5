@@ -19,7 +19,7 @@ namespace algLab_5.Data
         }
 
         /// <summary> Получить данные проекта от поставщика </summary>
-        public List<VertexElement> GetVertexElementstData() => _dataVertexElements;
+        public List<VertexElement> GetVertexElementsData() => _dataVertexElements;
 
         public List<EdgeElement> GetEdgeElementsData() => _dataEdgeElements;
 

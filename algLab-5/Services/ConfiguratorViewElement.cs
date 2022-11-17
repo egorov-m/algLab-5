@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using algLab_5.Models.Utils;
+using Colors = algLab_5.Models.Utils.Colors;
 
 namespace algLab_5.Services
 {
@@ -12,6 +13,34 @@ namespace algLab_5.Services
     public static class ConfiguratorViewElement
     {
         public static int IndexEllipseOnGridVertexElement = 0;
+
+        //private static readonly ContextMenu ContextMenu;
+        //public static readonly MenuItem MenuItemDeleteElement;
+
+        //static ConfiguratorViewElement()
+        //{
+        //    ContextMenu = new ContextMenu()
+        //    {
+        //        Background = new SolidColorBrush(Colors.ContextMenuItemBackgroundColor),
+        //        BorderThickness = new Thickness(0, 0, 0, 0),
+        //    };
+        //    MenuItemDeleteElement = GetMenuItem("Delete element");
+        //    ContextMenu.Items.Add(MenuItemDeleteElement);
+        //}
+
+        /// <summary> Получить элемент контекстного меню </summary>
+        /// <param name="text"> Текст заголовка </param>
+        private static MenuItem GetMenuItem(string text)
+        {
+            return new MenuItem()
+            {
+                Header = text,
+                Background = new SolidColorBrush(Colors.ContextMenuItemBackgroundColor),
+                Foreground = new SolidColorBrush(Colors.ContextMenuItemForegroundColor),
+                BorderBrush = new SolidColorBrush(Colors.ContextMenuItemBorderBrushColor),
+                BorderThickness = new Thickness(1, 1, 1, 1)
+            };
+        }
 
         /// <summary> Получить Grid с добавленным в него эллипса для элемента вершины графа </summary>
         public static Grid GetGridVertexElement()
@@ -22,9 +51,12 @@ namespace algLab_5.Services
                 Width = Params.SizeVertexElement,
                 Height = Params.SizeVertexElement,
                 StrokeThickness = Params.BorderWidthVertexElement,
-                Stroke = new SolidColorBrush(Models.Utils.Colors.VertexElementBorderColor),
-                Fill = new SolidColorBrush(Models.Utils.Colors.VertexElementInnerColor)
+                Stroke = new SolidColorBrush(Colors.VertexElementBorderColor),
+                Fill = new SolidColorBrush(Colors.VertexElementInnerColor)
             };
+                
+            //element.ContextMenu = ContextMenu;
+
             element.Children.Add(ellipse);
 
             return element;

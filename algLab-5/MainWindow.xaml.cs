@@ -1,7 +1,10 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using algLab_5.Data;
 using algLab_5.Models;
+using algLab_5.Models.Graph;
+using algLab_5.Services;
 using algLab_5.Tools;
 using algLab_5.Tools.Base;
 
@@ -31,9 +34,7 @@ namespace algLab_5
             _currentTool = new ArrowTool(_toolArgs);
         }
 
-        /// <summary>
-        /// Изменения статуса сохранён ли проект
-        /// </summary>
+        /// <summary> Изменения статуса сохранён ли проект </summary>
         private void OnChangeStatusSaved(StatusSaved status)
         {
             _savingStatus = status;
@@ -48,8 +49,14 @@ namespace algLab_5
 
         private void BtnAddEdgeOnClick(object sender, RoutedEventArgs e)
         {
-            if (_currentTool != null) _currentTool.Unload(); 
+            _currentTool?.Unload();
             _currentTool= new AddConnectionTool(_toolArgs, ConnectionType.Default);
+        }
+
+        private void BtnRemoveElementOnClick(object sender, RoutedEventArgs e)
+        {
+            _currentTool?.Unload();
+            _currentTool = new RemoveElementTool(_toolArgs);
         }
 
         /// <summary> Сбрасываем инструмент </summary>
