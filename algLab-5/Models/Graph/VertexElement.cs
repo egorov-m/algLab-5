@@ -27,7 +27,7 @@ namespace algLab_5.Models.Graph
         private TextBlock _textBlock;
         #endregion
 
-        public VertexElement(int id, int data) : base(id, data)
+        public VertexElement(int id, string data) : base(id, data)
         {
             Set();
         }
@@ -54,7 +54,7 @@ namespace algLab_5.Models.Graph
 
         /// <summary> Установить данные вершины</summary>
         /// <param name="data"> Данные </param>
-        public override void SetData(int data)
+        public override void SetData(string data)
         {
             Data = data;
             _textBlock.Text = data.ToString();
@@ -80,6 +80,18 @@ namespace algLab_5.Models.Graph
         public void Draw(Point point)
         {
             Position = point;
+            Grid.SetCenterEllipseOnGrid(Position);
+        }
+
+        /// <summary> Перерисовывает вершину в новую точку на указанный сдвиг </summary>
+        /// <param name="diffX"> Разница по оси X </param>
+        /// <param name="diffY"> Разница по оси Y </param>
+        public void Draw(double diffX, double diffY)
+        {
+            var newPosition = Position;
+            newPosition.X += diffX;
+            newPosition.Y += diffY;
+            Position = newPosition;
             Grid.SetCenterEllipseOnGrid(Position);
         }
 

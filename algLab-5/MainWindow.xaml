@@ -106,6 +106,15 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
+                    <!--Холст-->
+                    <Border Grid.Column="2" x:Name="CanvasBorder" Background="#1f1f1f" Padding="5 0 5 5">
+                        <Border BorderBrush="#464646" BorderThickness="2">
+                            <Canvas x:Name="Canvas"></Canvas>
+                        </Border>
+                    </Border>
+
+                    <GridSplitter Grid.Column="1" ShowsPreview="True" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#464646"/>
+
                     <!--Панель инструментов-->
                     <StackPanel Grid.Column="0" Orientation="Vertical" Background="#1f1f1f">
                         <StackPanel Margin="3 0 3 0">
@@ -117,14 +126,6 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <GridSplitter Grid.Column="1" ShowsPreview="True" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#464646"/>
-
-                    <!--Холст-->
-                    <Border Grid.Column="2" x:Name="CanvasBorder" Background="#1f1f1f" Padding="5 0 5 5">
-                        <Border BorderBrush="#464646" BorderThickness="2">
-                            <Canvas x:Name="Canvas"></Canvas>
-                        </Border>
-                    </Border>
                 </Grid>
 
                 <GridSplitter Grid.Row="1" ShowsPreview="True" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="#464646"/>

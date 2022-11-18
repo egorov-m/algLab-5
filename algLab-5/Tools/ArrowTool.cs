@@ -1,4 +1,7 @@
-﻿using System.Windows.Input;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Shapes;
 using algLab_5.Models;
 using algLab_5.Models.Graph;
 using algLab_5.Tools.Base;
@@ -9,6 +12,8 @@ namespace algLab_5.Tools
     {
         /// <summary> Выбранный элемент </summary>
         private VertexElement? _selectedElement;
+
+        private Point _currentCursorPosition;
 
         public ArrowTool(ToolArgs args) : base(args)
         {
@@ -45,15 +50,15 @@ namespace algLab_5.Tools
         /// <param name="e"> Само событие </param>
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
-            var pointCursor = e.GetPosition(_args.Canvas);
+            var cursorPosition = e.GetPosition(_args.Canvas);
             var info = GetInfoHoverElements();
-            _args.StatusBarUpdater.Update(StatusTool.None, pointCursor, info);
+            _args.StatusBarUpdater.Update(StatusTool.None, cursorPosition, info);
 
             if (_selectedElement != null && e.LeftButton == MouseButtonState.Pressed)
             {
                 _args.SavedChange(StatusSaved.Unsaved);
                 _args.StatusBarUpdater.UpdateStatus(StatusTool.SelectingVertex);
-                _selectedElement.Draw(pointCursor);
+                _selectedElement.Draw(cursorPosition);
 
                 var edgeElements = _args.DataProvider.GetEdgeElementsData();
                 foreach (var edgeElement in edgeElements)
@@ -61,6 +66,27 @@ namespace algLab_5.Tools
                     edgeElement.Draw();
                 }
             }
+            else
+            {
+                // Имитация движения всего холста
+                if (_countHoverEdgeElement + _countHoverVertexElement < 1 && e.LeftButton == MouseButtonState.Pressed)
+                {
+                    var diffX = cursorPosition.X - _currentCursorPosition.X;
+                    var diffY = cursorPosition.Y - _currentCursorPosition.Y;
+
+                    foreach (var vertexElement in _args.DataProvider.GetVertexElementsData())
+                    {
+                        vertexElement.Draw(diffX, diffY);
+                    }
+
+                    foreach (var edgeElement in _args.DataProvider.GetEdgeElementsData())
+                    {
+                        edgeElement.Draw(diffX, diffY);
+                    }
+                }
+            }
+
+            _currentCursorPosition = cursorPosition;
         }
 
         /// <summary> Разгрузка обработчиков события </summary>

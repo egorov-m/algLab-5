@@ -34,7 +34,7 @@ namespace algLab_5.Tools
             if (_element == null)
             {
                 var id = IdentifierSetter.GetId();
-                _element = new VertexElement(id, id);
+                _element = new VertexElement(id, id.ToString());
                 _element.Draw(_args.Canvas, pointCursor);
             }
             else

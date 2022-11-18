@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Shapes;
 using algLab_5.Services;
 
@@ -18,6 +20,9 @@ namespace algLab_5.Models.Graph
 
         /// <summary> Линия ребра </summary>
         public Polyline Polyline { get; set; }
+
+        /// <summary> Коллекция точек для рисования линии ребра </summary>
+        public PointCollection PointCollection { get; set; }
 
         /// <summary> Текстовый блок ребра </summary>
         public TextBlock TextBlock;
@@ -68,7 +73,8 @@ namespace algLab_5.Models.Graph
             Panel.SetZIndex(TextBlock, 2);
 
             Polyline.Points.Clear();
-            Polyline.Points = ConfiguratorViewElement.GetPointCollectionForConnection(point, InitialVertexElement.Grid, ConnectionType.Default);
+            PointCollection = ConfiguratorViewElement.GetPointCollectionForConnection(point, InitialVertexElement.Grid, ConnectionType.Default);
+            Polyline.Points = PointCollection;
 
             TextBlock.SetCoordinatesForTextBlock(Polyline.GetDirectPolyLineCenter());
         }
@@ -78,8 +84,37 @@ namespace algLab_5.Models.Graph
         public void Draw(Point point)
         {
             Polyline.Points.Clear();
-            Polyline.Points = ConfiguratorViewElement.GetPointCollectionForConnection(point, InitialVertexElement.Grid, ConnectionType.Default);
+            PointCollection = ConfiguratorViewElement.GetPointCollectionForConnection(point, InitialVertexElement.Grid, ConnectionType.Default);
+            Polyline.Points = PointCollection;
 
+            TextBlock.SetCoordinatesForTextBlock(Polyline.GetDirectPolyLineCenter());
+        }
+
+        /// <summary> Перерисовать ребро от точки до точки </summary>
+        /// <param name="point1"> Точка 1 </param>
+        /// <param name="point2"> Точка 2 </param>
+        public void Draw(Point point1, Point point2)
+        {
+            Polyline.Points.Clear();
+            PointCollection = ConfiguratorViewElement.GetPointCollectionForConnection(point1, point2, ConnectionType.Default);
+            Polyline.Points = PointCollection;
+            TextBlock.SetCoordinatesForTextBlock(Polyline.GetDirectPolyLineCenter());
+        }
+
+        /// <summary> Перерисовывает ребра с указанным сдвигом </summary>
+        /// <param name="diffX"> Разница по оси X </param>
+        /// <param name="diffY"> Разница по оси Y </param>
+        public void Draw(double diffX, double diffY)
+        {
+            for (var i = 0; i < PointCollection.Count; i++)
+            {
+                var newPosition = PointCollection[i];
+                newPosition.X += diffX;
+                newPosition.Y += diffY;
+                PointCollection[i] = newPosition;
+            }
+
+            Polyline.Points = PointCollection;
             TextBlock.SetCoordinatesForTextBlock(Polyline.GetDirectPolyLineCenter());
         }
 
@@ -89,7 +124,8 @@ namespace algLab_5.Models.Graph
             Polyline.Points.Clear();
             if (DestinationVertexElement != null)
             {
-                Polyline.Points = ConfiguratorViewElement.GetPointCollectionForConnection(InitialVertexElement.Grid, DestinationVertexElement.Grid, ConnectionType.Default);
+                PointCollection = ConfiguratorViewElement.GetPointCollectionForConnection(InitialVertexElement.Grid, DestinationVertexElement.Grid, ConnectionType.Default);
+                Polyline.Points = PointCollection;
                 TextBlock.SetCoordinatesForTextBlock(Polyline.GetDirectPolyLineCenter());
             }
         }
@@ -101,7 +137,8 @@ namespace algLab_5.Models.Graph
             Panel.SetZIndex(Polyline, 1);
             if (DestinationVertexElement != null)
             {
-                Polyline.Points = ConfiguratorViewElement.GetPointCollectionForConnection(InitialVertexElement.Grid, DestinationVertexElement.Grid, ConnectionType.Default);
+                PointCollection = ConfiguratorViewElement.GetPointCollectionForConnection(InitialVertexElement.Grid, DestinationVertexElement.Grid, ConnectionType.Default);
+                Polyline.Points = PointCollection;
                 TextBlock.SetCoordinatesForTextBlock(Polyline.GetDirectPolyLineCenter());
             }
         }

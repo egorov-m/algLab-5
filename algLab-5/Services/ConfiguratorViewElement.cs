@@ -154,7 +154,16 @@ namespace algLab_5.Services
             //}
 
             pointGrid = grid.GetCenterEllipseOnGrid();
-            return new PointCollection() { point, new (point.X, point.Y), new (pointGrid.X, pointGrid.Y), pointGrid };
+            return new PointCollection() { point, pointGrid };
+        }
+
+        /// <summary> Получить набор точек создания линии связи </summary>
+        /// <param name="point1"> Точка 1 </param>
+        /// <param name="point2"> Точка 2 </param>
+        /// <param name="connectionType"> тип соединения </param>
+        public static PointCollection GetPointCollectionForConnection(Point point1, Point point2, ConnectionType connectionType)
+        {
+            return new PointCollection() { point1,  point2 };
         }
 
         /// <summary> Получить линию связи в соответствии с типом </summary>
