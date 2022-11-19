@@ -1,8 +1,8 @@
-﻿using System;
-using algLab_5.Models;
+﻿using algLab_5.Models;
 using algLab_5.Tools.Base;
+using algLab_5.Views.Graph;
+using System;
 using System.Windows.Input;
-using algLab_5.Models.Graph;
 
 namespace algLab_5.Tools
 {
@@ -43,7 +43,7 @@ namespace algLab_5.Tools
         {
             if (_isProcess)
             {
-                if (HoverVertexElements.Count == 1)
+                if (_countHoverVertexElement == 1)
                 {
                     if (_edgeElement != null)
                     {
@@ -67,16 +67,16 @@ namespace algLab_5.Tools
                             }
 
                             _args.SavedChange(StatusSaved.Unsaved);
-                            _args.MainWindow.DisableTool();
                             _isProcess = false;
                             _args.DataProvider.AddEdgeElement(_edgeElement);
+                            _args.MainWindow.DisableTool();
                         }
                     }
                 }
             }
             else
             {
-                if (HoverVertexElements.Count == 1)
+                if (_countHoverVertexElement == 1)
                 {
                     _edgeElement = new EdgeElement(HoverVertexElements[0], HoverVertexElements[0].Id, 0);
                     var pointCursor = e.GetPosition(_args.Canvas);
@@ -89,6 +89,7 @@ namespace algLab_5.Tools
         /// <summary> Разгрузка обработчиков события </summary>
         public override void Unload()
         {
+            if (_isProcess) _edgeElement.RemoveDraw(_args.Canvas);
             _args.CanvasBorder.MouseMove -= OnMouseMove;
             _args.CanvasBorder.MouseDown -= OnMouseDown;
             Dispose();

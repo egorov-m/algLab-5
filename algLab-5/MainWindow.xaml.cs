@@ -1,12 +1,8 @@
-﻿using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using algLab_5.Data;
+﻿using algLab_5.Data;
 using algLab_5.Models;
-using algLab_5.Models.Graph;
-using algLab_5.Services;
 using algLab_5.Tools;
 using algLab_5.Tools.Base;
+using System.Windows;
 
 namespace algLab_5
 {
@@ -50,7 +46,7 @@ namespace algLab_5
         private void BtnAddEdgeOnClick(object sender, RoutedEventArgs e)
         {
             _currentTool?.Unload();
-            _currentTool= new AddConnectionTool(_toolArgs, ConnectionType.Default);
+            _currentTool = new AddConnectionTool(_toolArgs, ConnectionType.Default);
         }
 
         private void BtnRemoveElementOnClick(object sender, RoutedEventArgs e)
@@ -62,11 +58,17 @@ namespace algLab_5
         /// <summary> Сбрасываем инструмент </summary>
         public void DisableTool()
         {
-            if (_currentTool != null) 
+            if (_currentTool != null)
             {
                 _currentTool.Unload();
                 _currentTool = new ArrowTool(_toolArgs);
             }
+        }
+
+        private void BtnEditElementOnClick(object sender, RoutedEventArgs e)
+        {
+            _currentTool?.Unload();
+            _currentTool = new EditDataTool(_toolArgs);
         }
     }
 }

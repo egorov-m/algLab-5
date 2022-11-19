@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using algLab_5.Models;
+﻿using algLab_5.Models;
 using algLab_5.Tools.Base;
+using System.Linq;
 using System.Windows.Input;
-using algLab_5.Models.Graph;
-using Colors = algLab_5.Models.Utils.Colors;
+using Colors = algLab_5.Views.Utils.Colors;
 
 namespace algLab_5.Tools
 {

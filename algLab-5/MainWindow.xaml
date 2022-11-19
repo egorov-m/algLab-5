@@ -122,6 +122,8 @@
                             <Separator Background="#464646"/>
                             <Button x:Name="btnAddEdge" Click="BtnAddEdgeOnClick" Content="Add Edge" Height="20" Background="#424242" Foreground="#fff"></Button>
                             <Separator Background="#464646"/>
+                            <Button x:Name="btnEditElement" Click="BtnEditElementOnClick" Content="Edit element" Height="20" Background="#424242" Foreground="#fff"></Button>
+                            <Separator Background="#464646"/>
                             <Button x:Name="btnRemoveElement" Click="BtnRemoveElementOnClick" Content="Delete Element" Height="20" Background="#424242" Foreground="#fff"></Button>
                         </StackPanel>
                     </StackPanel>

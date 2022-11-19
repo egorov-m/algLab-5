@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace algLab_5.Models.Graph
+﻿namespace algLab_5.Models.Graph
 {
     /// <summary> Класс вершины графа </summary>
     public class Vertex

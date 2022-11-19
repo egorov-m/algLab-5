@@ -1,4 +1,4 @@
-﻿namespace algLab_5.Models.Utils
+﻿namespace algLab_5.Views.Utils
 {
     public static class Params
     {

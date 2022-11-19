@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using algLab_5.Views.Graph;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
-using algLab_5.Models.Graph;
 
 namespace algLab_5.Data
 {

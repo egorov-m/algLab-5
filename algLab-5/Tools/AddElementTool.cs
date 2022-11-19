@@ -1,8 +1,8 @@
 ﻿using algLab_5.Models;
-using System.Windows.Input;
-using algLab_5.Models.Graph;
 using algLab_5.Models.Utils;
 using algLab_5.Tools.Base;
+using algLab_5.Views.Graph;
+using System.Windows.Input;
 
 namespace algLab_5.Tools
 {

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using algLab_5.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Shapes;
-using algLab_5.Models;
 
 namespace algLab_5.Data
 {
@@ -35,8 +35,8 @@ namespace algLab_5.Data
         /// <param name="type"> Тип соединения </param>
         public bool AddConnection(Grid initialElement, Grid? destinationElement, Polyline connection, ConnectionType type)
         {
-            var isAdd = !_connectingElements.Any(item => item.Initial == initialElement && 
-                item.Destination == destinationElement || item.Destination == initialElement && 
+            var isAdd = !_connectingElements.Any(item => item.Initial == initialElement &&
+                item.Destination == destinationElement || item.Destination == initialElement &&
                 item.Initial == destinationElement);
             if (!isAdd) return isAdd;
             var unnecessaryInformationConnection = _connectingElements.FirstOrDefault(item =>
@@ -44,7 +44,9 @@ namespace algLab_5.Data
             if (unnecessaryInformationConnection != null) _connectingElements.Remove(unnecessaryInformationConnection);
             _connectingElements.Add(new ElementConnectionInfo
             {
-                Initial = initialElement, Destination = destinationElement, ConnectionLine = connection,
+                Initial = initialElement,
+                Destination = destinationElement,
+                ConnectionLine = connection,
                 ConnectionType = type
             });
 

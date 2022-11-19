@@ -2,10 +2,11 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using algLab_5.Models.Utils;
-using Colors = algLab_5.Models.Utils.Colors;
+using Colors = algLab_5.Views.Utils.Colors;
+using algLab_5.Views.Utils;
 
 namespace algLab_5.Services
 {
@@ -76,19 +77,23 @@ namespace algLab_5.Services
             return stackPanel;
         }
 
-        /// <summary> Получить TextBlock для элемента вершины графа </summary>
-        public static TextBlock GetTextBlockVertexElement()
+        /// <summary> Получить TextBox для элемента вершины графа </summary>
+        public static TextBox GetTextBoxVertexElement()
         {
-            var textBlock = new TextBlock()
+            var textBox = new TextBox()
             {
+                IsEnabled = false,
+                CaretBrush = new SolidColorBrush(Colors.VertexElementTextColor),
+                Background = Brushes.Transparent,
+                BorderThickness = new Thickness(0, 0, 0, 0),
                 FontSize = Params.FontSizeVertexElement,
                 FontWeight = FontWeight.FromOpenTypeWeight(Params.FontWeightVertexElement),
-                Foreground = new SolidColorBrush(Models.Utils.Colors.VertexElementTextColor),
+                Foreground = new SolidColorBrush(Colors.VertexElementTextColor),
                 TextWrapping = TextWrapping.Wrap,
-                TextAlignment = TextAlignment.Center
+                TextAlignment = TextAlignment.Center,
             };
 
-            return textBlock;
+            return textBox;
         }
 
         /// <summary> Получить эллипс элемента вершины графа из сетки вершины </summary>
@@ -174,22 +179,28 @@ namespace algLab_5.Services
         {
             return connectionType switch
             {
-                ConnectionType.Default => new Polyline() {Stroke = new SolidColorBrush(Models.Utils.Colors.EdgeElementInnerColor)},
+                ConnectionType.Default => new Polyline() {Stroke = new SolidColorBrush(Colors.EdgeElementInnerColor)},
                 _ => throw new ArgumentException("ОШИБКА! Недопустимый тип связи.")
             };
         }
 
         /// <summary> Получить текстовый блок Вершины элемента </summary>
-        public static TextBlock GetTextBlockEdgeElement()
+        public static TextBox GetTextBoxEdgeElement()
         {
-            var textBlock = new TextBlock()
+            var textBox = new TextBox()
             {
+                IsReadOnly = true,
+                CaretBrush = new SolidColorBrush(Colors.EdgeElementTextColor),
+                Background = Brushes.Transparent,
+                BorderThickness = new Thickness(0, 0, 0, 0),
                 FontSize = Params.FontSizeEdgeElement,
                 FontWeight = FontWeight.FromOpenTypeWeight(Params.FontWeightEdgeElement),
-                Foreground = new SolidColorBrush(Models.Utils.Colors.EdgeElementTextColor)
+                Foreground = new SolidColorBrush(Colors.EdgeElementTextColor),
+                SelectionBrush = Brushes.Transparent,
+                Cursor = Cursors.Arrow,
             };
 
-            return textBlock;
+            return textBox;
         }
     }
 }

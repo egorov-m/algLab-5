@@ -1,11 +1,12 @@
-﻿using System;
+﻿using algLab_5.Models.Graph;
+using algLab_5.Services;
+using algLab_5.Views.Utils;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
-using algLab_5.Models.Utils;
-using algLab_5.Services;
 
-namespace algLab_5.Models.Graph
+namespace algLab_5.Views.Graph
 {
     /// <summary> Элемент вершины графа </summary>
     public class VertexElement : Vertex
@@ -24,7 +25,7 @@ namespace algLab_5.Models.Graph
         private StackPanel _stackPanel;
 
         /// <summary> Текстовый блок элемента вершины </summary>
-        private TextBlock _textBlock;
+        public TextBox TextBox { get; set; }
         #endregion
 
         public VertexElement(int id, string data) : base(id, data)
@@ -36,10 +37,10 @@ namespace algLab_5.Models.Graph
         private void Set()
         {
             var grid = ConfiguratorViewElement.GetGridVertexElement();
-            var stackPanel =  ConfiguratorViewElement.GetStackPanelVertexElement();
+            var stackPanel = ConfiguratorViewElement.GetStackPanelVertexElement();
 
-            var textBlock = ConfiguratorViewElement.GetTextBlockVertexElement();
-            stackPanel.Children.Add(textBlock);
+            var TextBox = ConfiguratorViewElement.GetTextBoxVertexElement();
+            stackPanel.Children.Add(TextBox);
             grid.Children.Add(stackPanel);
 
             Grid.SetRow(stackPanel, 0);
@@ -48,8 +49,8 @@ namespace algLab_5.Models.Graph
             Grid = grid;
             _ellipse = grid.GetEllipse();
             _stackPanel = stackPanel;
-            _textBlock = textBlock;
-            _textBlock.Text = Data.ToString();
+            this.TextBox = TextBox;
+            this.TextBox.Text = Data.ToString();
         }
 
         /// <summary> Установить данные вершины</summary>
@@ -57,7 +58,7 @@ namespace algLab_5.Models.Graph
         public override void SetData(string data)
         {
             Data = data;
-            _textBlock.Text = data.ToString();
+            TextBox.Text = data;
         }
 
         public void Draw(Canvas canvas, int canvasHeight, int canvasWidth)

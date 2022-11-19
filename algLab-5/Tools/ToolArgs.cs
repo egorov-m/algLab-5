@@ -1,7 +1,7 @@
-﻿using algLab_5.Models;
+﻿using algLab_5.Data;
+using algLab_5.Models;
 using System;
 using System.Windows.Controls;
-using algLab_5.Data;
 
 namespace algLab_5.Tools
 {
@@ -14,7 +14,7 @@ namespace algLab_5.Tools
         public DataProvider DataProvider { get; private set; }
         public Action<StatusSaved> SavedChange { get; private set; }
 
-        public ToolArgs(MainWindow minWindow, 
+        public ToolArgs(MainWindow minWindow,
                         Canvas canvas,
                         Border canvasBorder,
                         StatusBarUpdater statusBarUpdater,

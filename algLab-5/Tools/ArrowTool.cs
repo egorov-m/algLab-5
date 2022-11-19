@@ -1,10 +1,8 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Shapes;
-using algLab_5.Models;
-using algLab_5.Models.Graph;
+﻿using algLab_5.Models;
 using algLab_5.Tools.Base;
+using algLab_5.Views.Graph;
+using System.Windows;
+using System.Windows.Input;
 
 namespace algLab_5.Tools
 {

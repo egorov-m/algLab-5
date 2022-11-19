@@ -1,5 +1,5 @@
-﻿using System.Windows.Controls;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -29,12 +29,12 @@ namespace algLab_5.Services
         }
 
         /// <summary> Установить координаты текстового блока на холсте </summary>
-        /// <param name="textBlock"> Текстовый блок </param>
+        /// <param name="textBox"> Текстовый блок </param>
         /// <param name="point"> Точка установки координат </param>
-        public static void SetCoordinatesForTextBlock(this TextBlock textBlock, Point point)
+        public static void SetCoordinatesForTextBox(this TextBox textBox, Point point)
         {
-            Canvas.SetLeft(textBlock, point.X);
-            Canvas.SetTop(textBlock, point.Y);
+            Canvas.SetLeft(textBox, point.X);
+            Canvas.SetTop(textBox, point.Y);
         }
 
         /// <summary> Получить центр прямой линии </summary>

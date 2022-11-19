@@ -1,6 +1,6 @@
-﻿using System.Windows;
+﻿using algLab_5.Models;
+using System.Windows;
 using System.Windows.Controls;
-using algLab_5.Models;
 
 namespace algLab_5
 {

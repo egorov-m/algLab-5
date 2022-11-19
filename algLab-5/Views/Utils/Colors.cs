@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace algLab_5.Models.Utils
+namespace algLab_5.Views.Utils
 {
     public static class Colors
     {
@@ -11,7 +11,7 @@ namespace algLab_5.Models.Utils
         public static Color VertexElementBorderColor = Color.FromRgb(214, 214, 214);
 
         /// <summary> Цвет текста вершины графа </summary>
-        public static Color VertexElementTextColor = Color.FromRgb(214, 214, 214);
+        public static Color VertexElementTextColor = Color.FromRgb(255, 255, 255);
 
         /// <summary> Внутренний цвет ребра графа </summary>
         public static Color EdgeElementInnerColor = Color.FromRgb(214, 214, 214);

@@ -6,6 +6,7 @@
         NewVertex,
         NewEdge,
         SelectingVertex,
-        RemoveElement
+        RemoveElement,
+        EditData
     }
 }
