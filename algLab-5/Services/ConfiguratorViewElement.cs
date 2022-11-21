@@ -68,10 +68,22 @@ namespace algLab_5.Services
         {
             var stackPanel = new StackPanel()
             {
-                Height = Params.SizeVertexElement,
-                Width = Params.SizeVertexElement,
+                //Height = Params.SizeVertexElement,
+                //Width = Params.SizeVertexElement,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
+            };
+
+            return stackPanel;
+        }
+
+        /// <summary> Получить StackPanel для элемента ребра графа </summary>
+        public static StackPanel GetStackPanelEdgeElement()
+        {
+            var stackPanel = new StackPanel()
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
             };
 
             return stackPanel;
@@ -85,6 +97,7 @@ namespace algLab_5.Services
                 IsEnabled = false,
                 CaretBrush = new SolidColorBrush(Colors.VertexElementTextColor),
                 Background = Brushes.Transparent,
+                BorderBrush = new SolidColorBrush(Colors.VertexElementTextColor),
                 BorderThickness = new Thickness(0, 0, 0, 0),
                 FontSize = Params.FontSizeVertexElement,
                 FontWeight = FontWeight.FromOpenTypeWeight(Params.FontWeightVertexElement),
@@ -189,15 +202,17 @@ namespace algLab_5.Services
         {
             var textBox = new TextBox()
             {
-                IsReadOnly = true,
+                //IsReadOnly = true,
+                IsEnabled = false,
                 CaretBrush = new SolidColorBrush(Colors.EdgeElementTextColor),
                 Background = Brushes.Transparent,
+                BorderBrush = new SolidColorBrush(Colors.EdgeElementTextColor),
                 BorderThickness = new Thickness(0, 0, 0, 0),
                 FontSize = Params.FontSizeEdgeElement,
                 FontWeight = FontWeight.FromOpenTypeWeight(Params.FontWeightEdgeElement),
                 Foreground = new SolidColorBrush(Colors.EdgeElementTextColor),
-                SelectionBrush = Brushes.Transparent,
-                Cursor = Cursors.Arrow,
+                //SelectionBrush = Brushes.Transparent,
+                //Cursor = Cursors.Arrow,
             };
 
             return textBox;

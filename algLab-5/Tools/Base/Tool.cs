@@ -54,7 +54,7 @@ namespace algLab_5.Tools.Base
         {
             List<Grid?> selectedShapesVertex = new();
             List<Polyline?> selectedShapesEdge = new();
-            List<TextBox> selectTextBoxEdge = new();
+            List<StackPanel> selectTextBoxEdge = new();
             for (var i = 0; i < _countElementsOnCanvas; i++)
             {
                 var shape = _args.Canvas.Children[i];
@@ -72,16 +72,16 @@ namespace algLab_5.Tools.Base
                         selectedShapesEdge.Add(polyline);
                     }
                 }
-                if (shape is TextBox TextBox)
+                if (shape is StackPanel stackPanel)
                 {
-                    if (TextBox.IsMouseOver)
+                    if (stackPanel.IsMouseOver)
                     {
-                        selectTextBoxEdge.Add(TextBox);
+                        selectTextBoxEdge.Add(stackPanel);
                     }
                 }
             }
             var edgeElements = _args.DataProvider.GetEdgeElementsData().Where(x => selectedShapesEdge.Contains(x.Polyline)).ToHashSet();
-            var TextBoxElements = _args.DataProvider.GetEdgeElementsData().Where(x => selectTextBoxEdge.Contains(x.TextBox));
+            var TextBoxElements = _args.DataProvider.GetEdgeElementsData().Where(x => selectTextBoxEdge.Contains(x.StackPanel));
 
             foreach (var TextBoxElement in TextBoxElements)
             {
@@ -141,8 +141,8 @@ namespace algLab_5.Tools.Base
                 };
                 HoverEdgeElements[i].Polyline.Effect = effect;
                 HoverEdgeElements[i].Polyline.UseLayoutRounding = true;
-                HoverEdgeElements[i].TextBox.Effect = effect;
-                HoverEdgeElements[i].TextBox.UseLayoutRounding = true;
+                //HoverEdgeElements[i].TextBox.Effect = effect;
+                //HoverEdgeElements[i].TextBox.UseLayoutRounding = true;
             }
         }
 

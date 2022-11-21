@@ -1,8 +1,11 @@
-﻿using algLab_5.Models;
+﻿using System.Windows;
+using algLab_5.Models;
 using algLab_5.Tools.Base;
 using System.Windows.Input;
 using algLab_5.Views.Graph;
 using System.Windows.Media;
+using Colors = algLab_5.Views.Utils.Colors;
+using System;
 
 namespace algLab_5.Tools
 {
@@ -38,6 +41,7 @@ namespace algLab_5.Tools
                 {
                     _isProcess = true;
                     HoverVertexElements[0].TextBox.IsEnabled = true;
+                    HoverVertexElements[0].TextBox.BorderThickness = new Thickness(1, 1, 1, 1);
                     _selectedVertexElement = HoverVertexElements[0];
                 }
                 else
@@ -45,9 +49,13 @@ namespace algLab_5.Tools
                     if (_countHoverEdgeElement == 1)
                     {
                         _isProcess = true;
-                        HoverEdgeElements[0].TextBox.IsReadOnly = false;
-                        HoverEdgeElements[0].TextBox.SelectionBrush = null;
-                        HoverEdgeElements[0].TextBox.Cursor = null;
+                        //HoverEdgeElements[0].TextBox.IsReadOnly = false;
+                        //HoverEdgeElements[0].TextBox.SelectionBrush = null;
+                        //HoverEdgeElements[0].TextBox.CaretBrush = new SolidColorBrush(Colors.EdgeElementTextColor);
+                        //HoverEdgeElements[0].TextBox.Cursor = null;
+                        HoverEdgeElements[0].TextBox.IsEnabled = true;
+                        HoverEdgeElements[0].TextBox.BorderThickness = new Thickness(1, 1, 1, 1);
+
                         _selectedEdgeElement = HoverEdgeElements[0];
                     }
                 }
@@ -60,18 +68,31 @@ namespace algLab_5.Tools
 
                     if (_selectedVertexElement != null)
                     {
-                        _selectedVertexElement.SetData(_selectedVertexElement.TextBox.Text);
+                        if (!_selectedVertexElement.SetData(_selectedVertexElement.TextBox.Text, _args.DataProvider.GetVertexElementsData()))
+                        {
+                            _args.MainWindow.DisableTool();
+                            throw new ArgumentException("ОШИБКА! Вершины графа должны отличаться.");
+                        }
 
-                        _selectedVertexElement.TextBox.IsEnabled = false;
+
+                        //_selectedVertexElement.TextBox.IsEnabled = false;
+                        //_selectedVertexElement.TextBox.BorderThickness = new Thickness(0, 0, 0, 0);
                     }
 
                     if (_selectedEdgeElement != null)
                     {
-                        _selectedEdgeElement.SetWeight(_selectedEdgeElement.TextBox.Text);
+                        if (!_selectedEdgeElement.SetWeight(_selectedEdgeElement.TextBox.Text))
+                        {
+                            _args.MainWindow.DisableTool();
+                            throw new ArgumentException("ОШИБКА! Вес вершины должен быть представлен как целое число.");
+                        }
 
-                        _selectedEdgeElement.TextBox.IsReadOnly = true;
-                        _selectedEdgeElement.TextBox.SelectionBrush = Brushes.Transparent;
-                        _selectedEdgeElement.TextBox.Cursor = Cursors.Arrow;
+                        //_selectedEdgeElement.TextBox.IsEnabled = false;
+                        //_selectedEdgeElement.TextBox.BorderThickness = new Thickness(0, 0, 0, 0);
+                        //_selectedEdgeElement.TextBox.IsReadOnly = true;
+                        //_selectedEdgeElement.TextBox.SelectionBrush = Brushes.Transparent;
+                        //_selectedEdgeElement.TextBox.CaretBrush = Brushes.Transparent;
+                        //_selectedEdgeElement.TextBox.Cursor = Cursors.Arrow;
                     }
 
                     _args.SavedChange(StatusSaved.Unsaved);
@@ -83,6 +104,24 @@ namespace algLab_5.Tools
 
         public override void Unload()
         {
+            if (_selectedVertexElement != null)
+            {
+                _selectedVertexElement.TextBox.IsEnabled = false;
+                _selectedVertexElement.TextBox.BorderThickness = new Thickness(0, 0, 0, 0);
+            }
+
+            if (_selectedEdgeElement != null)
+            {
+                _selectedEdgeElement.TextBox.IsEnabled = false;
+                _selectedEdgeElement.TextBox.BorderThickness = new Thickness(0, 0, 0, 0);
+                //_selectedEdgeElement.TextBox.IsReadOnly = true;
+                //_selectedEdgeElement.TextBox.SelectionBrush = Brushes.Transparent;
+                //_selectedEdgeElement.TextBox.CaretBrush = Brushes.Transparent;
+                //_selectedEdgeElement.TextBox.Cursor = Cursors.Arrow;
+            }
+
+            Keyboard.ClearFocus();
+
             _args.CanvasBorder.MouseMove -= OnMouseMove;
             _args.CanvasBorder.MouseDown -= OnMouseDown;
             Dispose();

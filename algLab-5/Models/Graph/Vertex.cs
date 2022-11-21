@@ -1,4 +1,9 @@
-﻿namespace algLab_5.Models.Graph
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace algLab_5.Models.Graph
 {
     /// <summary> Класс вершины графа </summary>
     public class Vertex
@@ -17,7 +22,15 @@
 
         /// <summary> Установить данные вершины </summary>
         /// <param name="data"> Задаваемые данные </param>
-        public virtual void SetData(string data) => Data = data;
+        /// <param name="graph"> Коллекция вершин текущего графа </param>
+        public virtual bool SetData(string data, IEnumerable<Vertex> graph)
+        {
+            var count = graph.Count(graph => graph.Data == data);
+            if (count > 0) return false;
+
+            Data = data;
+            return true;
+        }
 
         /// <summary> Возвращает True, если данный объект является вершиной графа и имеет тот же id </summary>
         /// <param name="obj"> Объект проверки </param>

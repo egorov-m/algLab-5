@@ -14,9 +14,8 @@ namespace algLab_5.Services
         /// <param name="element"> Сетка </param>
         public static Point GetCenterEllipseOnGrid(this Grid? element)
         {
-            var rectangle = (Ellipse)element.Children[IndexMainEllipseOnGrid];
-            return new Point(element.Margin.Left + rectangle.Width / 2,
-                element.Margin.Top + rectangle.Height / 2);
+            return new Point(element.Margin.Left + element.ActualWidth / 2,
+                element.Margin.Top + element.ActualHeight / 2);
         }
 
         /// <summary> Установить центр эллипса на сетке </summary>
@@ -31,7 +30,7 @@ namespace algLab_5.Services
         /// <summary> Установить координаты текстового блока на холсте </summary>
         /// <param name="textBox"> Текстовый блок </param>
         /// <param name="point"> Точка установки координат </param>
-        public static void SetCoordinatesForTextBox(this TextBox textBox, Point point)
+        public static void SetCoordinatesForStackPanel(this StackPanel textBox, Point point)
         {
             Canvas.SetLeft(textBox, point.X);
             Canvas.SetTop(textBox, point.Y);

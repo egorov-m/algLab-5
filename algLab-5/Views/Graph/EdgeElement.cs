@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -26,8 +25,11 @@ namespace algLab_5.Views.Graph
         /// <summary> Коллекция точек для рисования линии ребра </summary>
         public PointCollection PointCollection { get; set; }
 
-        /// <summary> Текстовый блок ребра </summary>
-        public TextBox TextBox;
+        /// <summary> Панель для содержимого элемента ребра </summary>
+        public StackPanel StackPanel { get; set; }
+
+        /// <summary> Текстовое поле ввода веса ребра </summary>
+        public TextBox TextBox { get; set; }
 
         #endregion
 
@@ -54,27 +56,32 @@ namespace algLab_5.Views.Graph
 
         /// <summary> Установить вес ребра </summary>
         /// <param name="weight"> Вес ребра </param>
-        public override void SetWeight(string weight)
+        public override bool SetWeight(string weight)
         {
             if (int.TryParse(weight, out var intWeight))
             {
                 Weight = intWeight;
-                TextBox.Text = weight;
+                return true;
             }
-            else
-            {
-                throw new ArgumentException("ОШИБКА! Вес вершины должен быть представлен как целое число.");
-            }
+
+            TextBox.Text = Weight.ToString();
+            return false;
         }
 
         /// <summary> Установить элемент вершины </summary>
         private void Set()
         {
             var polyline = ConfiguratorViewElement.GetPolylineEdgeElement();
+
+            var stackPanel = ConfiguratorViewElement.GetStackPanelEdgeElement();
+
             var textBox = ConfiguratorViewElement.GetTextBoxEdgeElement();
             textBox.Text = Weight.ToString();
 
+            stackPanel.Children.Add(textBox);
+
             Polyline = polyline;
+            StackPanel = stackPanel;
             TextBox = textBox;
         }
 
@@ -86,14 +93,14 @@ namespace algLab_5.Views.Graph
             canvas.Children.Add(Polyline);
             Panel.SetZIndex(Polyline, 1);
 
-            canvas.Children.Add(TextBox);
-            Panel.SetZIndex(TextBox, 2);
+            canvas.Children.Add(StackPanel);
+            Panel.SetZIndex(StackPanel, 2);
 
             Polyline.Points.Clear();
             PointCollection = ConfiguratorViewElement.GetPointCollectionForConnection(point, InitialVertexElement.Grid, ConnectionType.Default);
             Polyline.Points = PointCollection;
 
-            TextBox.SetCoordinatesForTextBox(Polyline.GetDirectPolyLineCenter());
+            StackPanel.SetCoordinatesForStackPanel(Polyline.GetDirectPolyLineCenter());
         }
 
         /// <summary> Перерисовать ребро от начальной вершины до заданной </summary>
@@ -104,7 +111,7 @@ namespace algLab_5.Views.Graph
             PointCollection = ConfiguratorViewElement.GetPointCollectionForConnection(point, InitialVertexElement.Grid, ConnectionType.Default);
             Polyline.Points = PointCollection;
 
-            TextBox.SetCoordinatesForTextBox(Polyline.GetDirectPolyLineCenter());
+            StackPanel.SetCoordinatesForStackPanel(Polyline.GetDirectPolyLineCenter());
         }
 
         /// <summary> Перерисовать ребро от точки до точки </summary>
@@ -115,7 +122,7 @@ namespace algLab_5.Views.Graph
             Polyline.Points.Clear();
             PointCollection = ConfiguratorViewElement.GetPointCollectionForConnection(point1, point2, ConnectionType.Default);
             Polyline.Points = PointCollection;
-            TextBox.SetCoordinatesForTextBox(Polyline.GetDirectPolyLineCenter());
+            StackPanel.SetCoordinatesForStackPanel(Polyline.GetDirectPolyLineCenter());
         }
 
         /// <summary> Перерисовывает ребра с указанным сдвигом </summary>
@@ -132,7 +139,7 @@ namespace algLab_5.Views.Graph
             }
 
             Polyline.Points = PointCollection;
-            TextBox.SetCoordinatesForTextBox(Polyline.GetDirectPolyLineCenter());
+            StackPanel.SetCoordinatesForStackPanel(Polyline.GetDirectPolyLineCenter());
         }
 
         /// <summary> Рисовать ребро от начальной конечной вершины </summary>
@@ -143,7 +150,7 @@ namespace algLab_5.Views.Graph
             {
                 PointCollection = ConfiguratorViewElement.GetPointCollectionForConnection(InitialVertexElement.Grid, DestinationVertexElement.Grid, ConnectionType.Default);
                 Polyline.Points = PointCollection;
-                TextBox.SetCoordinatesForTextBox(Polyline.GetDirectPolyLineCenter());
+                StackPanel.SetCoordinatesForStackPanel(Polyline.GetDirectPolyLineCenter());
             }
         }
         /// <summary> Рисовать ребро на заданном холсте </summary>
@@ -156,7 +163,7 @@ namespace algLab_5.Views.Graph
             {
                 PointCollection = ConfiguratorViewElement.GetPointCollectionForConnection(InitialVertexElement.Grid, DestinationVertexElement.Grid, ConnectionType.Default);
                 Polyline.Points = PointCollection;
-                TextBox.SetCoordinatesForTextBox(Polyline.GetDirectPolyLineCenter());
+                StackPanel.SetCoordinatesForStackPanel(Polyline.GetDirectPolyLineCenter());
             }
         }
 

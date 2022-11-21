@@ -33,16 +33,15 @@ namespace algLab_5.Models.Graph
 
         /// <summary> Установить вес ребра </summary>
         /// <param name="weight"> Вес </param>
-        public virtual void SetWeight(string weight)
+        public virtual bool SetWeight(string weight)
         {
             if (int.TryParse(weight, out var intWeight))
             {
                 Weight = intWeight;
+                return true;
             }
-            else
-            {
-                throw new ArgumentException("ОШИБКА! Вес вершины должен быть представлен как целое число.");
-            }
+
+            return false;
         }
 
         public override bool Equals(object obj)
