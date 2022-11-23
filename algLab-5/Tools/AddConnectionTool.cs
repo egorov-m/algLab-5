@@ -70,6 +70,8 @@ namespace algLab_5.Tools
                             _edgeElement.InitialVertexElement.EdgesList.Add(_edgeElement);
                             _edgeElement.DestinationVertexElement.EdgesList.Add(_edgeElement);
 
+                            _args.Logger.Info($"Ребро между вершинами \"{_edgeElement.InitialVertexElement.TextBox.Text}\" и \"{_edgeElement.DestinationVertexElement.TextBox.Text}\" добавлено.");
+
                             _args.SavedChange(StatusSaved.Unsaved);
                             _isProcess = false;
                             _args.MainWindow.DisableTool();

@@ -4,6 +4,7 @@ using algLab_5.Tools.Base;
 using System.Windows.Input;
 using algLab_5.Views.Graph;
 using System;
+using System.Xml.Linq;
 
 namespace algLab_5.Tools
 {
@@ -68,6 +69,7 @@ namespace algLab_5.Tools
                             throw new ArgumentException("ОШИБКА! Вершины графа должны отличаться.");
                         }
 
+                        _args.Logger.Info($"Вершина \"{_selectedVertexElement.TextBox.Text}\" успешно отредактирована.");
                     }
 
                     if (_selectedEdgeElement != null)
@@ -78,13 +80,13 @@ namespace algLab_5.Tools
                             throw new ArgumentException("ОШИБКА! Вес вершины должен быть представлен как целое число.");
                         }
 
+                        _args.Logger.Info($"Вес ребра \"{_selectedEdgeElement.TextBox.Text}\" успешно отредактирован.");
                     }
 
                     _args.SavedChange(StatusSaved.Unsaved);
                     _args.MainWindow.DisableTool();
                 }
             }
-            
         }
 
         public override void Unload()

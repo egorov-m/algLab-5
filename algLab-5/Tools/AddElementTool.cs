@@ -51,6 +51,7 @@ namespace algLab_5.Tools
             if (_element != null)
             {
                 _args.DataProvider.AddVertexElement(_element);
+                _args.Logger.Info($"Вершина \"{_element.TextBox.Text}\" добавлена и установлена на холст.");
             }
 
             _element = null;

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:algLab_5"
+        xmlns:services="clr-namespace:algLab_5.Services"
         mc:Ignorable="d"
         Title="Lab 5: Algorithms on graphs" Height="720" Width="1280">
     <Window.Resources>
@@ -133,8 +134,8 @@
                 <GridSplitter Grid.Row="1" ShowsPreview="True" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="#464646"/>
 
                 <Border Grid.Row="2" VerticalAlignment="Stretch" Background="#1f1f1f" BorderBrush="#464646" BorderThickness="2">
-                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                        <Grid VerticalAlignment="Center" Margin="3 0 3 0">
+                    <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <Grid DockPanel.Dock="Top" VerticalAlignment="Center" Margin="3 0 3 0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
@@ -142,8 +143,12 @@
                             <TextBlock Grid.Column="0" Foreground="#d6d6d6" Padding="0 0 3 0">Console</TextBlock>
                             <Separator Grid.Column="1" Background="#7160e8" VerticalAlignment="Center"/>
                         </Grid>
-                        <Separator Background="#464646"/>
-                    </StackPanel>
+                        <Separator DockPanel.Dock="Top" Background="#464646"/>
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" services:ScrollViewerExtensions.AlwaysScrollToEnd="True">
+                            <StackPanel x:Name="spConsoleContainer" Orientation="Vertical" Margin="3 0 0 3"/>
+                        </ScrollViewer>
+                        
+                    </DockPanel>
                 </Border>
 
             </Grid>

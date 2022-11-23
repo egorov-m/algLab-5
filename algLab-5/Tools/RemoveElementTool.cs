@@ -1,7 +1,8 @@
-﻿using algLab_5.Models;
+﻿using System.Collections.Generic;
+using algLab_5.Models;
 using algLab_5.Tools.Base;
-using System.Linq;
 using System.Windows.Input;
+using algLab_5.Views.Graph;
 using Colors = algLab_5.Views.Utils.Colors;
 
 namespace algLab_5.Tools
@@ -35,21 +36,31 @@ namespace algLab_5.Tools
             if (_countHoverVertexElement == 1)
             {
                 var element = HoverVertexElements[0];
-                var removableElements = _args.DataProvider.GetEdgeElementsData()
-                    .Where(edgeElement => edgeElement.InitialVertexElement == element || edgeElement.DestinationVertexElement == element).ToList();
-
                 var edgeElementsData = _args.DataProvider.GetEdgeElementsData();
-                foreach (var removableElement in removableElements)
+                var listForRemove = new List<EdgeElement>();
+                foreach (var removableEdge in element.EdgesList)
                 {
-                    removableElement.InitialVertexElement.EdgesList.Remove(removableElement);
-                    removableElement.DestinationVertexElement?.EdgesList.Remove(removableElement);
+                    if (removableEdge is EdgeElement removableEdgeElement)
+                    {
+                        removableEdgeElement.RemoveDraw(_args.Canvas);
+                        listForRemove.Add(removableEdgeElement);
 
-                    removableElement.RemoveDraw(_args.Canvas);
-                    edgeElementsData.Remove(removableElement);
+                        _args.Logger.Info($"Ребро \"{removableEdgeElement.TextBox.Text}\" входящее/исходящее в/из вершины \"{element.TextBox.Text}\" успешно удалено.");
+                    }
                 }
+
+                listForRemove.ForEach(x =>
+                {
+                    x.InitialVertexElement.EdgesList.Remove(x);
+                    x.DestinationVertexElement?.EdgesList.Remove(x);
+                    edgeElementsData.Remove(x);
+                });
 
                 element.RemoveDraw(_args.Canvas);
                 _args.DataProvider.GetVertexElementsData().Remove(element);
+
+                _args.Logger.Info($"Вершина \"{element.TextBox.Text}\" успешно удалена.");
+
                 _args.SavedChange(StatusSaved.Unsaved);
                 _args.MainWindow.DisableTool();
                 return;
@@ -64,6 +75,9 @@ namespace algLab_5.Tools
 
                 element.RemoveDraw(_args.Canvas);
                 _args.DataProvider.GetEdgeElementsData().Remove(element);
+
+                _args.Logger.Info($"Ребро \"{element.TextBox.Text}\" между вершинами \"{element.InitialVertexElement.TextBox.Text}\" и \"{element.DestinationVertexElement?.TextBox.Text}\" успешно удалено.");
+
                 _args.SavedChange(StatusSaved.Unsaved);
                 _args.MainWindow.DisableTool();
             }
