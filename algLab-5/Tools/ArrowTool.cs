@@ -40,6 +40,7 @@ namespace algLab_5.Tools
         /// <param name="e"> Само событие </param>
         private void OnMouseUp(object sender, MouseEventArgs e)
         {
+            Keyboard.ClearFocus();
             _selectedElement = null;
         }
 

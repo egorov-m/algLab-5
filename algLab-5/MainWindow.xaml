@@ -163,13 +163,13 @@
                     <StackPanel Orientation="Vertical">
                         <TabControl Background="#464646" BorderBrush="#464646">
                             <TabItem Header="Задание 1" Foreground="#d6d6d6">
-                                <StackPanel>
+                                <StackPanel x:Name="controlPanelTask1">
                                     <TextBlock Text="Демонстрация работы обхода взвешенного графа в ширину и глубину." TextWrapping="Wrap"></TextBlock>
                                     <Separator BorderThickness="1"/>
-                                    <StackPanel Orientation="Horizontal">
-                                        <RadioButton GroupName="task1" Content="Обход в ширину." Foreground="#d6d6d6" IsChecked="True"/>
-                                        <Separator Width="11" Background="Transparent"/>
-                                        <RadioButton GroupName="task1" Content="Обход в глубину." Foreground="#d6d6d6" IsChecked="False"/>
+                                    <StackPanel Orientation="Vertical">
+                                        <Button x:Name="btnBfs" Content="Обход в ширину" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
+                                        <Separator Background="Transparent"/>
+                                        <Button x:Name="btnDfs" Content="Обход в глубину" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
                                     </StackPanel>
                                 </StackPanel>
                             </TabItem>
@@ -178,6 +178,9 @@
                                 <StackPanel>
                                     <TextBlock Text="Демонстрация работы транспортной сети, реализация алгоритма поиска максимального потока через транспортную сеть." TextWrapping="Wrap"></TextBlock>
                                     <Separator BorderThickness="1"/>
+                                    <StackPanel Orientation="Vertical">
+                                        <Button x:Name="btnMaxFlow" Content="Искать максимальный поток" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
+                                    </StackPanel>
                                 </StackPanel>
                             </TabItem>
 
@@ -185,15 +188,47 @@
                                 <StackPanel>
                                     <TextBlock Text="Демонстрация работы алгоритма построения минимального остовного дерева." TextWrapping="Wrap"></TextBlock>
                                     <Separator BorderThickness="1"/>
+                                    <StackPanel Orientation="Vertical">
+                                        <Button x:Name="btnMinSpanningTree" Content="Построить минимальное остовное дерево" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
+                                    </StackPanel>
                                 </StackPanel>
                             </TabItem>
                             <TabItem Header="Задание 4" Background="#464646" Foreground="#d6d6d6">
                                 <StackPanel>
                                     <TextBlock Text="Реализация алгоритма поиска кратчайшего пути между двумя вершинами графа." TextWrapping="Wrap"></TextBlock>
                                     <Separator BorderThickness="1"/>
+                                    <StackPanel Orientation="Vertical">
+                                        <Button x:Name="btnShortestWay" Content="Искать кротчайший пути" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
+                                    </StackPanel>
                                 </StackPanel>
                             </TabItem>
+
                         </TabControl>
+
+                        <Separator Background="#464646" BorderThickness="1"/>
+
+                        <Border Background="#464646" BorderThickness="0" Padding="3 3 3 3">
+                            <DockPanel>
+                                <Grid DockPanel.Dock="Top" HorizontalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="10"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="10"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Button x:Name="btnAlgStepBack" IsEnabled="False" Width="60"  Grid.Column="0" Content="Back" Height="20" Background="#424242" Foreground="#d6d6d6" Padding="5 0 5 0"/>
+                                    <Button x:Name="btnAlgStepMode" Grid.Column="2" Width="75" Content="Automatic" Height="20" Background="#424242" Foreground="#d6d6d6" Padding="5 0 5 0"/>
+                                    <Button x:Name="btnAlgStepForward" IsEnabled="False" Width="60" Grid.Column="4" Content="Forward" Height="20" Background="#424242" Foreground="#d6d6d6" Padding="5 0 5 0"/>
+                                </Grid>
+                                <Separator DockPanel.Dock="Top" Background="Transparent"/>
+                                <DockPanel DockPanel.Dock="Bottom">
+                                    <TextBlock DockPanel.Dock="Left" Text="Delay (in milliseconds):" Foreground="#d6d6d6"></TextBlock>
+                                    <Separator DockPanel.Dock="Left" Width="5" Background="Transparent"/>
+                                    <TextBox x:Name="tbDelayAlgStep" DockPanel.Dock="Right" Text="1000" Background="#424242" Foreground="#d6d6d6"/>
+                                </DockPanel>
+                            </DockPanel>
+                        </Border>
                     </StackPanel>
                 </StackPanel>
             </Border>
