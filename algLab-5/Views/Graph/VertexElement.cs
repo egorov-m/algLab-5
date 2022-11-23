@@ -35,6 +35,11 @@ namespace algLab_5.Views.Graph
             Set();
         }
 
+        public VertexElement(int id, string data, IList<Edge> edgesList) : base(id, data, edgesList)
+        {
+            Set();
+        }
+
         /// <summary> Установить элемент вершины </summary>
         private void Set()
         {
@@ -60,6 +65,8 @@ namespace algLab_5.Views.Graph
         /// <param name="graphElements"> Коллекция элементов вершин текущего графа </param>
         public override bool SetData(string data, IEnumerable<Vertex> graphElements)
         {
+            if (Data == data) return true;
+
             var count = graphElements.Count(graphElement => graphElement.Data == data);
             if (count > 0)
             {

@@ -41,6 +41,9 @@ namespace algLab_5.Tools
                 var edgeElementsData = _args.DataProvider.GetEdgeElementsData();
                 foreach (var removableElement in removableElements)
                 {
+                    removableElement.InitialVertexElement.EdgesList.Remove(removableElement);
+                    removableElement.DestinationVertexElement?.EdgesList.Remove(removableElement);
+
                     removableElement.RemoveDraw(_args.Canvas);
                     edgeElementsData.Remove(removableElement);
                 }
@@ -55,11 +58,14 @@ namespace algLab_5.Tools
             if (_countHoverEdgeElement == 1)
             {
                 var element = HoverEdgeElements[0];
+
+                element.InitialVertexElement.EdgesList.Remove(element);
+                element.DestinationVertexElement?.EdgesList.Remove(element);
+
                 element.RemoveDraw(_args.Canvas);
                 _args.DataProvider.GetEdgeElementsData().Remove(element);
                 _args.SavedChange(StatusSaved.Unsaved);
                 _args.MainWindow.DisableTool();
-                return;
             }
         }
 

@@ -141,8 +141,6 @@ namespace algLab_5.Tools.Base
                 };
                 HoverEdgeElements[i].Polyline.Effect = effect;
                 HoverEdgeElements[i].Polyline.UseLayoutRounding = true;
-                //HoverEdgeElements[i].TextBox.Effect = effect;
-                //HoverEdgeElements[i].TextBox.UseLayoutRounding = true;
             }
         }
 

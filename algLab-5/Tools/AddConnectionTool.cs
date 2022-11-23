@@ -8,6 +8,7 @@ namespace algLab_5.Tools
 {
     public class AddConnectionTool : Tool
     {
+        /// <summary> Элемент добавляемого ребра графа </summary>
         private EdgeElement? _edgeElement;
 
         /// <summary> В процессе ли добавление связи </summary>
@@ -66,9 +67,11 @@ namespace algLab_5.Tools
                                 throw new ArgumentException("ОШИБКА! Нельзя добавить уже существующее ребро.");
                             }
 
+                            _edgeElement.InitialVertexElement.EdgesList.Add(_edgeElement);
+                            _edgeElement.DestinationVertexElement.EdgesList.Add(_edgeElement);
+
                             _args.SavedChange(StatusSaved.Unsaved);
                             _isProcess = false;
-                            _args.DataProvider.AddEdgeElement(_edgeElement);
                             _args.MainWindow.DisableTool();
                         }
                     }
@@ -89,7 +92,7 @@ namespace algLab_5.Tools
         /// <summary> Разгрузка обработчиков события </summary>
         public override void Unload()
         {
-            if (_isProcess) _edgeElement.RemoveDraw(_args.Canvas);
+            if (_isProcess) _edgeElement?.RemoveDraw(_args.Canvas);
             _args.CanvasBorder.MouseMove -= OnMouseMove;
             _args.CanvasBorder.MouseDown -= OnMouseDown;
             Dispose();

@@ -172,7 +172,7 @@ namespace algLab_5.Views.Graph
         public void RemoveDraw(Canvas canvas)
         {
             canvas.Children.Remove(Polyline);
-            canvas.Children.Remove(TextBox);
+            canvas.Children.Remove(StackPanel);
         }
     }
 }

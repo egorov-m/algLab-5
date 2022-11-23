@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace algLab_5.Models.Graph
@@ -9,15 +7,26 @@ namespace algLab_5.Models.Graph
     public class Vertex
     {
         /// <summary> Идентификатор вершины </summary>
-        public int Id { get; set; }
+        public int Id { get; private set; }
 
         /// <summary> Данные вершины </summary>
         public string Data { get; set; }
+
+        /// <summary> Список содержащий все рёбра вершины </summary>
+        public IList<Edge> EdgesList { get; protected set; }
 
         public Vertex(int id, string data)
         {
             Id = id;
             Data = data;
+            EdgesList = new List<Edge>();
+        }
+
+        public Vertex(int id, string data, IList<Edge> edgesList)
+        {
+            Id = id;
+            Data = data;
+            EdgesList = edgesList;
         }
 
         /// <summary> Установить данные вершины </summary>

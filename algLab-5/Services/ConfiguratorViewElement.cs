@@ -2,7 +2,6 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Colors = algLab_5.Views.Utils.Colors;
@@ -13,21 +12,8 @@ namespace algLab_5.Services
     /// <summary> Класс для получения настроенных визуальных элементов </summary>
     public static class ConfiguratorViewElement
     {
+        /// <summary> Индекс эллипса на сетки элемента вершины </summary>
         public static int IndexEllipseOnGridVertexElement = 0;
-
-        //private static readonly ContextMenu ContextMenu;
-        //public static readonly MenuItem MenuItemDeleteElement;
-
-        //static ConfiguratorViewElement()
-        //{
-        //    ContextMenu = new ContextMenu()
-        //    {
-        //        Background = new SolidColorBrush(Colors.ContextMenuItemBackgroundColor),
-        //        BorderThickness = new Thickness(0, 0, 0, 0),
-        //    };
-        //    MenuItemDeleteElement = GetMenuItem("Delete element");
-        //    ContextMenu.Items.Add(MenuItemDeleteElement);
-        //}
 
         /// <summary> Получить элемент контекстного меню </summary>
         /// <param name="text"> Текст заголовка </param>
@@ -68,8 +54,6 @@ namespace algLab_5.Services
         {
             var stackPanel = new StackPanel()
             {
-                //Height = Params.SizeVertexElement,
-                //Width = Params.SizeVertexElement,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
             };
@@ -202,7 +186,6 @@ namespace algLab_5.Services
         {
             var textBox = new TextBox()
             {
-                //IsReadOnly = true,
                 IsEnabled = false,
                 CaretBrush = new SolidColorBrush(Colors.EdgeElementTextColor),
                 Background = Brushes.Transparent,
@@ -211,8 +194,6 @@ namespace algLab_5.Services
                 FontSize = Params.FontSizeEdgeElement,
                 FontWeight = FontWeight.FromOpenTypeWeight(Params.FontWeightEdgeElement),
                 Foreground = new SolidColorBrush(Colors.EdgeElementTextColor),
-                //SelectionBrush = Brushes.Transparent,
-                //Cursor = Cursors.Arrow,
             };
 
             return textBox;
