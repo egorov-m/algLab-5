@@ -16,6 +16,7 @@ namespace algLab_5
     {
         private readonly StatusBarUpdater _statusBarUpdater;
         private readonly DataProvider _dataProvider;
+        private readonly ControlPanelProvider _controlPanelProvider;
         private readonly ConsoleProvider _consoleProvider;
         private readonly Logger _logger;
         private readonly ToolArgs _toolArgs;
@@ -31,6 +32,8 @@ namespace algLab_5
             _dataProvider = new DataProvider();
             _consoleProvider = new ConsoleProvider(spConsoleContainer);
             _logger = Logger.GetLogger("loggerGraph", Level.Info, new List<IMessageHandler>() {new ConsoleHandler(_consoleProvider), new FileHandler()});
+
+            _controlPanelProvider = new ControlPanelProvider(btnAlgDemoMode, btnAlgStepBack, btnAlgStepForward, tbDelayAlgStep);
 
             _toolArgs = new ToolArgs(this, Canvas, CanvasBorder, _statusBarUpdater, _dataProvider, _logger, OnChangeStatusSaved);
 
