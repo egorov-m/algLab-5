@@ -1,9 +1,17 @@
-﻿using System;
+﻿using algLab_5.Views;
+using System;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace algLab_5.Models.Graph
 {
     /// <summary> Класс ребра графа </summary>
-    public class Edge : IComparable
+    public abstract class Edge : 
+        IComparable,
+        IDraw,
+        IDrawLine,
+        IRemoveDraw,
+        IVisited
     {
         /// <summary> Откуда </summary>
         public int InitialVertexId { get; set; }
@@ -14,13 +22,19 @@ namespace algLab_5.Models.Graph
         /// <summary> Цена ребра </summary>
         public int Weight { get; set; }
 
-        public Edge(int initialVertexId, int weight)
+        /// <summary> Было ли посещено ребро графа </summary>
+        protected bool _isVisited;
+
+        /// <summary> Было ли посещено ребро графа </summary>
+        public bool IsVisited => _isVisited;
+
+        protected Edge(int initialVertexId, int weight)
         {
             InitialVertexId = initialVertexId;
             Weight = weight;
         }
 
-        public Edge(int initialVertexId, int destinationVertexId, int weight)
+        protected Edge(int initialVertexId, int destinationVertexId, int weight)
         {
             InitialVertexId = initialVertexId;
             DestinationVertexId = destinationVertexId;
@@ -43,6 +57,20 @@ namespace algLab_5.Models.Graph
 
             return false;
         }
+
+        /// <summary> Установить ребро как посещённое </summary>
+        public virtual void SetVisited() => _isVisited = true;
+
+        /// <summary> Установить ребро как НЕ посещённое </summary>
+        public virtual void SetNoVisited() => _isVisited = false;
+
+        public abstract void Draw(Canvas canvas, Point point);
+        public abstract void Draw(Point point);
+        public abstract void Draw(Point point1, Point point2);
+        public abstract void Draw(double diffX, double diffY);
+        public abstract void Draw();
+        public abstract void Draw(Canvas canvas);
+        public abstract void RemoveDraw(Canvas canvas);
 
         public override bool Equals(object obj)
         {

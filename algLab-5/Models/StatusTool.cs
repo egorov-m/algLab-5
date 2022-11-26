@@ -7,6 +7,9 @@
         NewEdge,
         SelectingVertex,
         RemoveElement,
-        EditData
+        EditData,
+
+        AlgBfs,
+        AlgDfs
     }
 }

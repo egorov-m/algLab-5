@@ -6,12 +6,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Shapes;
+using Colors = algLab_5.Views.Utils.Colors;
 
 namespace algLab_5.Views.Graph
 {
     /// <summary> Элемент вершины графа </summary>
-    public class VertexElement : Vertex
+    public class VertexElement : 
+        Vertex, 
+        IDraw, 
+        IRemoveDraw,
+        IVisited
     {
         /// <summary> Позиция центра вершины на холсте </summary>
         public Point Position { get; set; }
@@ -78,7 +84,19 @@ namespace algLab_5.Views.Graph
             return true;
         }
 
-        public void Draw(Canvas canvas, int canvasHeight, int canvasWidth)
+        public override async void SetVisited()
+        {
+            _isVisited = true;
+            _ellipse.Fill = new SolidColorBrush(Colors.VisitedElementColor);
+        }
+
+        public override void SetNoVisited()
+        {
+            _isVisited = false;
+            _ellipse.Fill = new SolidColorBrush(Colors.VertexElementInnerColor);
+        }
+
+        public override void Draw(Canvas canvas, int canvasHeight, int canvasWidth)
         {
             BoundWithinCanvas(canvasHeight, canvasWidth);
             Draw(canvas);
@@ -87,7 +105,7 @@ namespace algLab_5.Views.Graph
         /// <summary> Рисовать вершину в заданной точке на заданном холсте </summary>
         /// <param name="canvas"> Холст </param>
         /// <param name="point"> Точка </param>
-        public void Draw(Canvas canvas, Point point)
+        public override void Draw(Canvas canvas, Point point)
         {
             Position = point;
             Draw(canvas);
@@ -95,7 +113,7 @@ namespace algLab_5.Views.Graph
 
         /// <summary> Переместить вершину в новую точку </summary>
         /// <param name="point"> Точка </param>
-        public void Draw(Point point)
+        public override void Draw(Point point)
         {
             Position = point;
             Grid.SetCenterEllipseOnGrid(Position);
@@ -104,7 +122,7 @@ namespace algLab_5.Views.Graph
         /// <summary> Перерисовывает вершину в новую точку на указанный сдвиг </summary>
         /// <param name="diffX"> Разница по оси X </param>
         /// <param name="diffY"> Разница по оси Y </param>
-        public void Draw(double diffX, double diffY)
+        public override void Draw(double diffX, double diffY)
         {
             var newPosition = Position;
             newPosition.X += diffX;
@@ -115,7 +133,7 @@ namespace algLab_5.Views.Graph
 
         /// <summary> Отобразить вершину на холсте </summary>
         /// <param name="canvas"> Холст </param>
-        private void Draw(Canvas canvas)
+        public override void Draw(Canvas canvas)
         {
             canvas.Children.Add(Grid);
             Panel.SetZIndex(Grid, 5);
@@ -129,7 +147,7 @@ namespace algLab_5.Views.Graph
                 Math.Max(radius, Math.Min(canvasHeight - radius, Position.Y)));
         }
 
-        public void RemoveDraw(Canvas canvas)
+        public override void RemoveDraw(Canvas canvas)
         {
             canvas.Children.Remove(Grid);
         }

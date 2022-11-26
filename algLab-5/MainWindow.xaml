@@ -169,7 +169,7 @@
                                     <StackPanel Orientation="Vertical">
                                         <Button x:Name="btnBfs" Content="Обход в ширину" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
                                         <Separator Background="Transparent"/>
-                                        <Button x:Name="btnDfs" Content="Обход в глубину" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
+                                        <Button x:Name="btnDfs" Click="BtnAlgDfsOnClick" Content="Обход в глубину" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
                                     </StackPanel>
                                 </StackPanel>
                             </TabItem>
@@ -217,7 +217,7 @@
                                         <ColumnDefinition Width="10"></ColumnDefinition>
                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
-                                    <Button x:Name="btnAlgStepBack" IsEnabled="False" Width="60"  Grid.Column="0" Content="Back" Height="20" Background="#424242" Foreground="#d6d6d6" Padding="5 0 5 0"/>
+                                    <Button x:Name="btnAlgReset" Width="60"  Grid.Column="0" Content="Reset" Height="30" Background="#424242" Foreground="#d6d6d6" Padding="5 0 5 0"/>
                                     <Button x:Name="btnAlgDemoMode" Grid.Column="2" Width="75" Height="30" Background="#424242" Foreground="#d6d6d6" Padding="5 0 5 0">
                                         <Button.Content>
                                             <StackPanel>
@@ -226,7 +226,7 @@
                                             </StackPanel>
                                         </Button.Content>
                                     </Button>
-                                    <Button x:Name="btnAlgStepForward" IsEnabled="False" Width="60" Grid.Column="4" Content="Forward" Height="20" Background="#424242" Foreground="#d6d6d6" Padding="5 0 5 0"/>
+                                    <Button x:Name="btnAlgStepForward" IsEnabled="False" Width="60" Grid.Column="4" Content="Forward" Height="30" Background="#424242" Foreground="#d6d6d6" Padding="5 0 5 0"/>
                                 </Grid>
                                 <Separator DockPanel.Dock="Top" Background="Transparent"/>
                                 <DockPanel DockPanel.Dock="Bottom">

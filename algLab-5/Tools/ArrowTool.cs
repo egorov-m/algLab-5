@@ -11,6 +11,7 @@ namespace algLab_5.Tools
         /// <summary> Выбранный элемент </summary>
         private VertexElement? _selectedElement;
 
+        /// <summary> Текущее положение курсора на холсте </summary>
         private Point _currentCursorPosition;
 
         public ArrowTool(ToolArgs args) : base(args)

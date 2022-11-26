@@ -29,7 +29,6 @@ namespace algLab_5.Data
         /// <param name="path"> Путь к файлу </param>
         /// <param name="workingDirectory"> Рабочая директория </param>
         /// <param name="formatDataGraph"> Тип файла </param>
-        /// <param name="shapesRepository"> Репозиторий форм </param>
         /// <param name="canvas"> Холст </param>
         public DataProvider(string path, string? workingDirectory, FormatDataGraph formatDataGraph, Panel canvas)
         {

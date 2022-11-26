@@ -5,11 +5,17 @@ using System.Windows.Shapes;
 using algLab_5.Models;
 using algLab_5.Models.Graph;
 using algLab_5.Services;
+using Colors = algLab_5.Views.Utils.Colors;
 
 namespace algLab_5.Views.Graph
 {
     /// <summary> Элемент ребра графа </summary>
-    public class EdgeElement : Edge
+    public class EdgeElement : 
+        Edge, 
+        IDraw, 
+        IDrawLine, 
+        IRemoveDraw,
+        IVisited
     {
         #region Составные элементы
 
@@ -85,10 +91,22 @@ namespace algLab_5.Views.Graph
             TextBox = textBox;
         }
 
+        public override void SetVisited()
+        {
+            _isVisited = true;
+            Polyline.Stroke = new SolidColorBrush(Colors.VisitedElementColor);
+        }
+
+        public override void SetNoVisited()
+        {
+            _isVisited = false;
+            Polyline.Stroke = new SolidColorBrush(Colors.EdgeElementInnerColor);
+        }
+
         /// <summary> Рисовать ребро от начальной вершины до заданной точки на заданном холсте </summary>
         /// <param name="canvas"> Холст </param>
         /// <param name="point"> Точка </param>
-        public void Draw(Canvas canvas, Point point)
+        public override void Draw(Canvas canvas, Point point)
         {
             canvas.Children.Add(Polyline);
             Panel.SetZIndex(Polyline, 1);
@@ -105,7 +123,7 @@ namespace algLab_5.Views.Graph
 
         /// <summary> Перерисовать ребро от начальной вершины до заданной </summary>
         /// <param name="point"> Точка </param>
-        public void Draw(Point point)
+        public override void Draw(Point point)
         {
             Polyline.Points.Clear();
             PointCollection = ConfiguratorViewElement.GetPointCollectionForConnection(point, InitialVertexElement.Grid, ConnectionType.Default);
@@ -117,7 +135,7 @@ namespace algLab_5.Views.Graph
         /// <summary> Перерисовать ребро от точки до точки </summary>
         /// <param name="point1"> Точка 1 </param>
         /// <param name="point2"> Точка 2 </param>
-        public void Draw(Point point1, Point point2)
+        public override void Draw(Point point1, Point point2)
         {
             Polyline.Points.Clear();
             PointCollection = ConfiguratorViewElement.GetPointCollectionForConnection(point1, point2, ConnectionType.Default);
@@ -128,7 +146,7 @@ namespace algLab_5.Views.Graph
         /// <summary> Перерисовывает ребра с указанным сдвигом </summary>
         /// <param name="diffX"> Разница по оси X </param>
         /// <param name="diffY"> Разница по оси Y </param>
-        public void Draw(double diffX, double diffY)
+        public override void Draw(double diffX, double diffY)
         {
             for (var i = 0; i < PointCollection.Count; i++)
             {
@@ -143,7 +161,7 @@ namespace algLab_5.Views.Graph
         }
 
         /// <summary> Рисовать ребро от начальной конечной вершины </summary>
-        public void Draw()
+        public override void Draw()
         {
             Polyline.Points.Clear();
             if (DestinationVertexElement != null)
@@ -155,7 +173,7 @@ namespace algLab_5.Views.Graph
         }
         /// <summary> Рисовать ребро на заданном холсте </summary>
         /// <param name="canvas"> Холст </param>
-        public void Draw(Canvas canvas)
+        public override void Draw(Canvas canvas)
         {
             canvas.Children.Add(Polyline);
             Panel.SetZIndex(Polyline, 1);
@@ -169,7 +187,7 @@ namespace algLab_5.Views.Graph
 
         /// <summary> Удалить ребро с холста </summary>
         /// <param name="canvas"> Холст </param>
-        public void RemoveDraw(Canvas canvas)
+        public override void RemoveDraw(Canvas canvas)
         {
             canvas.Children.Remove(Polyline);
             canvas.Children.Remove(StackPanel);

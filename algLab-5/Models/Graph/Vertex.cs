@@ -1,10 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using algLab_5.Views;
 
 namespace algLab_5.Models.Graph
 {
     /// <summary> Класс вершины графа </summary>
-    public class Vertex
+    public abstract class Vertex : 
+        IDraw, 
+        IRemoveDraw,
+        IVisited
     {
         /// <summary> Идентификатор вершины </summary>
         public int Id { get; private set; }
@@ -15,14 +21,20 @@ namespace algLab_5.Models.Graph
         /// <summary> Список содержащий все рёбра вершины </summary>
         public IList<Edge> EdgesList { get; protected set; }
 
-        public Vertex(int id, string data)
+        /// <summary> Была ли посещена вершина графа </summary>
+        protected bool _isVisited;
+
+        /// <summary> Была ли посещена вершина графа </summary>
+        public bool IsVisited => _isVisited;
+
+        protected Vertex(int id, string data)
         {
             Id = id;
             Data = data;
             EdgesList = new List<Edge>();
         }
 
-        public Vertex(int id, string data, IList<Edge> edgesList)
+        protected Vertex(int id, string data, IList<Edge> edgesList)
         {
             Id = id;
             Data = data;
@@ -41,10 +53,29 @@ namespace algLab_5.Models.Graph
             return true;
         }
 
-        /// <summary> Возвращает True, если данный объект является вершиной графа и имеет тот же id </summary>
-        /// <param name="obj"> Объект проверки </param>
-        public override bool Equals(object obj) => obj is Vertex && Id == ((Vertex)obj).Id;
+        /// <summary> Установить вершину как посещённую </summary>
+        public virtual void SetVisited() => _isVisited = true;
+
+        /// <summary> Установить вершину как НЕ посещённую </summary>
+        public virtual void SetNoVisited() => _isVisited = false;
+
+        public abstract void Draw(Canvas canvas, int canvasHeight, int canvasWidth);
+        public abstract void Draw(Canvas canvas, Point point);
+        public abstract void Draw(Point point);
+        public abstract void Draw(double diffX, double diffY);
+        public abstract void Draw(Canvas canvas);
+        public abstract void RemoveDraw(Canvas canvas);
 
         public override string ToString() => $"id: {Id}\nData: {Data}";
+
+        void IVisited.SetVisited()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        void IVisited.SetNoVisited()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

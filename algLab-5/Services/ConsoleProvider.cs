@@ -48,15 +48,18 @@ namespace algLab_5.Services
         /// <param name="text"> Текст для печати </param>
         public void ConsoleWriteLine(string text)
         {
-            var textBlock = new TextBlock()
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                Text = text,
-                Foreground = new SolidColorBrush(TextColor),
-                FontFamily = TextFontFamily,
-                FontSize = TextFontSize,
-            };
+                var textBlock = new TextBlock()
+                {
+                    Text = text,
+                    Foreground = new SolidColorBrush(TextColor),
+                    FontFamily = TextFontFamily,
+                    FontSize = TextFontSize,
+                };
 
-            _consoleContainer.Children.Add(textBlock);
+                _consoleContainer.Children.Add(textBlock);
+            });
         }
     }
 }

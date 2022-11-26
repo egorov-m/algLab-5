@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -8,21 +9,21 @@ using System.Windows.Input;
 namespace algLab_5.Services
 {
     /// <summary> Класс поставщик панели управления </summary>
-    public class ControlPanelProvider
+    public class ControlPanelProvider : IDisposable
     {
         /// <summary> Режим демонстрации работы алгоритма </summary>
-        private DemoMode _demoMode;
+        public static DemoMode DemonstrationMode { get; private set; }
 
         /// <summary> Задержка в миллисекундах демонстрации работы алгоритма в автоматическом режиме </summary>
-        private static int _delay;
+        public static int Delay { get; private set; }
 
         /// <summary> Выполнять ли шаг вперёд </summary>
-        private static bool _isStepForward;
+        public static bool IsStepForward { get; set; }
 
         /// <summary> Выполнять ли шаг назад </summary>
-        private static bool _isStepBack;
+        public static bool IsReset;
 
-        private enum DemoMode
+        public enum DemoMode
         {
             Automatic,
             Capture
@@ -36,7 +37,7 @@ namespace algLab_5.Services
         private readonly TextBlock _tbBtnDemoModeSubtitle;
 
         /// <summary> Кнопка шаг назад демонстрации </summary>
-        private readonly Button _btnStepBack;
+        private readonly Button _btnReset;
         /// <summary> Кнопка шаг вперёд демонстрации </summary>
         private readonly Button _btnStepForward;
         /// <summary> Текстовое поля задержки демонстрации </summary>
@@ -45,7 +46,7 @@ namespace algLab_5.Services
         /// <summary> Регулярное выражения для проверки соответствия вводимой задержки </summary>
         private readonly Regex _regexDelay = new (@"[0-9]+");
 
-        public ControlPanelProvider(Button btnDemoMode, Button btnStepBack, Button btnStepForward, TextBox textBoxDelay)
+        public ControlPanelProvider(Button btnDemoMode, Button btnReset, Button btnStepForward, TextBox textBoxDelay)
         {
             _btnDemoMode    = btnDemoMode;
             if (_btnDemoMode.Content is StackPanel sp)
@@ -54,12 +55,12 @@ namespace algLab_5.Services
                 if (sp.Children[1] is TextBlock tb2) _tbBtnDemoModeSubtitle = tb2;
             }
 
-            _btnStepBack    = btnStepBack;
+            _btnReset    = btnReset;
             _btnStepForward = btnStepForward;
             _textBoxDelay        = textBoxDelay;
 
             _btnDemoMode.Click    += BtnChangeDemoModeOnClick;
-            _btnStepBack.Click    += BtnExecuteStepBackOnClick;
+            _btnReset.Click    += BtnExecuteResetOnClick;
             _btnStepForward.Click += BtnExecuteStepForwardOnClick;
 
             _textBoxDelay.PreviewTextInput += TextBoxDelayOnPreviewTextInput;
@@ -69,24 +70,46 @@ namespace algLab_5.Services
             SetDelay(500);
         }
 
+        /// <summary> Продолжить демонстрацию работы алгоритма в соответствии с режимом </summary>
+        public static void Continue(Logger.Logger? logger = null)
+        {
+            if (DemonstrationMode == DemoMode.Automatic)
+            {
+                logger?.Info($"Автоматически режим: пауза {Delay} ms.");
+                Thread.Sleep(Delay);
+            }
+            else
+            {
+                if (DemonstrationMode == DemoMode.Capture)
+                {
+                    logger?.Info("Ручной режим: ожидаем нажатия кнопки \"Forward\".");
+                    while (!IsStepForward)
+                    {
+                        if (DemonstrationMode == DemoMode.Automatic || IsReset) break;
+                    }
+                    IsStepForward = false;
+                }
+            }
+        }
+
         /// <summary> Установка режима демонстрации </summary>
         /// <param name="demoMode"> Режим демонстрации </param>
         private void SetDemoMode(DemoMode demoMode)
         {
-            _demoMode = demoMode;
+            DemonstrationMode = demoMode;
 
             _tbBtnDemoModeTitle.Text = demoMode.ToString("G");
             if (demoMode == DemoMode.Automatic)
             {
                 _tbBtnDemoModeSubtitle.Visibility = Visibility.Visible;
-                _tbBtnDemoModeSubtitle.Text = $"{_delay} ms";
-                _btnStepBack.IsEnabled    = false;
+                _tbBtnDemoModeSubtitle.Text = $"{Delay} ms";
+                //_btnReset.IsEnabled    = false;
                 _btnStepForward.IsEnabled = false;
             }
             else
             {
                 _tbBtnDemoModeSubtitle.Visibility = Visibility.Collapsed;
-                _btnStepBack.IsEnabled    = true;
+                //_btnReset.IsEnabled    = true;
                 _btnStepForward.IsEnabled = true;
             }
         }
@@ -95,8 +118,8 @@ namespace algLab_5.Services
         /// <param name="delay"> Задержка </param>
         private void SetDelay(int delay)
         {
-            _delay = delay;
-            var str = _delay.ToString(CultureInfo.InvariantCulture);
+            Delay = delay;
+            var str = Delay.ToString(CultureInfo.InvariantCulture);
             _textBoxDelay.Text = str;
             _tbBtnDemoModeSubtitle.Text = $"{str} ms";
         }
@@ -130,18 +153,29 @@ namespace algLab_5.Services
         /// <param name="e"></param>
         private void BtnChangeDemoModeOnClick(object sender, RoutedEventArgs e)
         {
-            if (_demoMode == DemoMode.Automatic) SetDemoMode(DemoMode.Capture);
-            else  if (_demoMode == DemoMode.Capture) SetDemoMode(DemoMode.Automatic);
+            if (DemonstrationMode == DemoMode.Automatic) SetDemoMode(DemoMode.Capture);
+            else  if (DemonstrationMode == DemoMode.Capture) SetDemoMode(DemoMode.Automatic);
         }
 
         /// <summary> Обработчик нажатия кнопки выполнения шага назад </summary>
         /// <param name="sender"> Кнопка </param>
         /// <param name="e"> Событие клика </param>
-        private void BtnExecuteStepBackOnClick(object sender, RoutedEventArgs e) => _isStepBack = true;
+        private void BtnExecuteResetOnClick(object sender, RoutedEventArgs e)
+        {
+            IsReset = true;
+            //_tool.Unload();
+        }
 
         /// <summary> Обработчик нажатия кнопки выполнения шага вперёд </summary>
         /// <param name="sender"> Кнопка </param>
         /// <param name="e"> Событие клика </param>
-        private void BtnExecuteStepForwardOnClick(object sender, RoutedEventArgs e) => _isStepForward = true;
+        private void BtnExecuteStepForwardOnClick(object sender, RoutedEventArgs e) => IsStepForward = true;
+
+        /// <summary> Выполнить сброс панели управления </summary>
+        public void Dispose()
+        {
+            IsStepForward = false;
+            IsReset = false;
+        }
     }
 }

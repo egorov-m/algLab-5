@@ -33,14 +33,14 @@ namespace algLab_5
             _consoleProvider = new ConsoleProvider(spConsoleContainer);
             _logger = Logger.GetLogger("loggerGraph", Level.Info, new List<IMessageHandler>() {new ConsoleHandler(_consoleProvider), new FileHandler()});
 
-            _controlPanelProvider = new ControlPanelProvider(btnAlgDemoMode, btnAlgStepBack, btnAlgStepForward, tbDelayAlgStep);
+            _controlPanelProvider = new ControlPanelProvider(btnAlgDemoMode, btnAlgReset, btnAlgStepForward, tbDelayAlgStep);
 
-            _toolArgs = new ToolArgs(this, Canvas, CanvasBorder, _statusBarUpdater, _dataProvider, _logger, OnChangeStatusSaved);
+            _toolArgs = new ToolArgs(this, Canvas, CanvasBorder, _statusBarUpdater, _dataProvider, _logger, _controlPanelProvider, OnChangeStatusSaved);
+
+            _currentTool = new ArrowTool(_toolArgs);
 
             ConsoleHandler.SetIsWriteTitle();
             _logger.Info("Программа успешно запущена!");
-
-            _currentTool = new ArrowTool(_toolArgs);
         }
 
         /// <summary> Изменения статуса сохранён ли проект </summary>
@@ -88,6 +88,16 @@ namespace algLab_5
             ConsoleHandler.SetIsEmptyLineBeforeTitle();
             _logger.Info("Выбран инструмент редактирования элемента графа.");
             _currentTool = new EditDataTool(_toolArgs);
+        }
+
+        private void BtnAlgDfsOnClick(object sender, RoutedEventArgs e)
+        {
+            _currentTool?.Unload();
+
+            ConsoleHandler.SetIsWriteTitle();
+            ConsoleHandler.SetIsEmptyLineBeforeTitle();
+            _logger.Info("Выбран инструмент демонстрации работы алгоритма (выбор одной вершины).");
+            _currentTool = new DemoAlgorithmsSingleChoiceTool(_toolArgs, StatusTool.AlgDfs);
         }
 
         /// <summary> Сбрасываем инструмент </summary>
