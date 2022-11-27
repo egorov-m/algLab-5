@@ -48,7 +48,6 @@ namespace algLab_5.Tools
                 {
                     ControlPanelProvider.IsReset = false;
                     _isProcess = false;
-                    _args.Logger.Info("Выполнен сброс демонстрации работы алгоритма.");
                     _args.MainWindow.DisableTool();
                     return;
                 }
@@ -104,16 +103,25 @@ namespace algLab_5.Tools
                     _isProcess = true;
                     _args.ControlPanelProvider.Dispose();
 
-                    var tmp = HoverVertexElements[0].ExecuteDfs(_args.Logger);
-                    var list = new List<string>();
-                    var count = 0;
-                    await foreach (var t in tmp)
+                    var tmp = _algType switch
                     {
-                        list.Add(t.Data);
-                        count++;
-                    }
+                        StatusTool.AlgDfs => HoverVertexElements[0].ExecuteDfs(),
+                        StatusTool.AlgBfs => HoverVertexElements[0].ExecuteBfs(),
+                        _ => null
+                    };
 
-                    if (count > 0) _args.Logger.Info($"Обход осуществлялся в порядке: {list.GetArrayForLog()}.");
+                    if (tmp != null)
+                    {
+                        var list = new List<string>();
+                        var count = 0;
+                        await foreach (var t in tmp)
+                        {
+                            list.Add(t.Data);
+                            count++;
+                        }
+
+                        if (count > 0) _args.Logger.Info($"Обход осуществлялся в порядке: {list.GetArrayForLog()}.");
+                    }
                 }
             }
         }
@@ -126,6 +134,7 @@ namespace algLab_5.Tools
             _args.ControlPanelProvider.Dispose();
             _args.CanvasBorder.MouseMove -= OnMouseMove;
             _args.CanvasBorder.MouseDown -= OnMouseDown;
+            _args.Logger.Info("Выполнен сброс демонстрации работы алгоритма.");
             Dispose();
         }
     }

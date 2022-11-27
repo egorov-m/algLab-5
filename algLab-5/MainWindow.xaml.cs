@@ -100,6 +100,16 @@ namespace algLab_5
             _currentTool = new DemoAlgorithmsSingleChoiceTool(_toolArgs, StatusTool.AlgDfs);
         }
 
+        private void BtnAlgBfsOnClick(object sender, RoutedEventArgs e)
+        {
+            _currentTool?.Unload();
+
+            ConsoleHandler.SetIsWriteTitle();
+            ConsoleHandler.SetIsEmptyLineBeforeTitle();
+            _logger.Info("Выбран инструмент демонстрации работы алгоритма (выбор одной вершины).");
+            _currentTool = new DemoAlgorithmsSingleChoiceTool(_toolArgs, StatusTool.AlgBfs);
+        }
+
         /// <summary> Сбрасываем инструмент </summary>
         public void DisableTool()
         {

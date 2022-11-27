@@ -167,7 +167,7 @@
                                     <TextBlock Text="Демонстрация работы обхода взвешенного графа в ширину и глубину." TextWrapping="Wrap"></TextBlock>
                                     <Separator BorderThickness="1"/>
                                     <StackPanel Orientation="Vertical">
-                                        <Button x:Name="btnBfs" Content="Обход в ширину" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
+                                        <Button x:Name="btnBfs" Click="BtnAlgBfsOnClick" Content="Обход в ширину" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
                                         <Separator Background="Transparent"/>
                                         <Button x:Name="btnDfs" Click="BtnAlgDfsOnClick" Content="Обход в глубину" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
                                     </StackPanel>

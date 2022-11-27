@@ -10,7 +10,7 @@ namespace algLab_5.Services
         /// <summary> Семейство шрифтов текста в консоли </summary>
         private static readonly FontFamily TextFontFamily = new ("Lucida Console");
         /// <summary> Размер шрифта текста в консоли </summary>
-        private const int TextFontSize = 9;
+        private const int TextFontSize = 12;
         /// <summary> Цвет заголовка в консоли </summary>
         private static readonly Color TextTitleColor = Color.FromRgb(113, 96, 232);
         /// <summary> Цвет текста в консоли </summary>
