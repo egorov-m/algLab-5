@@ -132,9 +132,16 @@ namespace algLab_5.Services
             if (e.Key == Key.Return)
             {
                 Keyboard.ClearFocus();
-                if (!int.TryParse(_textBoxDelay.Text, out var delay)) throw new ArgumentException("ОШИБКА! Задержка должна быть указана в виде целого неотрицательного числа.");
+                if (_textBoxDelay.Text == "")
+                {
+                    SetDelay(0);
+                }
+                else
+                {
+                    if (!int.TryParse(_textBoxDelay.Text, out var delay)) throw new ArgumentException("ОШИБКА! Задержка должна быть указана в виде целого неотрицательного числа.");
                 
-                SetDelay(delay);
+                    SetDelay(delay);
+                }
             }
         }
 

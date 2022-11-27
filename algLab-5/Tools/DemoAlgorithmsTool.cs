@@ -105,8 +105,8 @@ namespace algLab_5.Tools
 
                     var tmp = _algType switch
                     {
-                        StatusTool.AlgDfs => HoverVertexElements[0].ExecuteDfs(),
-                        StatusTool.AlgBfs => HoverVertexElements[0].ExecuteBfs(),
+                        StatusTool.AlgDfs => HoverVertexElements[0].ExecuteDfs(_args.Logger),
+                        StatusTool.AlgBfs => HoverVertexElements[0].ExecuteBfs(_args.Logger),
                         _ => null
                     };
 
