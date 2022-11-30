@@ -10,6 +10,8 @@
         EditData,
 
         AlgBfs,
-        AlgDfs
+        AlgDfs,
+        AlgFindMaxFlow,
+        AlgDijkstra
     }
 }

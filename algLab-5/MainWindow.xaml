@@ -179,7 +179,7 @@
                                     <TextBlock Text="Демонстрация работы транспортной сети, реализация алгоритма поиска максимального потока через транспортную сеть." TextWrapping="Wrap"></TextBlock>
                                     <Separator BorderThickness="1"/>
                                     <StackPanel Orientation="Vertical">
-                                        <Button x:Name="btnMaxFlow" Content="Искать максимальный поток" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
+                                        <Button x:Name="btnFindMaxFlow" Click="BtnAlgFindMaxFlowOnClick" Content="Искать максимальный поток" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
                                     </StackPanel>
                                 </StackPanel>
                             </TabItem>
@@ -193,12 +193,13 @@
                                     </StackPanel>
                                 </StackPanel>
                             </TabItem>
+
                             <TabItem Header="Задание 4" Background="#464646" Foreground="#d6d6d6">
                                 <StackPanel>
                                     <TextBlock Text="Реализация алгоритма поиска кратчайшего пути между двумя вершинами графа." TextWrapping="Wrap"></TextBlock>
                                     <Separator BorderThickness="1"/>
                                     <StackPanel Orientation="Vertical">
-                                        <Button x:Name="btnShortestWay" Content="Искать кротчайший пути" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
+                                        <Button x:Name="btnShortestWay" Click="BtnAlgDijkstraOnClick" Content="Искать кротчайший пути" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
                                     </StackPanel>
                                 </StackPanel>
                             </TabItem>

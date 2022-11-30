@@ -77,7 +77,7 @@ namespace algLab_5.Tools
                         if (!_selectedEdgeElement.SetWeight(_selectedEdgeElement.TextBox.Text))
                         {
                             _args.MainWindow.DisableTool();
-                            throw new ArgumentException("ОШИБКА! Вес вершины должен быть представлен как целое число.");
+                            throw new ArgumentException("ОШИБКА! Вес вершины должен быть представлен как целое неотрицательное число.");
                         }
 
                         _args.Logger.Info($"Вес ребра \"{_selectedEdgeElement.TextBox.Text}\" успешно отредактирован.");

@@ -54,17 +54,23 @@ namespace algLab_5.Views.Graph
 
         /// <summary> Установить вес ребра </summary>
         /// <param name="weight"> Вес ребра </param>
-        public override void SetWeight(int weight)
+        public override bool SetWeight(int weight)
         {
-            Weight = weight;
-            TextBox.Text = weight.ToString();
+            if (weight >= 0)
+            {
+                Weight = weight;
+                TextBox.Text = weight.ToString();
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary> Установить вес ребра </summary>
         /// <param name="weight"> Вес ребра </param>
         public override bool SetWeight(string weight)
         {
-            if (int.TryParse(weight, out var intWeight))
+            if (int.TryParse(weight, out var intWeight) && intWeight >= 0)
             {
                 Weight = intWeight;
                 return true;

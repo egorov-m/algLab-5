@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using algLab_5.Algorithms;
 using algLab_5.Models;
 using algLab_5.Services;
 using algLab_5.Services.Logger;
 using algLab_5.Tools.Base;
 using algLab_5.Views.Graph;
+using Colors = algLab_5.Views.Utils.Colors;
 
 namespace algLab_5.Tools
 {
@@ -14,6 +16,8 @@ namespace algLab_5.Tools
     {
         /// <summary> Выбранный элемент </summary>
         private VertexElement? _selectedElement;
+
+        private VertexElement? _elementForAlg;
 
         /// <summary> Текущее положение курсора на холсте </summary>
         private Point _currentCursorPosition;
@@ -102,11 +106,13 @@ namespace algLab_5.Tools
                 {
                     _isProcess = true;
                     _args.ControlPanelProvider.Dispose();
+                    _elementForAlg = HoverVertexElements[0];
+                    _elementForAlg.Grid.Background = new SolidColorBrush(Colors.SelectedForAlgVertexElement);
 
                     var tmp = _algType switch
                     {
-                        StatusTool.AlgDfs => HoverVertexElements[0].ExecuteDfs(_args.Logger),
-                        StatusTool.AlgBfs => HoverVertexElements[0].ExecuteBfs(_args.Logger),
+                        StatusTool.AlgDfs => _elementForAlg.ExecuteDfs(_args.Logger),
+                        StatusTool.AlgBfs => _elementForAlg.ExecuteBfs(_args.Logger),
                         _ => null
                     };
 
@@ -131,6 +137,7 @@ namespace algLab_5.Tools
         {
             _args.DataProvider.GetVertexElementsData().ForEach(x => x.SetNoVisited());
             _args.DataProvider.GetEdgeElementsData().ForEach(y => y.SetNoVisited());
+            if (_elementForAlg != null) _elementForAlg.Grid.Background = Brushes.Transparent;
             _args.ControlPanelProvider.Dispose();
             _args.CanvasBorder.MouseMove -= OnMouseMove;
             _args.CanvasBorder.MouseDown -= OnMouseDown;

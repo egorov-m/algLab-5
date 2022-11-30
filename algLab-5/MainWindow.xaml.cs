@@ -110,6 +110,26 @@ namespace algLab_5
             _currentTool = new DemoAlgorithmsSingleChoiceTool(_toolArgs, StatusTool.AlgBfs);
         }
 
+        private void BtnAlgFindMaxFlowOnClick(object sender, RoutedEventArgs e)
+        {
+            _currentTool?.Unload();
+
+            ConsoleHandler.SetIsWriteTitle();
+            ConsoleHandler.SetIsEmptyLineBeforeTitle();
+            _logger.Info("Выбран инструмент демонстрации работы алгоритма (выбор двух вершин).");
+            _currentTool = new DemoAlgorithmsDuplexChoiceTool(_toolArgs, StatusTool.AlgFindMaxFlow);
+        }
+
+        private void BtnAlgDijkstraOnClick(object sender, RoutedEventArgs e)
+        {
+            _currentTool?.Unload();
+
+            ConsoleHandler.SetIsWriteTitle();
+            ConsoleHandler.SetIsEmptyLineBeforeTitle();
+            _logger.Info("Выбран инструмент демонстрации работы алгоритма (выбор двух вершин).");
+            _currentTool = new DemoAlgorithmsDuplexChoiceTool(_toolArgs, StatusTool.AlgDijkstra);
+        }
+
         /// <summary> Сбрасываем инструмент </summary>
         public void DisableTool()
         {

@@ -66,9 +66,9 @@ namespace algLab_5.Views.Graph
             TextBox.Text = Data;
         }
 
-        /// <summary> Установить данные вершины</summary>
+        /// <summary> Установить данные вершины </summary>
         /// <param name="data"> Данные </param>
-        /// <param name="graphElements"> Коллекция элементов вершин текущего графа </param>
+        /// <param name="graphElements"> Коллекция элементов вершин текущего графа (не должно быть повторений) </param>
         public override bool SetData(string data, IEnumerable<Vertex> graphElements)
         {
             if (Data == data) return true;
@@ -84,7 +84,10 @@ namespace algLab_5.Views.Graph
             return true;
         }
 
-        public override async void SetVisited()
+        /// <summary> Отобразить данные </summary>
+        public void SetData() => TextBox.Text = Data;
+
+        public override void SetVisited()
         {
             _isVisited = true;
             _ellipse.Fill = new SolidColorBrush(Colors.VisitedElementColor);

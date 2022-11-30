@@ -43,13 +43,22 @@ namespace algLab_5.Models.Graph
 
         /// <summary> Установить вес ребра </summary>
         /// <param name="weight"> Вес </param>
-        public virtual void SetWeight(int weight) => Weight = weight;
+        public virtual bool SetWeight(int weight)
+        {
+            if (weight >= 0)
+            {
+                Weight = weight;
+                return true;
+            }
+
+            return false;
+        }
 
         /// <summary> Установить вес ребра </summary>
         /// <param name="weight"> Вес </param>
         public virtual bool SetWeight(string weight)
         {
-            if (int.TryParse(weight, out var intWeight))
+            if (int.TryParse(weight, out var intWeight) && intWeight >= 0)
             {
                 Weight = intWeight;
                 return true;
