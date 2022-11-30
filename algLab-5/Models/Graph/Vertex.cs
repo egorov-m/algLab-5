@@ -68,14 +68,8 @@ namespace algLab_5.Models.Graph
 
         public override string ToString() => $"id: {Id}\nData: {Data}";
 
-        void IVisited.SetVisited()
-        {
-            throw new System.NotImplementedException();
-        }
+        void IVisited.SetVisited() => _isVisited = true;
 
-        void IVisited.SetNoVisited()
-        {
-            throw new System.NotImplementedException();
-        }
+        void IVisited.SetNoVisited() => _isVisited = false;
     }
 }
