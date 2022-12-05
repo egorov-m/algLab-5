@@ -189,7 +189,7 @@
                                     <TextBlock Text="Демонстрация работы алгоритма построения минимального остовного дерева." TextWrapping="Wrap"></TextBlock>
                                     <Separator BorderThickness="1"/>
                                     <StackPanel Orientation="Vertical">
-                                        <Button x:Name="btnMinSpanningTree" Content="Построить минимальное остовное дерево" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
+                                        <Button x:Name="btnMinSpanningTree" Click="BtnAlgKruskalOnClick" Content="Построить минимальное остовное дерево" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
                                     </StackPanel>
                                 </StackPanel>
                             </TabItem>
@@ -199,7 +199,7 @@
                                     <TextBlock Text="Реализация алгоритма поиска кратчайшего пути между двумя вершинами графа." TextWrapping="Wrap"></TextBlock>
                                     <Separator BorderThickness="1"/>
                                     <StackPanel Orientation="Vertical">
-                                        <Button x:Name="btnShortestWay" Click="BtnAlgDijkstraOnClick" Content="Искать кротчайший пути" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
+                                        <Button x:Name="btnShortestWay" Click="BtnAlgDijkstraOnClick" Content="Искать кратчайший пути" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
                                     </StackPanel>
                                 </StackPanel>
                             </TabItem>

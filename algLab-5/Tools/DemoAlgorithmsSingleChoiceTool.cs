@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -34,7 +36,7 @@ namespace algLab_5.Tools
             _args.CanvasBorder.MouseMove += OnMouseMove;
             _algType = algType;
 
-            _args.Logger.Info("Выберите начальную вершину для демонстрации алгоритма.");
+            _args.Logger.Info("Выберите любую вершину для начала демонстрации алгоритма.");
         }
 
         /// <summary> Обработчик события движения мыши </summary>
@@ -127,6 +129,25 @@ namespace algLab_5.Tools
                         }
 
                         if (count > 0) _args.Logger.Info($"Обход осуществлялся в порядке: {list.GetArrayForLog()}.");
+                    }
+                    else
+                    {
+                        if (_elementForAlg != null) _elementForAlg.Grid.Background = Brushes.Transparent;
+                        if (_algType == StatusTool.AlgKruskal)
+                        {
+                            try
+                            {
+                                var (edges, minimumCost) = await _args.DataProvider.ExecuteKruskal(_args.Logger);
+                                _args.Logger.Info($"Результат, минимальное остовное дерево: {edges.Select(x => x.Weight).ToList().GetArrayForLog()}.");
+                                _args.Logger.Info($"Результат, минимальная сумма остовное дерево: {minimumCost}.");
+                            }
+                            catch (ArgumentException exception)
+                            {
+                                _args.Logger.Info(exception.Message);
+                                _isProcess = false;
+                                _args.MainWindow.DisableTool();
+                            }
+                        }
                     }
                 }
             }

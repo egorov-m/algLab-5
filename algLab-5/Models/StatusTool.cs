@@ -12,6 +12,7 @@
         AlgBfs,
         AlgDfs,
         AlgFindMaxFlow,
-        AlgDijkstra
+        AlgDijkstra,
+        AlgKruskal
     }
 }

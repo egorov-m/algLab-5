@@ -130,6 +130,16 @@ namespace algLab_5
             _currentTool = new DemoAlgorithmsDuplexChoiceTool(_toolArgs, StatusTool.AlgDijkstra);
         }
 
+        private void BtnAlgKruskalOnClick(object sender, RoutedEventArgs e)
+        {
+            _currentTool?.Unload();
+
+            ConsoleHandler.SetIsWriteTitle();
+            ConsoleHandler.SetIsEmptyLineBeforeTitle();
+            _logger.Info("Выбран инструмент демонстрации работы алгоритма (выбор одной вершины).");
+            _currentTool = new DemoAlgorithmsSingleChoiceTool(_toolArgs, StatusTool.AlgKruskal);
+        }
+
         /// <summary> Сбрасываем инструмент </summary>
         public void DisableTool()
         {

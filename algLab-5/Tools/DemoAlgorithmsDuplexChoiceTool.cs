@@ -134,10 +134,10 @@ namespace algLab_5.Tools
                                 _args.Logger.Info($"Результат: {maxFlow}.");
                                 break;
                             case StatusTool.AlgDijkstra:
-                                var res = await _args.DataProvider.GetVertexElementsData().ExecuteDijkstra(_sourceElement, _destElement, _args.Logger);
-                                if (res != null && res.Count > 0)
+                                var minDist = await _args.DataProvider.GetVertexElementsData().ExecuteDijkstra(_sourceElement, _destElement, _args.Logger);
+                                if (minDist != null && minDist.Count > 0)
                                 {
-                                    _args.Logger.Info($"Кротчайший путь между двумя вершинами: {res.Select(x => x.Data).ToList().GetArrayForLog()}");
+                                    _args.Logger.Info($"Кротчайший путь между двумя вершинами: {minDist.Select(x => x.Data).ToList().GetArrayForLog()}.");
                                 }
                                 break;
                         }

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -15,7 +16,8 @@ namespace algLab_5.Views.Graph
         IDraw, 
         IDrawLine, 
         IRemoveDraw,
-        IVisited
+        IVisited,
+        IComparable
     {
         #region Составные элементы
 
