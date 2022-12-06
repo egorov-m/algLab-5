@@ -9,19 +9,19 @@ namespace algLab_5.Data
     public class DataProvider
     {
         private readonly List<VertexElement> _dataVertexElements;
-        private readonly List<EdgeElement> _dataEdgeElements;
+        private readonly List<EdgeElement?> _dataEdgeElements;
 
         /// <summary> Инициализация DataProvider без загрузки данных </summary>
         public DataProvider()
         {
             _dataVertexElements = new List<VertexElement>();
-            _dataEdgeElements = new List<EdgeElement>();
+            _dataEdgeElements = new List<EdgeElement?>();
         }
 
         /// <summary> Получить данные проекта от поставщика </summary>
         public List<VertexElement> GetVertexElementsData() => _dataVertexElements;
 
-        public List<EdgeElement> GetEdgeElementsData() => _dataEdgeElements;
+        public List<EdgeElement?> GetEdgeElementsData() => _dataEdgeElements;
 
         /// <summary>
         /// Инициализация DataProvider с загрузкой существующих данных
@@ -44,7 +44,7 @@ namespace algLab_5.Data
 
         /// <summary> Добавить элемент ребра графа </summary>
         /// <param name="edgeElement"> Ребро графа </param>
-        public bool AddEdgeElement(EdgeElement edgeElement)
+        public bool AddEdgeElement(EdgeElement? edgeElement)
         {
             //_dataEdgeElements.Add(edgeElement);
             var isAdd = !_dataEdgeElements.Any(item =>

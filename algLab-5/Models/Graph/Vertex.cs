@@ -19,7 +19,7 @@ namespace algLab_5.Models.Graph
         public string Data { get; set; }
 
         /// <summary> Список содержащий все рёбра вершины </summary>
-        public IList<Edge> EdgesList { get; protected set; }
+        public IList<Edge?> EdgesList { get; protected set; }
 
         /// <summary> Была ли посещена вершина графа </summary>
         protected bool _isVisited;
@@ -31,10 +31,10 @@ namespace algLab_5.Models.Graph
         {
             Id = id;
             Data = data;
-            EdgesList = new List<Edge>();
+            EdgesList = new List<Edge?>();
         }
 
-        protected Vertex(int id, string data, IList<Edge> edgesList)
+        protected Vertex(int id, string data, IList<Edge?> edgesList)
         {
             Id = id;
             Data = data;

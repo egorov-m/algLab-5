@@ -54,6 +54,14 @@ namespace algLab_5.Views.Graph
             Set();
         }
 
+        /// <summary> Установить отображение двух указанных значений </summary>
+        /// <param name="value1"> Значение 1 </param>
+        /// <param name="value2"> Значение 2 </param>
+        public void SetDisplayTwoValues(int value1, int value2)
+        {
+            TextBox.Text = $"{value1} / {value2}";
+        }
+
         /// <summary> Установить вес ребра </summary>
         /// <param name="weight"> Вес ребра </param>
         public override bool SetWeight(int weight)
@@ -81,6 +89,9 @@ namespace algLab_5.Views.Graph
             TextBox.Text = Weight.ToString();
             return false;
         }
+
+        /// <summary> Отобразить вес ребра </summary>
+        public void SetWeight() => TextBox.Text = Weight.ToString();
 
         /// <summary> Установить элемент вершины </summary>
         private void Set()

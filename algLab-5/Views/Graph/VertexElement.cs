@@ -41,7 +41,7 @@ namespace algLab_5.Views.Graph
             Set();
         }
 
-        public VertexElement(int id, string data, IList<Edge> edgesList) : base(id, data, edgesList)
+        public VertexElement(int id, string data, IList<Edge?> edgesList) : base(id, data, edgesList)
         {
             Set();
         }

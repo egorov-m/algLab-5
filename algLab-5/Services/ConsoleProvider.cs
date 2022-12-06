@@ -37,7 +37,8 @@ namespace algLab_5.Services
                 Foreground = new SolidColorBrush(TextTitleColor),
                 FontFamily = TextFontFamily,
                 FontSize = TextFontSize,
-                FontWeight = TextTitleFontWeight
+                FontWeight = TextTitleFontWeight,
+                TextWrapping = TextWrapping.WrapWithOverflow
             };
 
             if (isEmptyLineBefore) _consoleContainer.Children.Add(new TextBlock() {FontSize = TextFontSize});

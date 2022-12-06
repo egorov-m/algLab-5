@@ -1,4 +1,5 @@
-﻿using algLab_5.Models;
+﻿using System.Collections.Generic;
+using algLab_5.Models;
 using algLab_5.Tools.Base;
 using algLab_5.Views.Graph;
 using System.Windows;

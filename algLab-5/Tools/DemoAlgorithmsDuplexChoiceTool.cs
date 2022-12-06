@@ -130,8 +130,8 @@ namespace algLab_5.Tools
                         switch (_algType)
                         {
                             case StatusTool.AlgFindMaxFlow:
-                                var maxFlow = _args.DataProvider.ExecuteFindMaxFlow(_sourceElement, _destElement, _args.Logger);
-                                _args.Logger.Info($"Результат: {maxFlow}.");
+                                var maxFlow = await _args.DataProvider.ExecuteFindMaxFlow(_sourceElement, _destElement, _args.Logger);
+                                if (maxFlow != null) _args.Logger.Info($"Итоговый максимальный поток равен: {maxFlow}.");
                                 break;
                             case StatusTool.AlgDijkstra:
                                 var minDist = await _args.DataProvider.GetVertexElementsData().ExecuteDijkstra(_sourceElement, _destElement, _args.Logger);
@@ -152,6 +152,7 @@ namespace algLab_5.Tools
             if (_sourceElement != null) _sourceElement.Grid.Background = Brushes.Transparent;
             if (_destElement != null) _destElement.Grid.Background = Brushes.Transparent;
             _args.DataProvider.GetVertexElementsData().ForEach(x => x.SetData());
+            _args.DataProvider.GetEdgeElementsData().ForEach(x => x?.SetWeight());
             _args.DataProvider.GetVertexElementsData().ForEach(x => x.SetNoVisited());
             _args.DataProvider.GetEdgeElementsData().ForEach(y => y.SetNoVisited());
 

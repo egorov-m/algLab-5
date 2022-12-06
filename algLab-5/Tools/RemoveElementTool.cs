@@ -37,7 +37,7 @@ namespace algLab_5.Tools
             {
                 var element = HoverVertexElements[0];
                 var edgeElementsData = _args.DataProvider.GetEdgeElementsData();
-                var listForRemove = new List<EdgeElement>();
+                var listForRemove = new List<EdgeElement?>();
                 foreach (var removableEdge in element.EdgesList)
                 {
                     if (removableEdge is EdgeElement removableEdgeElement)
