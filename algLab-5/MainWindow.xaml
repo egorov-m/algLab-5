@@ -167,9 +167,17 @@
                                     <TextBlock Text="Демонстрация работы обхода взвешенного графа в ширину и глубину." TextWrapping="Wrap"></TextBlock>
                                     <Separator BorderThickness="1"/>
                                     <StackPanel Orientation="Vertical">
-                                        <Button x:Name="btnBfs" Click="BtnAlgBfsOnClick" Content="Обход в ширину" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
+                                        <Button x:Name="btnBfs" Click="BtnAlgBfsOnClick" Content="Обход в ширину" Height="20" Background="#424242" Foreground="#d6d6d6">
+                                            <Button.ToolTip>
+                                                <ToolTip Background="#424242" Foreground="#d6d6d6">Запуск демонстрации работы алгоритма обхода графа в ширину, реализация на очереди.</ToolTip>
+                                            </Button.ToolTip>
+                                        </Button>
                                         <Separator Background="Transparent"/>
-                                        <Button x:Name="btnDfs" Click="BtnAlgDfsOnClick" Content="Обход в глубину" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
+                                        <Button x:Name="btnDfs" Click="BtnAlgDfsOnClick" Content="Обход в глубину" Height="20" Background="#424242" Foreground="#d6d6d6">
+                                            <Button.ToolTip>
+                                                <ToolTip Background="#424242" Foreground="#d6d6d6">Запуск демонстрации работы алгоритма обхода графа в глубину, реализация на стеке.</ToolTip>
+                                            </Button.ToolTip>
+                                        </Button>
                                     </StackPanel>
                                 </StackPanel>
                             </TabItem>
@@ -179,7 +187,11 @@
                                     <TextBlock Text="Демонстрация работы транспортной сети, реализация алгоритма поиска максимального потока через транспортную сеть." TextWrapping="Wrap"></TextBlock>
                                     <Separator BorderThickness="1"/>
                                     <StackPanel Orientation="Vertical">
-                                        <Button x:Name="btnFindMaxFlow" Click="BtnAlgFindMaxFlowOnClick" Content="Искать максимальный поток" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
+                                        <Button x:Name="btnFindMaxFlow" Click="BtnAlgFindMaxFlowOnClick" Content="Искать максимальный поток" Height="20" Background="#424242" Foreground="#d6d6d6">
+                                            <Button.ToolTip>
+                                                <ToolTip Background="#424242" Foreground="#d6d6d6">Запуск демонстрации работы алгоритма Форда — Фалкерсона, поиск максимального потока.</ToolTip>
+                                            </Button.ToolTip>
+                                        </Button>
                                     </StackPanel>
                                 </StackPanel>
                             </TabItem>
@@ -189,7 +201,11 @@
                                     <TextBlock Text="Демонстрация работы алгоритма построения минимального остовного дерева." TextWrapping="Wrap"></TextBlock>
                                     <Separator BorderThickness="1"/>
                                     <StackPanel Orientation="Vertical">
-                                        <Button x:Name="btnMinSpanningTree" Click="BtnAlgKruskalOnClick" Content="Построить минимальное остовное дерево" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
+                                        <Button x:Name="btnMinSpanningTree" Click="BtnAlgKruskalOnClick" Content="Построить минимальное остовное дерево" Height="20" Background="#424242" Foreground="#d6d6d6">
+                                            <Button.ToolTip>
+                                                <ToolTip Background="#424242" Foreground="#d6d6d6">Запуск демонстрации работы алгоритма Крускала, поиск минимального остовного дерева.</ToolTip>
+                                            </Button.ToolTip>
+                                        </Button>
                                     </StackPanel>
                                 </StackPanel>
                             </TabItem>
@@ -199,7 +215,11 @@
                                     <TextBlock Text="Реализация алгоритма поиска кратчайшего пути между двумя вершинами графа." TextWrapping="Wrap"></TextBlock>
                                     <Separator BorderThickness="1"/>
                                     <StackPanel Orientation="Vertical">
-                                        <Button x:Name="btnShortestWay" Click="BtnAlgDijkstraOnClick" Content="Искать кратчайший пути" Height="20" Background="#424242" Foreground="#d6d6d6"></Button>
+                                        <Button x:Name="btnShortestWay" Click="BtnAlgDijkstraOnClick" Content="Искать кратчайший пути" Height="20" Background="#424242" Foreground="#d6d6d6">
+                                            <Button.ToolTip>
+                                                <ToolTip Background="#424242" Foreground="#d6d6d6">Запуск демонстрации работы алгоритма Дейкстры, поиск кратчайшего пути.</ToolTip>
+                                            </Button.ToolTip>
+                                        </Button>
                                     </StackPanel>
                                 </StackPanel>
                             </TabItem>

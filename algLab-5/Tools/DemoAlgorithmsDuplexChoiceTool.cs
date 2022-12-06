@@ -130,7 +130,7 @@ namespace algLab_5.Tools
                         switch (_algType)
                         {
                             case StatusTool.AlgFindMaxFlow:
-                                var maxFlow = await _args.DataProvider.ExecuteFindMaxFlow(_sourceElement, _destElement, _args.Logger);
+                                var maxFlow = await _args.DataProvider.ExecuteFordFulkerson(_sourceElement, _destElement, _args.Logger);
                                 if (maxFlow != null) _args.Logger.Info($"Итоговый максимальный поток равен: {maxFlow}.");
                                 break;
                             case StatusTool.AlgDijkstra:
