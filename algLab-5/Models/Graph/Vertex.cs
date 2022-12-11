@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using algLab_5.Models.Utils;
 using algLab_5.Views;
 
 namespace algLab_5.Models.Graph
@@ -26,6 +27,13 @@ namespace algLab_5.Models.Graph
 
         /// <summary> Была ли посещена вершина графа </summary>
         public bool IsVisited => _isVisited;
+
+        protected Vertex(string data)
+        {
+            Id = IdentifierSetter.GetId();
+            Data = data;
+            EdgesList = new List<Edge?>();
+        }
 
         protected Vertex(int id, string data)
         {

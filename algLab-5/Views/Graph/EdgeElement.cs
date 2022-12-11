@@ -185,7 +185,7 @@ namespace algLab_5.Views.Graph
             Polyline.Points.Clear();
             if (DestinationVertexElement != null)
             {
-                PointCollection = ConfiguratorViewElement.GetPointCollectionForConnection(InitialVertexElement.Grid, DestinationVertexElement.Grid, ConnectionType.Default);
+                PointCollection = new PointCollection {InitialVertexElement.Position, DestinationVertexElement.Position};
                 Polyline.Points = PointCollection;
                 StackPanel.SetCoordinatesForStackPanel(Polyline.GetDirectPolyLineCenter());
             }
@@ -196,9 +196,12 @@ namespace algLab_5.Views.Graph
         {
             canvas.Children.Add(Polyline);
             Panel.SetZIndex(Polyline, 1);
+            canvas.Children.Add(StackPanel);
+            Panel.SetZIndex(StackPanel, 2);
+
             if (DestinationVertexElement != null)
             {
-                PointCollection = ConfiguratorViewElement.GetPointCollectionForConnection(InitialVertexElement.Grid, DestinationVertexElement.Grid, ConnectionType.Default);
+                PointCollection = new PointCollection {InitialVertexElement.Position, DestinationVertexElement.Position};
                 Polyline.Points = PointCollection;
                 StackPanel.SetCoordinatesForStackPanel(Polyline.GetDirectPolyLineCenter());
             }

@@ -6,6 +6,8 @@ using algLab_5.Tools.Base;
 using System.Windows;
 using algLab_5.Services;
 using algLab_5.Services.Logger;
+using algLab_5.Views.Windows;
+using System.Windows.Controls;
 
 namespace algLab_5
 {
@@ -23,15 +25,26 @@ namespace algLab_5
         private Tool? _currentTool;
 
         private StatusSaved _savingStatus = StatusSaved.Saved;
+        private string? _pathProject;
+        private string? _workingDirectory;
+        private string _nameProject;
 
         public MainWindow()
         {
             InitializeComponent();
 
             _statusBarUpdater = new StatusBarUpdater(tbIsSavedProject, tbCurrentState, tbCoordinates, tbIsHover);
-            _dataProvider = new DataProvider();
+            //_dataProvider = new DataProvider();
             _consoleProvider = new ConsoleProvider(spConsoleContainer);
             _logger = Logger.GetLogger("loggerGraph", Level.Info, new List<IMessageHandler>() {new ConsoleHandler(_consoleProvider), new FileHandler()});
+
+            // Диалоговое окно загрузки данных
+            var dataLoaderWindow = new DataLoaderWindow(Canvas, OnChangeStatusSaved);
+            dataLoaderWindow.ShowDialog();
+            _dataProvider = dataLoaderWindow.DataProvider;
+            _pathProject = dataLoaderWindow.PathProject;
+            _workingDirectory = dataLoaderWindow.WorkingDirectory;
+            _nameProject = dataLoaderWindow.NameProject;
 
             _controlPanelProvider = new ControlPanelProvider(btnAlgDemoMode, btnAlgReset, btnAlgStepForward, tbDelayAlgStep);
 

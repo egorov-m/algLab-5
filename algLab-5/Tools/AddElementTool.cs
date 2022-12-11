@@ -12,6 +12,9 @@ namespace algLab_5.Tools
         /// <summary> Выбранный Grid </summary>
         private VertexElement? _element;
 
+        /// <summary> В процессе ли добавление вершины </summary>
+        private bool _isProcess;
+
         public AddElementTool(ToolArgs args) : base(args)
         {
             _args.CanvasBorder.MouseMove += OnMouseMove;
@@ -29,13 +32,13 @@ namespace algLab_5.Tools
             var info = GetInfoHoverElements();
 
             _args.StatusBarUpdater.Update(StatusTool.NewVertex, pointCursor, info);
-            _args.SavedChange(StatusSaved.Unsaved);
 
             if (_element == null)
             {
                 var id = IdentifierSetter.GetId();
                 _element = new VertexElement(id, id.ToString());
                 _element.Draw(_args.Canvas, pointCursor);
+                _isProcess = true;
             }
             else
             {
@@ -50,7 +53,9 @@ namespace algLab_5.Tools
         {
             if (_element != null)
             {
+                _isProcess = false;
                 _args.DataProvider.AddVertexElement(_element);
+                _args.SavedChange(StatusSaved.Unsaved);
                 _args.Logger.Info($"Вершина \"{_element.TextBox.Text}\" добавлена и установлена на холст.");
             }
 
@@ -61,6 +66,7 @@ namespace algLab_5.Tools
         /// <summary> Разгрузка обработчиков события </summary>
         public override void Unload()
         {
+            if (_isProcess) _element?.RemoveDraw(_args.Canvas);
             _args.CanvasBorder.MouseMove -= OnMouseMove;
             _args.CanvasBorder.MouseDown -= OnMouseDown;
             Dispose();

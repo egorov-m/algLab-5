@@ -57,7 +57,7 @@ namespace algLab_5.Tools
 
             if (_selectedElement != null && e.LeftButton == MouseButtonState.Pressed)
             {
-                _args.SavedChange(StatusSaved.Unsaved);
+                //_args.SavedChange(StatusSaved.Unsaved);
                 _args.StatusBarUpdater.UpdateStatus(StatusTool.SelectingVertex);
                 _selectedElement.Draw(cursorPosition);
 

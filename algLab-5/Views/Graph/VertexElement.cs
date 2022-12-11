@@ -36,6 +36,11 @@ namespace algLab_5.Views.Graph
         public TextBox TextBox { get; set; }
         #endregion
 
+        public VertexElement(string data) : base(data)
+        {
+            Set();
+        }
+
         public VertexElement(int id, string data) : base(id, data)
         {
             Set();
@@ -87,12 +92,14 @@ namespace algLab_5.Views.Graph
         /// <summary> Отобразить данные </summary>
         public void SetData() => TextBox.Text = Data;
 
+        /// <summary> Установить вершину как посещённую </summary>
         public override void SetVisited()
         {
             _isVisited = true;
             _ellipse.Fill = new SolidColorBrush(Colors.VisitedElementColor);
         }
 
+        /// <summary> Установить вершину как НЕ посещённую </summary>
         public override void SetNoVisited()
         {
             _isVisited = false;
