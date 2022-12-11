@@ -36,7 +36,8 @@ namespace algLab_5.Tools
             if (_element == null)
             {
                 var id = IdentifierSetter.GetId();
-                _element = new VertexElement(id, id.ToString());
+                _element = new VertexElement(id, "");
+                while (!_element.SetData(id.ToString(), _args.DataProvider.GetVertexElementsData())) id++;
                 _element.Draw(_args.Canvas, pointCursor);
                 _isProcess = true;
             }

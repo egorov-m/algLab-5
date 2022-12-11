@@ -14,7 +14,7 @@
                     <ControlTemplate TargetType="{x:Type TabItem}">
                         <Border>
                             <Grid Margin="0 0 1 0">
-                                <Grid Width="70" Height="20">
+                                <Grid Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" Height="20">
                                     <Border x:Name="border"
                                             CornerRadius="0,0,0,0"
                                             Background="#464646"
@@ -100,19 +100,31 @@
                     <RowDefinition Height="200"/>
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0" VerticalAlignment="Stretch">
+                <Grid Grid.Row="0" VerticalAlignment="Stretch" Background="#1f1f1f">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
+                    <TabControl Grid.Column="2" Background="#1f1f1f" BorderBrush="#464646">
+                        <TabItem Foreground="#fff">
+                            <TabItem.Header>
+                                <StackPanel Orientation="Horizontal" Margin="3 0 15 0">
+                                    <TextBlock x:Name="tbProjectName" Text="ProjectName.csv"/>
+                                    <TextBlock x:Name="tbIndicatorSaved" Text=""/>
+                                </StackPanel>
+                            </TabItem.Header>
+                            <TabItem.Content>
+                                <Border x:Name="CanvasBorder" Background="#1f1f1f" Padding="5 0 5 5">
+                                    <Border BorderBrush="#464646" BorderThickness="1">
+                                        <Canvas x:Name="Canvas"></Canvas>
+                                    </Border>
+                                </Border>
+                            </TabItem.Content>
+                        </TabItem>
+                    </TabControl>
                     <!--Холст-->
-                    <Border Grid.Column="2" x:Name="CanvasBorder" Background="#1f1f1f" Padding="5 0 5 5">
-                        <Border BorderBrush="#464646" BorderThickness="2">
-                            <Canvas x:Name="Canvas"></Canvas>
-                        </Border>
-                    </Border>
 
                     <GridSplitter Grid.Column="1" ShowsPreview="True" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#464646"/>
 
@@ -162,7 +174,12 @@
                     <Separator Background="#464646"/>
                     <StackPanel Orientation="Vertical">
                         <TabControl Background="#464646" BorderBrush="#464646">
-                            <TabItem Header="Задание 1" Foreground="#d6d6d6">
+                            <TabItem Foreground="#d6d6d6" Width="70">
+                                <TabItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock>Задание 1</TextBlock>
+                                    </StackPanel>
+                                </TabItem.Header>
                                 <StackPanel x:Name="controlPanelTask1">
                                     <TextBlock Text="Демонстрация работы обхода взвешенного графа в ширину и глубину." TextWrapping="Wrap"></TextBlock>
                                     <Separator BorderThickness="1"/>
@@ -182,7 +199,12 @@
                                 </StackPanel>
                             </TabItem>
 
-                            <TabItem Header="Задание 2" Foreground="#d6d6d6">
+                            <TabItem Foreground="#d6d6d6" Width="70">
+                                <TabItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock>Задание 2</TextBlock>
+                                    </StackPanel>
+                                </TabItem.Header>
                                 <StackPanel>
                                     <TextBlock Text="Демонстрация работы транспортной сети, реализация алгоритма поиска максимального потока через транспортную сеть." TextWrapping="Wrap"></TextBlock>
                                     <Separator BorderThickness="1"/>
@@ -196,7 +218,12 @@
                                 </StackPanel>
                             </TabItem>
 
-                            <TabItem Header="Задание 3" Foreground="#d6d6d6">
+                            <TabItem Foreground="#d6d6d6" Width="70">
+                                <TabItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock>Задание 3</TextBlock>
+                                    </StackPanel>
+                                </TabItem.Header>
                                 <StackPanel>
                                     <TextBlock Text="Демонстрация работы алгоритма построения минимального остовного дерева." TextWrapping="Wrap"></TextBlock>
                                     <Separator BorderThickness="1"/>
@@ -210,7 +237,12 @@
                                 </StackPanel>
                             </TabItem>
 
-                            <TabItem Header="Задание 4" Background="#464646" Foreground="#d6d6d6">
+                            <TabItem Background="#464646" Foreground="#d6d6d6" Width="70">
+                                <TabItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock>Задание 4</TextBlock>
+                                    </StackPanel>
+                                </TabItem.Header>
                                 <StackPanel>
                                     <TextBlock Text="Реализация алгоритма поиска кратчайшего пути между двумя вершинами графа." TextWrapping="Wrap"></TextBlock>
                                     <Separator BorderThickness="1"/>

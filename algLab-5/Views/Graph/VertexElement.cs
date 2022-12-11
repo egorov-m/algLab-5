@@ -86,6 +86,7 @@ namespace algLab_5.Views.Graph
             }
 
             Data = data;
+            TextBox.Text = Data;
             return true;
         }
 

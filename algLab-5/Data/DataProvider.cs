@@ -25,9 +25,10 @@ namespace algLab_5.Data
             _dataEdgeElements = new List<EdgeElement>();
         }
 
-        /// <summary> Получить данные проекта от поставщика </summary>
+        /// <summary> Получить вершины графа от поставщика </summary>
         public List<VertexElement> GetVertexElementsData() => _dataVertexElements;
 
+        /// <summary> Получить рёбра графа от поставщика </summary>
         public List<EdgeElement> GetEdgeElementsData() => _dataEdgeElements;
 
         /// <summary> Инициализация DataProvider с загрузкой существующих данных </summary>

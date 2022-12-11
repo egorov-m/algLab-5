@@ -25,9 +25,12 @@ namespace algLab_5
         private Tool? _currentTool;
 
         private StatusSaved _savingStatus = StatusSaved.Saved;
+        private readonly TextBlock _tbSavingIndicator;
         private string? _pathProject;
         private string? _workingDirectory;
+
         private string _nameProject;
+        private TextBlock _tbNameProject;
 
         public MainWindow()
         {
@@ -38,13 +41,18 @@ namespace algLab_5
             _consoleProvider = new ConsoleProvider(spConsoleContainer);
             _logger = Logger.GetLogger("loggerGraph", Level.Info, new List<IMessageHandler>() {new ConsoleHandler(_consoleProvider), new FileHandler()});
 
+            _tbNameProject = tbProjectName;
+            _tbSavingIndicator = tbIndicatorSaved;
+
             // Диалоговое окно загрузки данных
             var dataLoaderWindow = new DataLoaderWindow(Canvas, OnChangeStatusSaved);
             dataLoaderWindow.ShowDialog();
             _dataProvider = dataLoaderWindow.DataProvider;
             _pathProject = dataLoaderWindow.PathProject;
             _workingDirectory = dataLoaderWindow.WorkingDirectory;
+
             _nameProject = dataLoaderWindow.NameProject;
+            _tbNameProject.Text = _nameProject;
 
             _controlPanelProvider = new ControlPanelProvider(btnAlgDemoMode, btnAlgReset, btnAlgStepForward, tbDelayAlgStep);
 
@@ -61,6 +69,7 @@ namespace algLab_5
         {
             _savingStatus = status;
             _statusBarUpdater.UpdateSaveProjectInfo(_savingStatus);
+            _tbSavingIndicator.Text = status == StatusSaved.Saved ? "" : "*";
         }
 
         private void BtnAddVertexOnClick(object sender, RoutedEventArgs e)
