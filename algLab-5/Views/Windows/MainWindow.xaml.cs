@@ -8,6 +8,7 @@ using algLab_5.Services;
 using algLab_5.Services.Logger;
 using algLab_5.Views.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace algLab_5
 {
@@ -45,7 +46,7 @@ namespace algLab_5
             _tbSavingIndicator = tbIndicatorSaved;
 
             // Диалоговое окно загрузки данных
-            var dataLoaderWindow = new DataLoaderWindow(Canvas, OnChangeStatusSaved);
+            var dataLoaderWindow = new DataLoaderWindow(Canvas, OnChangeStatusSaved, _logger);
             dataLoaderWindow.ShowDialog();
             _dataProvider = dataLoaderWindow.DataProvider;
             _pathProject = dataLoaderWindow.PathProject;
@@ -60,8 +61,10 @@ namespace algLab_5
 
             _currentTool = new ArrowTool(_toolArgs);
 
+            KeyDown += WindowKeyboardShortcuts;
+
             ConsoleHandler.SetIsWriteTitle();
-            _logger.Info("Программа успешно запущена!");
+            _logger.Info("Программа готова к работе!");
         }
 
         /// <summary> Изменения статуса сохранён ли проект </summary>
@@ -170,6 +173,16 @@ namespace algLab_5
                 _currentTool.Unload();
                 _currentTool = new ArrowTool(_toolArgs);
             }
+        }
+
+        /// <summary> Обработка нажатия сочетаний клавиш </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"> Событие нажатия клавиш </param>
+        public void WindowKeyboardShortcuts(object sender, KeyEventArgs e)
+        {
+            //if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.S) if (_savingStatus == StatusSaved.Unsaved) SaveData(false);
+            //if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control |  ModifierKeys.Shift) && e.Key == Key.S) if (_savingStatus == StatusSaved.Unsaved) SaveData(true);
+
         }
     }
 }

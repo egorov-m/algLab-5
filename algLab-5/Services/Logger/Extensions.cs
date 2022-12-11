@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace algLab_5.Services.Logger
@@ -47,6 +48,22 @@ namespace algLab_5.Services.Logger
             sbLog.Append('}');
 
             return sbLog;
+        }
+
+        /// <summary> Получить максимальную ширину колонки </summary>
+        /// <param name="lines"> Строки матрицы </param>
+        public static int GetMaxColumnWidth(this IEnumerable<IEnumerable<string>> lines)
+        {
+            return (from line in lines from s in line select s.Length).Prepend(0).Max();
+        }
+
+        /// <summary> Дополнить строку до заданной ширины </summary>
+        /// <param name="line"> Исходная строка </param>
+        /// <param name="width"> Требуемая ширина </param>
+        /// <param name="c"> Символ дополнения </param>
+        public static string CompleteLineWidth(this string line, int width, char c = ' ')
+        {
+            return line.Length < width ? $"{line}{new string(c, width - line.Length)}" : line;
         }
     }
 }

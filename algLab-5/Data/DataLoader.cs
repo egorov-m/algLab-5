@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+using algLab_5.Services.Logger;
 using algLab_5.Views.Graph;
 
 namespace algLab_5.Data
@@ -11,45 +13,87 @@ namespace algLab_5.Data
         private readonly string _path;
         private readonly FileFormatType _fileType;
         private readonly FormatDataGraph _formatDataGraph;
+        private readonly Logger? _logger;
 
         private const int IndexVertexData = 0;
         private const int IndexEdgeWeight = 0;
 
-        public DataLoader(string path, FileFormatType fileType, FormatDataGraph formatDataGraph)
+        public DataLoader(string path, FileFormatType fileType, FormatDataGraph formatDataGraph, Logger? logger = null)
         {
             _path = path;
             _fileType = fileType;
             _formatDataGraph = formatDataGraph;
+            _logger = logger;
         }
 
-        public DataLoader(string path, FileFormatType fileType)
+        public DataLoader(string path, FileFormatType fileType, Logger? logger = null)
         {
             _path = path;
             _fileType = fileType;
             _formatDataGraph = FormatDataGraph.IncidenceMatrix;
+            _logger = logger;
         }
 
-        public DataLoader(string path, FormatDataGraph formatDataGraph)
+        public DataLoader(string path, FormatDataGraph formatDataGraph, Logger? logger = null)
         {
             _path = path;
             _fileType = FileFormatType.Csv;
             _formatDataGraph = formatDataGraph;
+            _logger = logger;
         }
 
-        public DataLoader(string path)
+        public DataLoader(string path, Logger? logger = null)
         {
             _path = path;
             _fileType = FileFormatType.Csv;
             _formatDataGraph = FormatDataGraph.IncidenceMatrix;
+            _logger = logger;
         }
 
         public (List<VertexElement> _dataVertexElements, List<EdgeElement> _dataEdgeElements) GetModelElements()
         {
             List<string[]> lines;
-            if (_fileType == FileFormatType.Csv) lines = ReadAndParseCsvData(_path);
+            if (_fileType == FileFormatType.Csv)
+            {
+                lines = ReadAndParseCsvData(_path);
+
+                var maxColumnWidth = lines.GetMaxColumnWidth();
+
+                var lineSep = new string('-', lines[0].Length * (1 + maxColumnWidth) + 1);
+                var t = lineSep.Length;
+                var sb = new StringBuilder();
+                sb.Append('\n');
+                sb.Append(lineSep);
+                sb.Append('\n');
+                foreach (var line in lines)
+                {
+                    if (line.Length > 0)
+                    {
+                        sb.Append($"|{line[0].CompleteLineWidth(maxColumnWidth)}");
+
+                        for (var i = 1; i < line.Length - 1; i++)
+                        {
+                            sb.Append($"|{line[i].CompleteLineWidth(maxColumnWidth)}");
+                        }
+
+                        sb.Append($"|{line[^1].CompleteLineWidth(maxColumnWidth)}|");
+                    }
+
+                    sb.Append('\n');
+                    sb.Append(lineSep);
+                    sb.Append('\n');
+                }
+                _logger?.Info("Матрица инцидентности успешно прочитана.");
+                _logger?.Info($"Имеет вид: {sb}");
+            }
             else throw new ArgumentException($"ОШИБКА! В текущей версии программы формат {_fileType} не поддерживается. Выберите Сsv файл.");
 
-            if (_formatDataGraph == FormatDataGraph.IncidenceMatrix) return PreparingIncidenceMatrixGraphModels(lines);
+            if (_formatDataGraph == FormatDataGraph.IncidenceMatrix)
+            {
+                var t = PreparingIncidenceMatrixGraphModels(lines);
+                _logger?.Info("Граф успешно прочитан из матрицы.");
+                return t;
+            }
             throw new ArgumentException($"ОШИБКА! В текущей версии программы формат матрицы {_formatDataGraph} не поддерживается. Выберите матрицу инцидентности файл.");
         }
 

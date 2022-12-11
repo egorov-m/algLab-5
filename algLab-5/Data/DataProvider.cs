@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using algLab_5.Models.Graph;
+using algLab_5.Services.Logger;
 using algLab_5.Views.Utils;
 
 namespace algLab_5.Data
@@ -34,13 +35,16 @@ namespace algLab_5.Data
         /// <summary> Инициализация DataProvider с загрузкой существующих данных </summary>
         /// <param name="path"> Путь к файлу </param>
         /// <param name="workingDirectory"> Рабочая директория </param>
+        /// <param name="fileFormatType"> Тип файла </param>
         /// <param name="formatDataGraph"> Тип файла </param>
         /// <param name="canvas"> Холст </param>
-        public DataProvider(string path, string? workingDirectory, Canvas canvas, FileFormatType fileFormatType, FormatDataGraph formatDataGraph)
+        /// <param name="logger"> Логгер </param>
+        public DataProvider(string path, string? workingDirectory, Canvas canvas, FileFormatType fileFormatType, FormatDataGraph formatDataGraph, Logger? logger = null)
         {
-            var dataLoader = new DataLoader(path, fileFormatType, formatDataGraph);
+            var dataLoader = new DataLoader(path, fileFormatType, formatDataGraph, logger);
             (_dataVertexElements, _dataEdgeElements) = dataLoader.GetModelElements();
             SetOnCanvas(canvas);
+            logger?.Info("Граф успешно установлен на холст.");
         }
 
         /// <summary> Добавить элемент вершины графа </summary>
