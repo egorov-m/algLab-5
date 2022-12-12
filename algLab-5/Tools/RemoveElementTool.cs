@@ -51,8 +51,8 @@ namespace algLab_5.Tools
 
                 listForRemove.ForEach(x =>
                 {
-                    x.InitialVertexElement.EdgesList.Remove(x);
-                    x.DestinationVertexElement?.EdgesList.Remove(x);
+                    x.InitialVertex.EdgesList.Remove(x);
+                    x.DestinationVertex?.EdgesList.Remove(x);
                     edgeElementsData.Remove(x);
                 });
 
@@ -70,13 +70,13 @@ namespace algLab_5.Tools
             {
                 var element = HoverEdgeElements[0];
 
-                element.InitialVertexElement.EdgesList.Remove(element);
-                element.DestinationVertexElement?.EdgesList.Remove(element);
+                element.InitialVertex.EdgesList.Remove(element);
+                element.DestinationVertex?.EdgesList.Remove(element);
 
                 element.RemoveDraw(_args.Canvas);
                 _args.DataProvider.GetEdgeElementsData().Remove(element);
 
-                _args.Logger.Info($"Ребро \"{element.TextBox.Text}\" между вершинами \"{element.InitialVertexElement.TextBox.Text}\" и \"{element.DestinationVertexElement?.TextBox.Text}\" успешно удалено.");
+                _args.Logger.Info($"Ребро \"{element.TextBox.Text}\" между вершинами \"{element.InitialVertex.TextBox.Text}\" и \"{element.DestinationVertex?.TextBox.Text}\" успешно удалено.");
 
                 _args.SavedChange(StatusSaved.Unsaved);
                 _args.MainWindow.DisableTool();

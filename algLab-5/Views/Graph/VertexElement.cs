@@ -20,11 +20,11 @@ namespace algLab_5.Views.Graph
         IVisited
     {
         /// <summary> Позиция центра вершины на холсте </summary>
-        public Point Position { get; set; }
+        public override Point Position { get; set; }
 
         #region Составные части
         /// <summary> Сетка элемента вершины </summary>
-        public Grid Grid;
+        public override Grid Grid { get; set; }
 
         /// <summary> Эллипс (снова) элемента вершины </summary>
         private Ellipse _ellipse;
@@ -33,7 +33,7 @@ namespace algLab_5.Views.Graph
         private StackPanel _stackPanel;
 
         /// <summary> Текстовое поле ввода элемента вершины </summary>
-        public TextBox TextBox { get; set; }
+        public override TextBox TextBox { get; set; }
         #endregion
 
         public VertexElement(string data) : base(data)
@@ -91,7 +91,7 @@ namespace algLab_5.Views.Graph
         }
 
         /// <summary> Отобразить данные </summary>
-        public void SetData() => TextBox.Text = Data;
+        public override void SetData() => TextBox.Text = Data;
 
         /// <summary> Установить вершину как посещённую </summary>
         public override void SetVisited()

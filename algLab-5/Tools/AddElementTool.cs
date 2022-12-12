@@ -3,6 +3,7 @@ using algLab_5.Models.Utils;
 using algLab_5.Tools.Base;
 using algLab_5.Views.Graph;
 using System.Windows.Input;
+using algLab_5.Models.Graph;
 
 namespace algLab_5.Tools
 {
@@ -10,7 +11,7 @@ namespace algLab_5.Tools
     public class AddElementTool : Tool
     {
         /// <summary> Выбранный Grid </summary>
-        private VertexElement? _element;
+        private Vertex? _element;
 
         /// <summary> В процессе ли добавление вершины </summary>
         private bool _isProcess;

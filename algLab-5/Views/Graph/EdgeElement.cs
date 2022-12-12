@@ -21,43 +21,37 @@ namespace algLab_5.Views.Graph
     {
         #region Составные элементы
 
-        /// <summary> Начальная вершина ребра </summary>
-        public VertexElement InitialVertexElement { get; set; }
-
-        /// <summary> Конечная вершина ребра </summary>
-        public VertexElement? DestinationVertexElement { get; set; }
-
         /// <summary> Линия ребра </summary>
-        public Polyline Polyline { get; set; }
+        public override Polyline Polyline { get; set; }
 
         /// <summary> Коллекция точек для рисования линии ребра </summary>
         public PointCollection PointCollection { get; set; }
 
         /// <summary> Панель для содержимого элемента ребра </summary>
-        public StackPanel StackPanel { get; set; }
+        public override StackPanel StackPanel { get; set; }
 
         /// <summary> Текстовое поле ввода веса ребра </summary>
-        public TextBox TextBox { get; set; }
+        public override TextBox TextBox { get; set; }
 
         #endregion
 
-        public EdgeElement(VertexElement initialVertexElement, VertexElement destinationVertexElement, int initialVertexId, int destinationVertexId, int weight) : base(initialVertexId, destinationVertexId, weight)
+        public EdgeElement(Vertex initialVertex, Vertex destinationVertex, int weight) : base(initialVertex, destinationVertex, weight)
         {
-            InitialVertexElement = initialVertexElement;
-            DestinationVertexElement = destinationVertexElement;
+            //InitialVertexElement = initialVertexElement;
+            //DestinationVertexElement = destinationVertexElement;
             Set();
         }
 
-        public EdgeElement(VertexElement initialVertexElement, int initialVertexId, int weight) : base(initialVertexId, weight)
+        public EdgeElement(Vertex initialVertex, int weight) : base(initialVertex, weight)
         {
-            InitialVertexElement = initialVertexElement;
+            //InitialVertexElement = initialVertexElement;
             Set();
         }
 
         /// <summary> Установить отображение двух указанных значений </summary>
         /// <param name="value1"> Значение 1 </param>
         /// <param name="value2"> Значение 2 </param>
-        public void SetDisplayTwoValues(int value1, int value2)
+        public override void SetDisplayTwoValues(int value1, int value2)
         {
             TextBox.Text = $"{value1} / {value2}";
         }
@@ -91,7 +85,7 @@ namespace algLab_5.Views.Graph
         }
 
         /// <summary> Отобразить вес ребра </summary>
-        public void SetWeight() => TextBox.Text = Weight.ToString();
+        public override void SetWeight() => TextBox.Text = Weight.ToString();
 
         /// <summary> Установить элемент вершины </summary>
         private void Set()
@@ -134,7 +128,7 @@ namespace algLab_5.Views.Graph
             Panel.SetZIndex(StackPanel, 2);
 
             Polyline.Points.Clear();
-            PointCollection = ConfiguratorViewElement.GetPointCollectionForConnection(point, InitialVertexElement.Grid, ConnectionType.Default);
+            PointCollection = ConfiguratorViewElement.GetPointCollectionForConnection(point, InitialVertex.Grid, ConnectionType.Default);
             Polyline.Points = PointCollection;
 
             StackPanel.SetCoordinatesForStackPanel(Polyline.GetDirectPolyLineCenter());
@@ -145,7 +139,7 @@ namespace algLab_5.Views.Graph
         public override void Draw(Point point)
         {
             Polyline.Points.Clear();
-            PointCollection = ConfiguratorViewElement.GetPointCollectionForConnection(point, InitialVertexElement.Grid, ConnectionType.Default);
+            PointCollection = ConfiguratorViewElement.GetPointCollectionForConnection(point, InitialVertex.Grid, ConnectionType.Default);
             Polyline.Points = PointCollection;
 
             StackPanel.SetCoordinatesForStackPanel(Polyline.GetDirectPolyLineCenter());
@@ -183,9 +177,9 @@ namespace algLab_5.Views.Graph
         public override void Draw()
         {
             Polyline.Points.Clear();
-            if (DestinationVertexElement != null)
+            if (DestinationVertex != null)
             {
-                PointCollection = new PointCollection {InitialVertexElement.Position, DestinationVertexElement.Position};
+                PointCollection = new PointCollection {InitialVertex.Position, DestinationVertex.Position};
                 Polyline.Points = PointCollection;
                 StackPanel.SetCoordinatesForStackPanel(Polyline.GetDirectPolyLineCenter());
             }
@@ -199,9 +193,9 @@ namespace algLab_5.Views.Graph
             canvas.Children.Add(StackPanel);
             Panel.SetZIndex(StackPanel, 2);
 
-            if (DestinationVertexElement != null)
+            if (DestinationVertex != null)
             {
-                PointCollection = new PointCollection {InitialVertexElement.Position, DestinationVertexElement.Position};
+                PointCollection = new PointCollection {InitialVertex.Position, DestinationVertex.Position};
                 Polyline.Points = PointCollection;
                 StackPanel.SetCoordinatesForStackPanel(Polyline.GetDirectPolyLineCenter());
             }

@@ -65,5 +65,57 @@ namespace algLab_5.Services.Logger
         {
             return line.Length < width ? $"{line}{new string(c, width - line.Length)}" : line;
         }
+
+        /// <summary> Получить матрицу инцидентности для логирования </summary>
+        /// <param name="lines"> Список массивов элементов матрицы </param>
+        public static StringBuilder GetIncidenceMatrixForLog(this IList<string[]> lines)
+        {
+            var maxColumnWidth = lines.GetMaxColumnWidth();
+
+            var lineSep = new string('-', lines[0].Length * (1 + maxColumnWidth) + 1);
+            var sb = new StringBuilder();
+            sb.Append('\n');
+            sb.Append(lineSep);
+            sb.Append('\n');
+            foreach (var line in lines)
+            {
+                if (line.Length > 0)
+                {
+                    sb.Append($"|{line[0].CompleteLineWidth(maxColumnWidth)}");
+
+                    for (var i = 1; i < line.Length - 1; i++)
+                    {
+                        sb.Append($"|{line[i].CompleteLineWidth(maxColumnWidth)}");
+                    }
+
+                    sb.Append($"|{line[^1].CompleteLineWidth(maxColumnWidth)}|");
+                }
+
+                sb.Append('\n');
+                sb.Append(lineSep);
+                sb.Append('\n');
+            }
+
+            return sb;
+        }
+
+        /// <summary> Получить матрицу инцидентности для логирования </summary>
+        /// <param name="lines"> Двумерный массив элементов матрицы </param>
+        public static StringBuilder GetIncidenceMatrixForLog(this string[,] lines)
+        {
+            var list = new List<string[]>();
+            for (var i = 0; i < lines.GetLength(0); i++)
+            {
+                var array = new string[lines.GetLength(1)];
+                for (var j = 0; j < lines.GetLength(1); j++)
+                {
+                    array[j] = lines[i, j];
+                }
+
+                list.Add(array);
+            }
+
+            return list.GetIncidenceMatrixForLog();
+        }
     }
 }

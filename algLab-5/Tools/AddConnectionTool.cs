@@ -3,13 +3,14 @@ using algLab_5.Tools.Base;
 using algLab_5.Views.Graph;
 using System;
 using System.Windows.Input;
+using algLab_5.Models.Graph;
 
 namespace algLab_5.Tools
 {
     public class AddConnectionTool : Tool
     {
         /// <summary> Элемент добавляемого ребра графа </summary>
-        private EdgeElement? _edgeElement;
+        private Edge? _edgeElement;
 
         /// <summary> В процессе ли добавление связи </summary>
         private bool _isProcess;
@@ -48,7 +49,7 @@ namespace algLab_5.Tools
                 {
                     if (_edgeElement != null)
                     {
-                        if (_edgeElement.InitialVertexElement == HoverVertexElements[0])
+                        if (_edgeElement.InitialVertex == HoverVertexElements[0])
                         {
                             _isProcess = false;
                             _edgeElement.RemoveDraw(_args.Canvas);
@@ -57,20 +58,20 @@ namespace algLab_5.Tools
                             throw new Exception("ОШИБКА! Ребро можно создать только между разными вершинами.");
                         }
 
-                        _edgeElement.DestinationVertexElement = HoverVertexElements[0];
+                        _edgeElement.DestinationVertex = HoverVertexElements[0];
                         _edgeElement.Draw();
 
-                        if (_edgeElement.DestinationVertexElement != null)
+                        if (_edgeElement.DestinationVertex != null)
                         {
                             if (!_args.DataProvider.AddEdgeElement(_edgeElement))
                             {
                                 throw new ArgumentException("ОШИБКА! Нельзя добавить уже существующее ребро.");
                             }
 
-                            _edgeElement.InitialVertexElement.EdgesList.Add(_edgeElement);
-                            _edgeElement.DestinationVertexElement.EdgesList.Add(_edgeElement);
+                            _edgeElement.InitialVertex.EdgesList.Add(_edgeElement);
+                            _edgeElement.DestinationVertex.EdgesList.Add(_edgeElement);
 
-                            _args.Logger.Info($"Ребро между вершинами \"{_edgeElement.InitialVertexElement.TextBox.Text}\" и \"{_edgeElement.DestinationVertexElement.TextBox.Text}\" добавлено.");
+                            _args.Logger.Info($"Ребро между вершинами \"{_edgeElement.InitialVertex.TextBox.Text}\" и \"{_edgeElement.DestinationVertex.TextBox.Text}\" добавлено.");
 
                             _args.SavedChange(StatusSaved.Unsaved);
                             _isProcess = false;
@@ -83,7 +84,7 @@ namespace algLab_5.Tools
             {
                 if (_countHoverVertexElement == 1)
                 {
-                    _edgeElement = new EdgeElement(HoverVertexElements[0], HoverVertexElements[0].Id, 0);
+                    _edgeElement = new EdgeElement(HoverVertexElements[0], HoverVertexElements[0], 0);
                     var pointCursor = e.GetPosition(_args.Canvas);
                     _edgeElement?.Draw(_args.Canvas, pointCursor);
                     _isProcess = true;

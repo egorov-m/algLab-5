@@ -1,7 +1,6 @@
 ﻿using algLab_5.Data;
 using algLab_5.Models.Graph;
 using algLab_5.Services.Logger;
-using algLab_5.Views.Graph;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
@@ -16,7 +15,7 @@ namespace algLab_5.Algorithms
         private class Subset
         {
             /// <summary> Вершина графа </summary>
-            public  VertexElement Parent { get; set; }
+            public  Vertex Parent { get; set; }
             /// <summary> Ранг вершины </summary>
             public int Rank { get; set; }
         }
@@ -25,7 +24,7 @@ namespace algLab_5.Algorithms
         /// <param name="subsets"> Словарь хранящий множества Union-find для каждой вершины </param>
         /// <param name="parent"> Родительская вершина </param>
         /// <param name="logger"> Логгер </param>
-        private static VertexElement Find(Dictionary<VertexElement, Subset> subsets, VertexElement parent, Logger? logger = null)
+        private static Vertex Find(Dictionary<Vertex, Subset> subsets, Vertex parent, Logger? logger = null)
         {
             logger?.Info("Рекурсивно выполняем поиск корня. Сжатие пути.");
             if (subsets[parent].Parent != parent)
@@ -39,7 +38,7 @@ namespace algLab_5.Algorithms
         /// <param name="vertex1"> Вершина 1 </param>
         /// <param name="vertex2"> Вершина 2 </param>
         /// <param name="logger"> Логгер </param>
-        private static void Union(Dictionary<VertexElement, Subset> subsets, VertexElement vertex1, VertexElement vertex2, Logger? logger = null)
+        private static void Union(Dictionary<Vertex, Subset> subsets, Vertex vertex1, Vertex vertex2, Logger? logger = null)
         {
             logger?.Info("Выполняем поиск корней обоих вершин.");
             var xroot = Find(subsets, vertex1);
@@ -74,7 +73,7 @@ namespace algLab_5.Algorithms
         /// <summary> Выполнить алгоритм Крускала </summary>
         /// <param name="graph"> Граф </param>
         /// <param name="logger"> Логгер </param>
-        public static async Task<(List<EdgeElement>, int)> ExecuteKruskal(this DataProvider graph, Logger? logger = null)
+        public static async Task<(List<Edge>, int)> ExecuteKruskal(this DataProvider graph, Logger? logger = null)
         {
             ConsoleHandler.SetIsWriteTitle();
             logger?.Info("Начинается демонстрация работы алгоритма поиск минимального остовного дерева. [Алгоритм Крускала]");
@@ -88,7 +87,7 @@ namespace algLab_5.Algorithms
             var edges = graph.GetEdgeElementsData().ToList();
 
             logger.Info("Инициализируем список для минимального остовного дерева.");
-            var result = new List<EdgeElement>();
+            var result = new List<Edge>();
 
             var edgesCounter = 0;
             var verticesCounter = 0;
@@ -97,7 +96,7 @@ namespace algLab_5.Algorithms
             logger.Info("Выполняем сортировку в порядке неубывания списка рёбер графа.");
             edges.Sort();
 
-            var subsets = new Dictionary<VertexElement, Subset>();
+            var subsets = new Dictionary<Vertex, Subset>();
 
             foreach (var vertexElement in graph.GetVertexElementsData())
             {
@@ -112,11 +111,11 @@ namespace algLab_5.Algorithms
                 logger?.Info($"Выбрали ребро: \"{nextEdge.Weight}\".");
 
                 logger?.Info("Начинаем выполнять поиск пути для первой вершины текущего ребра.");
-                var x = Find(subsets, nextEdge.InitialVertexElement, logger);
-                if (nextEdge.DestinationVertexElement != null)
+                var x = Find(subsets, nextEdge.InitialVertex, logger);
+                if (nextEdge.DestinationVertex != null)
                 {
                     logger?.Info("Начинаем выполнять поиск пути для второй вершины текущего ребра.");
-                    var y = Find(subsets, nextEdge.DestinationVertexElement);
+                    var y = Find(subsets, nextEdge.DestinationVertex);
 
                     if (x != y)
                     {

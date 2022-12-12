@@ -2,9 +2,8 @@
 using algLab_5.Models;
 using algLab_5.Tools.Base;
 using System.Windows.Input;
-using algLab_5.Views.Graph;
 using System;
-using System.Xml.Linq;
+using algLab_5.Models.Graph;
 
 namespace algLab_5.Tools
 {
@@ -14,10 +13,10 @@ namespace algLab_5.Tools
         private bool _isProcess;
 
         /// <summary> Выбранный для редактирования элемент вершины </summary>
-        private VertexElement? _selectedVertexElement;
+        private Vertex? _selectedVertexElement;
 
         /// <summary> Выбранный для редактирования элемент ребра </summary>
-        private EdgeElement? _selectedEdgeElement;
+        private Edge? _selectedEdgeElement;
 
         public EditDataTool(ToolArgs args) : base(args)
         {
@@ -48,8 +47,8 @@ namespace algLab_5.Tools
                     if (_countHoverEdgeElement == 1)
                     {
                         _isProcess = true;
-                        HoverEdgeElements[0].TextBox.IsEnabled = true;
-                        HoverEdgeElements[0].TextBox.BorderThickness = new Thickness(1, 1, 1, 1);
+                        HoverEdgeElements[0]!.TextBox.IsEnabled = true;
+                        HoverEdgeElements[0]!.TextBox.BorderThickness = new Thickness(1, 1, 1, 1);
 
                         _selectedEdgeElement = HoverEdgeElements[0];
                     }

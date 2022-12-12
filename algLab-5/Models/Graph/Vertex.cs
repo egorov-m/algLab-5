@@ -19,6 +19,15 @@ namespace algLab_5.Models.Graph
         /// <summary> Данные вершины </summary>
         public string Data { get; set; }
 
+        /// <summary> Точка положения вершины </summary>
+        public abstract Point Position { get; set; }
+
+        /// <summary> Сетка вершины </summary>
+        public abstract Grid Grid { get; set; }
+
+        /// <summary> Текстовое поле вершины </summary>
+        public abstract TextBox TextBox { get; set; }
+
         /// <summary> Список содержащий все рёбра вершины </summary>
         public IList<Edge?> EdgesList { get; protected set; }
 
@@ -60,6 +69,9 @@ namespace algLab_5.Models.Graph
             Data = data;
             return true;
         }
+
+        /// <summary> Отобразить данные </summary>
+        public abstract void SetData();
 
         /// <summary> Установить вершину как посещённую </summary>
         public virtual void SetVisited() => _isVisited = true;

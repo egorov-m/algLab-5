@@ -1,9 +1,9 @@
 ﻿using algLab_5.Services.Logger;
 using algLab_5.Services;
-using algLab_5.Views.Graph;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using algLab_5.Models.Graph;
 
 namespace algLab_5.Algorithms
 {
@@ -15,7 +15,7 @@ namespace algLab_5.Algorithms
             /// <summary> Стоимость </summary>
             public int Price { get; set; }
             /// <summary> Предыдущая вершина </summary>
-            public VertexElement? Previous { get; set; }
+            public Vertex? Previous { get; set; }
         }
 
         /// <summary> Выполнить алгоритм Дейкстры </summary>
@@ -23,7 +23,7 @@ namespace algLab_5.Algorithms
         /// <param name="start"> Стартовая вершина </param>
         /// <param name="end"> Конечна вершина </param>
         /// <param name="logger"> Логгер </param>
-        public static async Task<List<VertexElement>?> ExecuteDijkstra(this List<VertexElement> graph, VertexElement start, VertexElement end, Logger? logger = null)
+        public static async Task<List<Vertex>?> ExecuteDijkstra(this List<Vertex> graph, Vertex start, Vertex end, Logger? logger = null)
         {
             var isFinal = true;
 
@@ -40,7 +40,7 @@ namespace algLab_5.Algorithms
             if (ControlPanelProvider.IsReset) return null; // Была нажата кнопка сброса демонстрации алгоритма
 
             logger?.Info("Заводим трекинг — в нём будем хранить информацию об оценках каждой вершины.");
-            var track = new Dictionary<VertexElement, DijkstraData>();
+            var track = new Dictionary<Vertex, DijkstraData>();
 
             logger?.Info("Складываем начальную вершину в трекинг. Начальная цена равна нулю.");
             track[start] = new DijkstraData {Previous = null, Price = 0 };
@@ -53,7 +53,7 @@ namespace algLab_5.Algorithms
             logger?.Info("Запускаем вечный цикл.");
             while (true)
             {
-                VertexElement? toOpen = null;
+                Vertex? toOpen = null;
                 var bestPrice = int.MaxValue;
 
                 logger?.Info("Определяем какую вершину будем раскрывать. Выполняем проход по списку не посещённых вершин.");
@@ -92,41 +92,38 @@ namespace algLab_5.Algorithms
                 logger?.Info("Выполняем проход по всем инцидентным вершинам раскрываемой вершины.");
                 foreach (var edge in toOpen.EdgesList)
                 {
-                    if (edge is EdgeElement edgeElement)
+                    logger?.Info($"Выполняем проход по ребру \"{edge.Weight}\".");
+                    edge.SetVisited();
+
+                    await Task.Run(() => ControlPanelProvider.Continue(logger));
+                    if (ControlPanelProvider.IsReset)
                     {
-                        logger?.Info($"Выполняем проход по ребру \"{edge.Weight}\".");
-                        edgeElement.SetVisited();
+                        isFinal = false;
+                        return null; // Была нажата кнопка сброса демонстрации алгоритма
+                    }
 
-                        await Task.Run(() => ControlPanelProvider.Continue(logger));
-                        if (ControlPanelProvider.IsReset)
+                    var currentPrice = track[toOpen].Price + edge.Weight;
+                    logger?.Info($"Вычисляем текущую цену (цена раскрываемой вершины + вес ребра) = {track[toOpen].Price} + {edge.Weight} = {currentPrice}.");
+
+                    var nextVertex = edge.InitialVertex == toOpen ? edge.DestinationVertex: edge.InitialVertex;
+                    logger?.Info($"Следующая вершина: {nextVertex?.Data}.");
+
+                    if (nextVertex != null)
+                    {
+                        if (!track.ContainsKey(nextVertex) || track[nextVertex].Price > currentPrice)
                         {
-                            isFinal = false;
-                            return null; // Была нажата кнопка сброса демонстрации алгоритма
+                            track[nextVertex] = new DijkstraData {Price = currentPrice, Previous = toOpen};
+                            logger?.Info($"Добавляем вершину \"{nextVertex.Data}\" в трекинг.");
+                            nextVertex.SetVisited();
+                            nextVertex.TextBox.Text = currentPrice.ToString();
                         }
+                    }
 
-                        var currentPrice = track[toOpen].Price + edge.Weight;
-                        logger?.Info($"Вычисляем текущую цену (цена раскрываемой вершины + вес ребра) = {track[toOpen].Price} + {edge.Weight} = {currentPrice}.");
-
-                        var nextVertex = edgeElement.InitialVertexElement == toOpen ? edgeElement.DestinationVertexElement : edgeElement.InitialVertexElement;
-                        logger?.Info($"Следующая вершина: {nextVertex?.Data}.");
-
-                        if (nextVertex != null)
-                        {
-                            if (!track.ContainsKey(nextVertex) || track[nextVertex].Price > currentPrice)
-                            {
-                                track[nextVertex] = new DijkstraData {Price = currentPrice, Previous = toOpen};
-                                logger?.Info($"Добавляем вершину \"{nextVertex.Data}\" в трекинг.");
-                                nextVertex.SetVisited();
-                                nextVertex.TextBox.Text = currentPrice.ToString();
-                            }
-                        }
-
-                        await Task.Run(() => ControlPanelProvider.Continue(logger));
-                        if (ControlPanelProvider.IsReset)
-                        {
-                            isFinal = false;
-                            return null; // Была нажата кнопка сброса демонстрации алгоритма
-                        }
+                    await Task.Run(() => ControlPanelProvider.Continue(logger));
+                    if (ControlPanelProvider.IsReset)
+                    {
+                        isFinal = false;
+                        return null; // Была нажата кнопка сброса демонстрации алгоритма
                     }
                 }
 
@@ -134,7 +131,7 @@ namespace algLab_5.Algorithms
                 noVisited.Remove(toOpen);
             }
 
-            var result = new List<VertexElement>();
+            var result = new List<Vertex>();
             if (isFinal)
             {
                 logger?.Info("Собираем список с результатом.");

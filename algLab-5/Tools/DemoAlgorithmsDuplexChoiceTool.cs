@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using algLab_5.Algorithms;
 using algLab_5.Models;
+using algLab_5.Models.Graph;
 using algLab_5.Services;
 using algLab_5.Services.Logger;
 using algLab_5.Tools.Base;
-using algLab_5.Views.Graph;
-using Microsoft.VisualBasic;
 using Colors = algLab_5.Views.Utils.Colors;
 
 namespace algLab_5.Tools
@@ -21,13 +15,13 @@ namespace algLab_5.Tools
     public class DemoAlgorithmsDuplexChoiceTool : Tool
     {
         /// <summary> Начальный элемент </summary>
-        private VertexElement? _sourceElement;
+        private Vertex? _sourceElement;
 
         /// <summary> Конечный элемент </summary>
-        private VertexElement? _destElement;
+        private Vertex? _destElement;
 
         /// <summary> Выбранный элемент </summary>
-        private VertexElement? _selectedElement;
+        private Vertex? _selectedElement;
 
         /// <summary> Текущее положение курсора на холсте </summary>
         private Point _currentCursorPosition;

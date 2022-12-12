@@ -1,16 +1,15 @@
-﻿using System.Collections.Generic;
-using algLab_5.Models;
+﻿using algLab_5.Models;
 using algLab_5.Tools.Base;
-using algLab_5.Views.Graph;
 using System.Windows;
 using System.Windows.Input;
+using algLab_5.Models.Graph;
 
 namespace algLab_5.Tools
 {
     public class ArrowTool : Tool
     {
         /// <summary> Выбранный элемент </summary>
-        private VertexElement? _selectedElement;
+        private Vertex? _selectedElement;
 
         /// <summary> Текущее положение курсора на холсте </summary>
         private Point _currentCursorPosition;

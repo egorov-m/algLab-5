@@ -2,6 +2,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Shapes;
 
 namespace algLab_5.Models.Graph
 {
@@ -14,13 +15,22 @@ namespace algLab_5.Models.Graph
         IVisited
     {
         /// <summary> Откуда </summary>
-        public int InitialVertexId { get; set; }
+        public Vertex InitialVertex { get; set; }
 
         /// <summary> Куда </summary>
-        public int? DestinationVertexId { get; set; }
+        public Vertex? DestinationVertex { get; set; }
 
         /// <summary> Цена ребра </summary>
         public int Weight { get; set; }
+
+        /// <summary> Линия ребра </summary>
+        public abstract Polyline Polyline { get; set; }
+
+        /// <summary> Панель для содержимого элемента ребра </summary>
+        public abstract StackPanel StackPanel { get; set; }
+
+        /// <summary> Текстовое поле ввода веса ребра </summary>
+        public abstract TextBox TextBox { get; set; }
 
         /// <summary> Было ли посещено ребро графа </summary>
         protected bool _isVisited;
@@ -28,16 +38,16 @@ namespace algLab_5.Models.Graph
         /// <summary> Было ли посещено ребро графа </summary>
         public bool IsVisited => _isVisited;
 
-        protected Edge(int initialVertexId, int weight)
+        protected Edge(Vertex initialVertex, int weight)
         {
-            InitialVertexId = initialVertexId;
+            InitialVertex = initialVertex;
             Weight = weight;
         }
 
-        protected Edge(int initialVertexId, int destinationVertexId, int weight)
+        protected Edge(Vertex initialVertex, Vertex destinationVertex, int weight)
         {
-            InitialVertexId = initialVertexId;
-            DestinationVertexId = destinationVertexId;
+            InitialVertex = initialVertex;
+            DestinationVertex = destinationVertex;
             Weight = weight;
         }
 
@@ -67,6 +77,14 @@ namespace algLab_5.Models.Graph
             return false;
         }
 
+        /// <summary> Отобразить вес ребра </summary>
+        public abstract void SetWeight();
+
+        /// <summary> Установить отображение двух указанных значений </summary>
+        /// <param name="value1"> Значение 1 </param>
+        /// <param name="value2"> Значение 2 </param>
+        public abstract void SetDisplayTwoValues(int value1, int value2);
+
         /// <summary> Установить ребро как посещённое </summary>
         public virtual void SetVisited() => _isVisited = true;
 
@@ -84,7 +102,7 @@ namespace algLab_5.Models.Graph
         public override bool Equals(object obj)
         {
             if (obj is not Edge edge) return false;
-            return InitialVertexId == edge.InitialVertexId && DestinationVertexId == edge.DestinationVertexId && Weight == edge.Weight;
+            return InitialVertex == edge.InitialVertex && DestinationVertex == edge.DestinationVertex && Weight == edge.Weight;
         }
 
         /// <summary> Сравнивает только стоимости рёбер </summary>

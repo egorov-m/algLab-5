@@ -31,14 +31,13 @@ namespace algLab_5
         private string? _workingDirectory;
 
         private string _nameProject;
-        private TextBlock _tbNameProject;
+        private readonly TextBlock _tbNameProject;
 
         public MainWindow()
         {
             InitializeComponent();
 
             _statusBarUpdater = new StatusBarUpdater(tbIsSavedProject, tbCurrentState, tbCoordinates, tbIsHover);
-            //_dataProvider = new DataProvider();
             _consoleProvider = new ConsoleProvider(spConsoleContainer);
             _logger = Logger.GetLogger("loggerGraph", Level.Info, new List<IMessageHandler>() {new ConsoleHandler(_consoleProvider), new FileHandler()});
 
@@ -73,6 +72,7 @@ namespace algLab_5
             _savingStatus = status;
             _statusBarUpdater.UpdateSaveProjectInfo(_savingStatus);
             _tbSavingIndicator.Text = status == StatusSaved.Saved ? "" : "*";
+            _tbNameProject.Text = _nameProject;
         }
 
         private void BtnAddVertexOnClick(object sender, RoutedEventArgs e)
@@ -180,8 +180,39 @@ namespace algLab_5
         /// <param name="e"> Событие нажатия клавиш </param>
         public void WindowKeyboardShortcuts(object sender, KeyEventArgs e)
         {
-            //if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.S) if (_savingStatus == StatusSaved.Unsaved) SaveData(false);
-            //if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control |  ModifierKeys.Shift) && e.Key == Key.S) if (_savingStatus == StatusSaved.Unsaved) SaveData(true);
+            if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.S)
+            {
+                if (_savingStatus == StatusSaved.Unsaved)
+                {
+                    var dataSaver = new DataSaver(_pathProject,
+                                                  _nameProject,
+                                                  FileFormatType.Csv,
+                                                  FormatDataGraph.IncidenceMatrix,
+                                                  _logger);
+                    (_pathProject, _nameProject) = DataSaver.SaveData(_dataProvider.GetVertexElementsData(),
+                                       _dataProvider.GetEdgeElementsData(),
+                                       dataSaver,
+                                       false);
+                    OnChangeStatusSaved(StatusSaved.Saved);
+                }
+            }
+
+            if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift) && e.Key == Key.S)
+            {
+                if (_savingStatus == StatusSaved.Unsaved)
+                {
+                    var dataSaver = new DataSaver(_pathProject,
+                                                  _nameProject,
+                                                  FileFormatType.Csv,
+                                                  FormatDataGraph.IncidenceMatrix,
+                                                  _logger);
+                    (_pathProject, _nameProject) = DataSaver.SaveData(_dataProvider.GetVertexElementsData(),
+                                       _dataProvider.GetEdgeElementsData(),
+                                       dataSaver,
+                                       true);
+                    OnChangeStatusSaved(StatusSaved.Saved);
+                }
+            };
 
         }
     }

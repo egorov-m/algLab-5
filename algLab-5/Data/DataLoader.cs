@@ -2,21 +2,28 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
+using algLab_5.Models.Graph;
 using algLab_5.Services.Logger;
 using algLab_5.Views.Graph;
 
 namespace algLab_5.Data
 {
+    /// <summary> Класс управления загрузкой данных </summary>
     public class DataLoader
     {
+        /// <summary> Путь до загружаемого файла </summary>
         private readonly string _path;
+        /// <summary> Формат файла </summary>
         private readonly FileFormatType _fileType;
+        /// <summary> Формат представления графа </summary>
         private readonly FormatDataGraph _formatDataGraph;
+        /// <summary> Логгер </summary>
         private readonly Logger? _logger;
 
-        private const int IndexVertexData = 0;
-        private const int IndexEdgeWeight = 0;
+        /// <summary> Индекс колонки с данными вершины в матрицы инцидентности </summary>
+        private const int IndexVertexDataInIncidenceMatrix = 0;
+        /// <summary> Индекс строки с весами рёбер в матрицы инцидентности </summary>
+        private const int IndexEdgeWeightInIncidenceMatrix = 0;
 
         public DataLoader(string path, FileFormatType fileType, FormatDataGraph formatDataGraph, Logger? logger = null)
         {
@@ -50,39 +57,15 @@ namespace algLab_5.Data
             _logger = logger;
         }
 
-        public (List<VertexElement> _dataVertexElements, List<EdgeElement> _dataEdgeElements) GetModelElements()
+        /// <summary> Получить модель элементов графа </summary>
+        public (List<Vertex> _dataVertexElements, List<Edge> _dataEdgeElements) GetModelElements()
         {
             List<string[]> lines;
             if (_fileType == FileFormatType.Csv)
             {
                 lines = ReadAndParseCsvData(_path);
-
-                var maxColumnWidth = lines.GetMaxColumnWidth();
-
-                var lineSep = new string('-', lines[0].Length * (1 + maxColumnWidth) + 1);
-                var t = lineSep.Length;
-                var sb = new StringBuilder();
-                sb.Append('\n');
-                sb.Append(lineSep);
-                sb.Append('\n');
-                foreach (var line in lines)
-                {
-                    if (line.Length > 0)
-                    {
-                        sb.Append($"|{line[0].CompleteLineWidth(maxColumnWidth)}");
-
-                        for (var i = 1; i < line.Length - 1; i++)
-                        {
-                            sb.Append($"|{line[i].CompleteLineWidth(maxColumnWidth)}");
-                        }
-
-                        sb.Append($"|{line[^1].CompleteLineWidth(maxColumnWidth)}|");
-                    }
-
-                    sb.Append('\n');
-                    sb.Append(lineSep);
-                    sb.Append('\n');
-                }
+                var sb = lines.GetIncidenceMatrixForLog();
+                
                 _logger?.Info("Матрица инцидентности успешно прочитана.");
                 _logger?.Info($"Имеет вид: {sb}");
             }
@@ -107,7 +90,7 @@ namespace algLab_5.Data
             foreach (var t in lines)
             {
                 if (count != t.Length) throw new FileFormatException("Строки матрицы должны быть одинаковой длинны.");
-                verticesData.Add(t[IndexVertexData]);
+                verticesData.Add(t[IndexVertexDataInIncidenceMatrix]);
             }
 
             if (verticesData.Count != lines.Count) throw new FileFormatException("Имена вершин графа не должны повторяться.");
@@ -115,7 +98,6 @@ namespace algLab_5.Data
             for (var i = 1; i < count; i++)
             {
                 var countConnectionPoint = 0;
-                //var countConnectionPoint = lines.Count(t => t[i] == "1");
                 for (var j = 1; j < lines.Count; j++)
                 {
                     if (lines[j][i] == "1") countConnectionPoint++;
@@ -123,8 +105,28 @@ namespace algLab_5.Data
 
                 if (countConnectionPoint is not (2 or 0)) throw new FileFormatException("Каждое ребро должно быть прикреплено к двум вершинам.");
             }
+
+            for (var i = 1; i < count; i++)
+            {
+                for (var j = i + 1; j < count; j++)
+                {
+                    var isEdgesMatch = true;
+                    for (var k = 1; k < lines.Count; k++)
+                    {
+                        if (lines[k][i] != lines[k][j])
+                        {
+                            isEdgesMatch = false;
+                        }
+                    }
+
+                    if (isEdgesMatch) throw new FileFormatException("Рёбра между двумя вершинами не должны повторяться.");
+                }
+            }
         }
 
+        /// <summary> Считывать и парсить Csv данные </summary>
+        /// <param name="path"> Путь до файла </param>
+        /// <param name="separator"> Csv разделитель </param>
         private static List<string[]> ReadAndParseCsvData(string path, char separator = ';')
         {
             if (File.Exists(path)) return File.ReadAllLines(path).Select(x => x.Split(separator)).ToList();
@@ -134,17 +136,17 @@ namespace algLab_5.Data
         /// <summary> Подготовка матрицы инцидентности </summary>
         /// <param name="lines"> Элементы матрицы </param>
         /// <exception cref="FileFormatException"> Будет выброшено в случае не корректности матрицы инцидентности </exception>
-        private static (List<VertexElement>, List<EdgeElement>) PreparingIncidenceMatrixGraphModels(List<string[]> lines)
+        private static (List<Vertex>, List<Edge>) PreparingIncidenceMatrixGraphModels(List<string[]> lines)
         {
             try
             {
                 CheckErrorsIncidenceMatrix(lines);
-                var vertexElements = new List<VertexElement>();
-                var edgeElements = new EdgeElement[lines[IndexVertexData].Length - 1].ToList();
+                var vertexElements = new List<Vertex>();
+                var edgeElements = new Edge[lines[IndexVertexDataInIncidenceMatrix].Length - 1].ToList();
 
                 for (var i = 1; i < lines.Count; i++)
                 {
-                    var vertexElement = new VertexElement(lines[i][IndexVertexData]);
+                    var vertexElement = new VertexElement(lines[i][IndexVertexDataInIncidenceMatrix]);
                     vertexElements.Add(vertexElement);
                     for (var j = 1; j < lines[i].Length; j++)
                     {
@@ -153,13 +155,13 @@ namespace algLab_5.Data
                             var edgeElement = edgeElements[j - 1];
                             if (edgeElement != null)
                             {
-                                edgeElement.DestinationVertexElement = vertexElement;
+                                edgeElement.DestinationVertex = vertexElement;
                                 vertexElement.EdgesList.Add(edgeElement);
                             }
                             else
                             {
-                                int.TryParse(lines[IndexEdgeWeight][j], out var weight);
-                                edgeElement = new EdgeElement(vertexElement, vertexElement.Id, weight);
+                                int.TryParse(lines[IndexEdgeWeightInIncidenceMatrix][j], out var weight);
+                                edgeElement = new EdgeElement(vertexElement, vertexElement, weight);
                                 vertexElement.EdgesList.Add(edgeElement);
                                 edgeElements[j - 1] = edgeElement;
                             }

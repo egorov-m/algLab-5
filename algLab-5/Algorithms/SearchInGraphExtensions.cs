@@ -1,8 +1,8 @@
 ﻿using algLab_5.Services.Logger;
 using algLab_5.Services;
-using algLab_5.Views.Graph;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using algLab_5.Models.Graph;
 
 namespace algLab_5.Algorithms
 {
@@ -11,12 +11,12 @@ namespace algLab_5.Algorithms
         /// <summary> Выполнить обход графа в глубину </summary>
         /// <param name="startVertex"> Стартовая вершина </param>
         /// <param name="logger"> Логгер </param>
-        public static async IAsyncEnumerable<VertexElement>? ExecuteDfs(this VertexElement startVertex, Logger? logger = null)
+        public static async IAsyncEnumerable<Vertex>? ExecuteDfs(this Vertex startVertex, Logger? logger = null)
         {
             ConsoleHandler.SetIsWriteTitle();
             logger?.Info("Начинается демонстрация работы алгоритма поиск в глубину (DFS). [реализация на стеке]");
             logger?.Info("Инициализируем стек для добавления вершин графа.");
-            var stack = new Stack<VertexElement>();
+            var stack = new Stack<Vertex>();
 
             logger?.Info($"Добавляем стартовую вершину \"{startVertex.Data}\" в стек.");
             stack.Push(startVertex);
@@ -47,14 +47,11 @@ namespace algLab_5.Algorithms
                     {
                         logger?.Info($"Выполняем проход по ребру \"{edge.Weight}\".");
                         edge.SetVisited();
-                        if (edge is EdgeElement edgeElement)
+                        var el = edge.InitialVertex == currentVertex ? edge.DestinationVertex : edge.InitialVertex;
+                        if (el != null)
                         {
-                            var el = edgeElement.InitialVertexId == currentVertex.Id ? edgeElement.DestinationVertexElement : edgeElement.InitialVertexElement;
-                            if (el != null)
-                            {
-                                logger?.Info($"Добавляем вершину \"{currentVertex.Data}\" в стек.");
-                                stack.Push(el);
-                            }
+                            logger?.Info($"Добавляем вершину \"{currentVertex.Data}\" в стек.");
+                            stack.Push(el);
                         }
                     }
                 }
@@ -66,12 +63,12 @@ namespace algLab_5.Algorithms
         /// <summary> Выполнить обход графа в ширину </summary>
         /// <param name="startVertex"> Стартовая вершина </param>
         /// <param name="logger"> Логгер </param>
-        public static async IAsyncEnumerable<VertexElement> ExecuteBfs(this VertexElement startVertex, Logger? logger = null)
+        public static async IAsyncEnumerable<Vertex> ExecuteBfs(this Vertex startVertex, Logger? logger = null)
         {
             ConsoleHandler.SetIsWriteTitle();
             logger?.Info("Начинается демонстрация работы алгоритма поиск в ширину (BFS). [реализация на очереди]");
             logger?.Info("Инициализируем очереди для добавления вершин графа.");
-            var queue = new Queue<VertexElement>();
+            var queue = new Queue<Vertex>();
 
             logger?.Info($"Добавляем стартовую вершину \"{startVertex.Data}\" в очередь.");
             queue.Enqueue(startVertex);
@@ -102,14 +99,11 @@ namespace algLab_5.Algorithms
                     {
                         logger?.Info($"Выполняем проход по ребру \"{edge.Weight}\".");
                         edge.SetVisited();
-                        if (edge is EdgeElement edgeElement)
+                        var el = edge.InitialVertex == currentVertex ? edge.DestinationVertex : edge.InitialVertex;
+                        if (el != null)
                         {
-                            var el = edgeElement.InitialVertexId == currentVertex.Id ? edgeElement.DestinationVertexElement : edgeElement.InitialVertexElement;
-                            if (el != null)
-                            {
-                                logger?.Info($"Добавляем вершину \"{currentVertex.Data}\" в очередь.");
-                                queue.Enqueue(el);
-                            }
+                            logger?.Info($"Добавляем вершину \"{currentVertex.Data}\" в очередь.");
+                            queue.Enqueue(el);
                         }
                     }
                 }

@@ -13,24 +13,28 @@ namespace algLab_5.Data
     /// <summary> Класс поставляющий данные </summary>
     public class DataProvider
     {
-        private readonly List<VertexElement> _dataVertexElements;
-        private readonly List<EdgeElement> _dataEdgeElements;
+        /// <summary> Вершины графа </summary>
+        private readonly List<Vertex> _dataVertexElements;
+        /// <summary> Рёбра графа </summary>
+        private readonly List<Edge> _dataEdgeElements;
 
+        /// <summary> Размер окна просмотра по горизонтали </summary>
         private const int ViewportSizeX = 850;
+        /// <summary> Размер окна просмотра по вертикали </summary>
         private const int ViewportSizeY = 440;
 
         /// <summary> Инициализация DataProvider без загрузки данных </summary>
         public DataProvider()
         {
-            _dataVertexElements = new List<VertexElement>();
-            _dataEdgeElements = new List<EdgeElement>();
+            _dataVertexElements = new List<Vertex>();
+            _dataEdgeElements = new List<Edge>();
         }
 
         /// <summary> Получить вершины графа от поставщика </summary>
-        public List<VertexElement> GetVertexElementsData() => _dataVertexElements;
+        public List<Vertex> GetVertexElementsData() => _dataVertexElements;
 
         /// <summary> Получить рёбра графа от поставщика </summary>
-        public List<EdgeElement> GetEdgeElementsData() => _dataEdgeElements;
+        public List<Edge> GetEdgeElementsData() => _dataEdgeElements;
 
         /// <summary> Инициализация DataProvider с загрузкой существующих данных </summary>
         /// <param name="path"> Путь к файлу </param>
@@ -49,29 +53,28 @@ namespace algLab_5.Data
 
         /// <summary> Добавить элемент вершины графа </summary>
         /// <param name="vertexElement"> Элемент вершины </param>
-        public void AddVertexElement(VertexElement vertexElement)
+        public void AddVertexElement(Vertex vertexElement)
         {
             _dataVertexElements.Add(vertexElement);
         }
 
         /// <summary> Добавить элемент ребра графа </summary>
         /// <param name="edgeElement"> Ребро графа </param>
-        public bool AddEdgeElement(EdgeElement? edgeElement)
+        public bool AddEdgeElement(Edge? edgeElement)
         {
-            //_dataEdgeElements.Add(edgeElement);
             var isAdd = !_dataEdgeElements.Any(item =>
-                (item.InitialVertexElement == edgeElement.InitialVertexElement &&
-                 item.DestinationVertexElement == edgeElement.DestinationVertexElement) ||
+                (item.InitialVertex == edgeElement?.InitialVertex &&
+                 item.DestinationVertex == edgeElement.DestinationVertex) ||
 
-                (item.DestinationVertexElement == edgeElement.InitialVertexElement
-                 && item.InitialVertexElement == edgeElement.DestinationVertexElement));
+                (item.DestinationVertex == edgeElement?.InitialVertex
+                 && item.InitialVertex == edgeElement?.DestinationVertex));
             if (!isAdd) return isAdd;
 
             var unnecessaryEdgeElement = _dataEdgeElements.FirstOrDefault(item =>
-                item.InitialVertexElement == edgeElement.DestinationVertexElement &&
-                item.DestinationVertexElement == null);
+                item.InitialVertex == edgeElement?.DestinationVertex &&
+                item.DestinationVertex == null);
             if (unnecessaryEdgeElement != null) _dataEdgeElements.Remove(unnecessaryEdgeElement);
-            _dataEdgeElements.Add(edgeElement);
+            if (edgeElement != null) _dataEdgeElements.Add(edgeElement);
 
             return isAdd;
         }
@@ -119,7 +122,6 @@ namespace algLab_5.Data
         {
             if (countElementsInCircle == capacityElementsInCircle)
             {
-                alpha += alphaStep; // возвращаемся в начало круга
                 alphaStep /= 2;
                 diameterFactor++;
                 capacityElementsInCircle *= 2;

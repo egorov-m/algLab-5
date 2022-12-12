@@ -1,5 +1,4 @@
-﻿using algLab_5.Views.Graph;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
@@ -7,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Shapes;
+using algLab_5.Models.Graph;
 using Colors = algLab_5.Views.Utils.Colors;
 
 namespace algLab_5.Tools.Base
@@ -19,9 +19,9 @@ namespace algLab_5.Tools.Base
         /// <summary> Количество элементов на холсте </summary>
         protected int _countElementsOnCanvas;
         /// <summary> Элементы вершины под эффектом наведения </summary>
-        protected List<VertexElement> HoverVertexElements = new();
+        protected List<Vertex> HoverVertexElements = new();
         /// <summary> Элемент ребра под эффектом наведения </summary>
-        protected List<EdgeElement?> HoverEdgeElements = new();
+        protected List<Edge?> HoverEdgeElements = new();
         /// <summary> Число элементов вершин под эффектом наведения </summary>
         protected int _countHoverVertexElement;
         /// <summary> Число элементов рёбер под эффектом наведения</summary>
@@ -50,7 +50,7 @@ namespace algLab_5.Tools.Base
         }
 
         /// <summary> Получить выбранные элементы графа </summary>
-        protected (List<VertexElement>, List<EdgeElement>) GetHoverElements()
+        protected (List<Vertex>, List<Edge>) GetHoverElements()
         {
             List<Grid?> selectedShapesVertex = new();
             List<Polyline?> selectedShapesEdge = new();

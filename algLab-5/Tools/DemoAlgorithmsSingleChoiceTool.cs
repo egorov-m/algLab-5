@@ -6,10 +6,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using algLab_5.Algorithms;
 using algLab_5.Models;
+using algLab_5.Models.Graph;
 using algLab_5.Services;
 using algLab_5.Services.Logger;
 using algLab_5.Tools.Base;
-using algLab_5.Views.Graph;
 using Colors = algLab_5.Views.Utils.Colors;
 
 namespace algLab_5.Tools
@@ -17,9 +17,9 @@ namespace algLab_5.Tools
     public class DemoAlgorithmsSingleChoiceTool : Tool
     {
         /// <summary> Выбранный элемент </summary>
-        private VertexElement? _selectedElement;
+        private Vertex? _selectedElement;
 
-        private VertexElement? _elementForAlg;
+        private Vertex? _elementForAlg;
 
         /// <summary> Текущее положение курсора на холсте </summary>
         private Point _currentCursorPosition;
