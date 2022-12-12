@@ -1,0 +1,40 @@
+﻿<Window x:Class="algLab_5.Views.Windows.ExitWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:algLab_5.Views.Windows"
+        xmlns:fa5="http://schemas.fontawesome.com/icons/"
+        mc:Ignorable="d"
+        Title="SaveProject" 
+        Height="128" 
+        Width="512"
+        WindowStyle="ToolWindow"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Closing="ExitWindowOnClosing"
+        BorderBrush="#7160e8"
+        BorderThickness="1"
+        Background="#1f1f1f">
+    <DockPanel Background="#1f1f1f">
+        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center">
+            <TextBlock Text="Choose: save changes or forget" FontSize="15" FontWeight="DemiBold" Foreground="#d6d6d6"></TextBlock>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="bthSaveExit" Click="BthSaveExitOnClick" Height="50" Width="150" Background="#424242" BorderBrush="#7160e8">
+                <fa5:ImageAwesome Icon="Solid_CheckCircle" Height="20" Foreground="#7160e8"/>
+                <Button.ToolTip>
+                    <ToolTip Background="#424242" Foreground="#d6d6d6">Save changes and exit</ToolTip>
+                </Button.ToolTip>
+            </Button>
+            <Separator Opacity="0" Width="15"/>
+            <Separator Opacity="0" Width="15"/>
+            <Button x:Name="bthForgetExit" Click="BthForgetExitOnClick" Height="50" Width="150" Background="#424242" BorderBrush="#86322d">
+                <fa5:ImageAwesome Icon="Solid_Ban" Height="20" Foreground="#86322d"/>
+                <Button.ToolTip>
+                    <ToolTip Background="#424242" Foreground="#d6d6d6">Forget changes and exit</ToolTip>
+                </Button.ToolTip>
+            </Button>
+        </StackPanel>
+    </DockPanel>
+</Window>

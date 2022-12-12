@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using algLab_5.Data;
 using algLab_5.Models;
 using algLab_5.Tools;
@@ -28,7 +30,6 @@ namespace algLab_5
         private StatusSaved _savingStatus = StatusSaved.Saved;
         private readonly TextBlock _tbSavingIndicator;
         private string? _pathProject;
-        private string? _workingDirectory;
 
         private string _nameProject;
         private readonly TextBlock _tbNameProject;
@@ -49,7 +50,6 @@ namespace algLab_5
             dataLoaderWindow.ShowDialog();
             _dataProvider = dataLoaderWindow.DataProvider;
             _pathProject = dataLoaderWindow.PathProject;
-            _workingDirectory = dataLoaderWindow.WorkingDirectory;
 
             _nameProject = dataLoaderWindow.NameProject;
             _tbNameProject.Text = _nameProject;
@@ -180,40 +180,68 @@ namespace algLab_5
         /// <param name="e"> Событие нажатия клавиш </param>
         public void WindowKeyboardShortcuts(object sender, KeyEventArgs e)
         {
-            if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.S)
+            if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.S) Saving();
+
+            if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift) && e.Key == Key.S) SavingAs();
+        }
+
+        private void MenuItemSaveOnClick(object sender, RoutedEventArgs e)
+        {
+            Saving();
+        }
+
+        private void MenuItemSaveAsOnClick(object sender, RoutedEventArgs e)
+        {
+            SavingAs();
+        }
+
+        private void MenuItemExitOnClick(object sender, RoutedEventArgs e)
+        {
+            if (_savingStatus == StatusSaved.Saved) Environment.Exit(0);
+            var exitWindow = new ExitWindow(Saving);
+            exitWindow.ShowDialog();
+        }
+
+        /// <summary> Сохранить </summary>
+        private void Saving()
+        {
+            if (_savingStatus == StatusSaved.Unsaved)
             {
-                if (_savingStatus == StatusSaved.Unsaved)
-                {
-                    var dataSaver = new DataSaver(_pathProject,
-                                                  _nameProject,
-                                                  FileFormatType.Csv,
-                                                  FormatDataGraph.IncidenceMatrix,
-                                                  _logger);
-                    (_pathProject, _nameProject) = DataSaver.SaveData(_dataProvider.GetVertexElementsData(),
-                                       _dataProvider.GetEdgeElementsData(),
-                                       dataSaver,
-                                       false);
-                    OnChangeStatusSaved(StatusSaved.Saved);
-                }
+                var isSaveAs = _pathProject == null ? true : false;
+                var dataSaver = new DataSaver(_pathProject,
+                    _nameProject,
+                    FileFormatType.Csv,
+                    FormatDataGraph.IncidenceMatrix,
+                    _logger);
+                (var isSave, _pathProject, _nameProject) = DataSaver.SaveData(_dataProvider.GetVertexElementsData(), _dataProvider.GetEdgeElementsData(), dataSaver, isSaveAs);
+                if (isSave) OnChangeStatusSaved(StatusSaved.Saved);
             }
+        }
 
-            if (e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift) && e.Key == Key.S)
+        /// <summary> Сохранить как </summary>
+        private void SavingAs()
+        {
+            if (_savingStatus == StatusSaved.Unsaved)
             {
-                if (_savingStatus == StatusSaved.Unsaved)
-                {
-                    var dataSaver = new DataSaver(_pathProject,
-                                                  _nameProject,
-                                                  FileFormatType.Csv,
-                                                  FormatDataGraph.IncidenceMatrix,
-                                                  _logger);
-                    (_pathProject, _nameProject) = DataSaver.SaveData(_dataProvider.GetVertexElementsData(),
-                                       _dataProvider.GetEdgeElementsData(),
-                                       dataSaver,
-                                       true);
-                    OnChangeStatusSaved(StatusSaved.Saved);
-                }
-            };
+                var dataSaver = new DataSaver(_pathProject,
+                    _nameProject,
+                    FileFormatType.Csv,
+                    FormatDataGraph.IncidenceMatrix,
+                    _logger);
+                (var isSave, _pathProject, _nameProject) = DataSaver.SaveData(_dataProvider.GetVertexElementsData(), _dataProvider.GetEdgeElementsData(), dataSaver, true);
+                if (isSave) OnChangeStatusSaved(StatusSaved.Saved);
+            }
+        }
 
+        /// <summary> Обработчик нажатия кнопки (крестик) закрытия главного окна </summary>
+        /// <param name="sender"> Кнопка </param>
+        /// <param name="e"> Событие клика </param>
+        private void MainWindowOnClosing(object? sender, CancelEventArgs e)
+        {
+            e.Cancel = true;
+            if (_savingStatus == StatusSaved.Saved) Environment.Exit(0);
+            var exitWindow = new ExitWindow(Saving);
+            exitWindow.ShowDialog();
         }
     }
 }

@@ -43,7 +43,7 @@ namespace algLab_5.Data
         /// <param name="formatDataGraph"> Тип файла </param>
         /// <param name="canvas"> Холст </param>
         /// <param name="logger"> Логгер </param>
-        public DataProvider(string path, string? workingDirectory, Canvas canvas, FileFormatType fileFormatType, FormatDataGraph formatDataGraph, Logger? logger = null)
+        public DataProvider(string path, Canvas canvas, FileFormatType fileFormatType, FormatDataGraph formatDataGraph, Logger? logger = null)
         {
             var dataLoader = new DataLoader(path, fileFormatType, formatDataGraph, logger);
             (_dataVertexElements, _dataEdgeElements) = dataLoader.GetModelElements();

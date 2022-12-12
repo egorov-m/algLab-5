@@ -69,12 +69,14 @@ namespace algLab_5.Data
         /// <param name="edgeList"> Список рёбер </param>
         /// <param name="dataSaver"> Устройство сохранения данных </param>
         /// <param name="isSaveAs"> Было ли выбрано: "Сохранить как" </param>
-        public static (string, string) SaveData(IReadOnlyList<Vertex> vertexList, IReadOnlyList<Edge> edgeList, DataSaver dataSaver, bool isSaveAs)
+        public static (bool, string, string) SaveData(IReadOnlyList<Vertex> vertexList, IReadOnlyList<Edge> edgeList, DataSaver dataSaver, bool isSaveAs)
         {
+            var isSave = false;
             if (!isSaveAs)
             {
                 dataSaver.SavingData(vertexList, edgeList);
-                return (dataSaver._path, dataSaver._projectName);
+                isSave = true;
+                return (isSave, dataSaver._path, dataSaver._projectName);
             }
             else
             {
@@ -90,9 +92,10 @@ namespace algLab_5.Data
                         dataSaver._path = saveFileDialog.FileName;
                         dataSaver._projectName = saveFileDialog.SafeFileName;
                         dataSaver.SavingData(vertexList, edgeList);
+                        isSave = true;
                     }
 
-                    return (dataSaver._path, dataSaver._projectName);
+                    return (isSave, dataSaver._path, dataSaver._projectName);
                 }
                 else
                 {

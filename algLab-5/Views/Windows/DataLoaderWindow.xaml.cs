@@ -17,7 +17,6 @@ namespace algLab_5.Views.Windows
         private readonly Logger? _logger;
         public DataProvider DataProvider { get; private set; }
         public string? PathProject { get; private set; }
-        public string? WorkingDirectory { get; private set; }
         public string NameProject { get; private set; }
 
 
@@ -36,6 +35,7 @@ namespace algLab_5.Views.Windows
         {
             DataProvider = new DataProvider();
             NameProject = "newProject.csv";
+            //PathProject = "./newProject.csv";
             _savedChange(StatusSaved.Unsaved);
             Hide();
         }
@@ -52,9 +52,8 @@ namespace algLab_5.Views.Windows
             if (openFileDialog.ShowDialog() == true)
             {
                 PathProject = openFileDialog.FileName;
-                WorkingDirectory = Path.GetDirectoryName(PathProject);
                 NameProject = openFileDialog.SafeFileName;
-                DataProvider = new DataProvider(PathProject, WorkingDirectory, _canvas, FileFormatType.Csv,  FormatDataGraph.IncidenceMatrix, _logger);
+                DataProvider = new DataProvider(PathProject, _canvas, FileFormatType.Csv,  FormatDataGraph.IncidenceMatrix, _logger);
                 Hide();
             }
 
