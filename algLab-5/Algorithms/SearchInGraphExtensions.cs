@@ -65,6 +65,13 @@ namespace algLab_5.Algorithms
                     }
                 }
 
+                await Task.Run(() => ControlPanelProvider.Continue(logger));
+                if (ControlPanelProvider.IsReset) // Была нажата кнопка сброса демонстрации алгоритма
+                {
+                    isFinal = false;
+                    break;
+                }
+
                 currentVertex.ResetCurrent();
             }
 
@@ -124,6 +131,13 @@ namespace algLab_5.Algorithms
                             logger?.Info($"Текущее состояние очереди: {queue.ToList().GetArrayForLog()}");
                         }
                     }
+                }
+
+                await Task.Run(() => ControlPanelProvider.Continue(logger));
+                if (ControlPanelProvider.IsReset) // Была нажата кнопка сброса демонстрации алгоритма
+                {
+                    isFinal = false;
+                    break;
                 }
 
                 currentVertex.ResetCurrent();
