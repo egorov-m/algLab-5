@@ -79,6 +79,12 @@ namespace algLab_5.Models.Graph
         /// <summary> Установить вершину как НЕ посещённую </summary>
         public virtual void SetNoVisited() => _isVisited = false;
 
+        /// <summary> Установить вершину как текущую (визуально) </summary>
+        public abstract void SetCurrent();
+
+        /// <summary> Сбросить статус текущей вершины (визуально) </summary>
+        public abstract void ResetCurrent();
+
         public abstract void Draw(Canvas canvas, int canvasHeight, int canvasWidth);
         public abstract void Draw(Canvas canvas, Point point);
         public abstract void Draw(Point point);
@@ -86,7 +92,7 @@ namespace algLab_5.Models.Graph
         public abstract void Draw(Canvas canvas);
         public abstract void RemoveDraw(Canvas canvas);
 
-        public override string ToString() => $"id: {Id}\nData: {Data}";
+        public override string ToString() => $"{Data}";
 
         void IVisited.SetVisited() => _isVisited = true;
 

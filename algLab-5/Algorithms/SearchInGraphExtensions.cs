@@ -1,8 +1,10 @@
 ﻿using algLab_5.Services.Logger;
 using algLab_5.Services;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using algLab_5.Models.Graph;
+using System.Collections;
 
 namespace algLab_5.Algorithms
 {
@@ -21,6 +23,8 @@ namespace algLab_5.Algorithms
             logger?.Info($"Добавляем стартовую вершину \"{startVertex.Data}\" в стек.");
             stack.Push(startVertex);
 
+            logger?.Info($"Текущее состояние стека: {stack.ToList().GetArrayForLog()}");
+
             var isFinal = true;
 
             logger?.Info("Пока созданный стек не пуст будем выполнять итерации цикла.");
@@ -30,6 +34,9 @@ namespace algLab_5.Algorithms
                 if (currentVertex.IsVisited) continue;
                 logger?.Info($"Посещаем элемент \"{currentVertex.Data}\".");
                 currentVertex.SetVisited();
+                currentVertex.SetCurrent();
+
+                logger?.Info($"Текущее состояние стека: {stack.ToList().GetArrayForLog()}");
 
                 await Task.Run(() => ControlPanelProvider.Continue(logger));
                 if (ControlPanelProvider.IsReset) // Была нажата кнопка сброса демонстрации алгоритма
@@ -50,11 +57,15 @@ namespace algLab_5.Algorithms
                         var el = edge.InitialVertex == currentVertex ? edge.DestinationVertex : edge.InitialVertex;
                         if (el != null)
                         {
-                            logger?.Info($"Добавляем вершину \"{currentVertex.Data}\" в стек.");
+                            logger?.Info($"Добавляем вершину \"{el.Data}\" в стек.");
                             stack.Push(el);
+
+                            logger?.Info($"Текущее состояние стека: {stack.ToList().GetArrayForLog()}");
                         }
                     }
                 }
+
+                currentVertex.ResetCurrent();
             }
 
             if (isFinal) logger?.Info("Обход графа завершён.");
@@ -73,6 +84,8 @@ namespace algLab_5.Algorithms
             logger?.Info($"Добавляем стартовую вершину \"{startVertex.Data}\" в очередь.");
             queue.Enqueue(startVertex);
 
+            logger?.Info($"Текущее состояние очереди: {queue.ToList().GetArrayForLog()}");
+
             var isFinal = true;
 
             logger?.Info("Пока созданная очередь не пуста будем выполнять итерации цикла.");
@@ -82,12 +95,15 @@ namespace algLab_5.Algorithms
                 if (currentVertex.IsVisited) continue;
                 logger?.Info($"Посещаем элемент \"{currentVertex.Data}\".");
                 currentVertex.SetVisited();
+                currentVertex.SetCurrent();
+
+                logger?.Info($"Текущее состояние очереди: {queue.ToList().GetArrayForLog()}");
 
                 await Task.Run(() => ControlPanelProvider.Continue(logger));
                 if (ControlPanelProvider.IsReset) // Была нажата кнопка сброса демонстрации алгоритма
                 {
                     isFinal = false;
-                    break; 
+                    break;
                 }
 
                 yield return currentVertex;
@@ -102,11 +118,15 @@ namespace algLab_5.Algorithms
                         var el = edge.InitialVertex == currentVertex ? edge.DestinationVertex : edge.InitialVertex;
                         if (el != null)
                         {
-                            logger?.Info($"Добавляем вершину \"{currentVertex.Data}\" в очередь.");
+                            logger?.Info($"Добавляем вершину \"{el.Data}\" в очередь.");
                             queue.Enqueue(el);
+
+                            logger?.Info($"Текущее состояние очереди: {queue.ToList().GetArrayForLog()}");
                         }
                     }
                 }
+
+                currentVertex.ResetCurrent();
             }
 
             if (isFinal) logger?.Info("Обход графа завершён.");

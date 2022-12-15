@@ -107,6 +107,15 @@ namespace algLab_5.Views.Graph
             _ellipse.Fill = new SolidColorBrush(Colors.VertexElementInnerColor);
         }
 
+        /// <summary> Установить вершину как текущую (визуально) </summary>
+        public override void SetCurrent() => _ellipse.Fill = new SolidColorBrush(Colors.CurrentElementColor);
+
+        /// <summary> Сбросить статус текущей вершины (визуально) </summary>
+        public override void ResetCurrent()
+        {
+            _ellipse.Fill = IsVisited ? new SolidColorBrush(Colors.VisitedElementColor) : new SolidColorBrush(Colors.VertexElementInnerColor);
+        }
+
         public override void Draw(Canvas canvas, int canvasHeight, int canvasWidth)
         {
             BoundWithinCanvas(canvasHeight, canvasWidth);

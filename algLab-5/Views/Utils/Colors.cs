@@ -40,6 +40,8 @@ namespace algLab_5.Views.Utils
         /// <summary> Цвет посещённого элемента </summary>
         public static Color VisitedElementColor { get; } = Color.FromRgb(134, 27, 45);
 
+        public static Color CurrentElementColor { get; } = Color.FromRgb(27, 72, 134);
+
         /// <summary> Цвет выделения элементов выбранных для алгоритма </summary>
         public static Color SelectedForAlgVertexElement = Color.FromRgb(85, 177, 85);
     }
